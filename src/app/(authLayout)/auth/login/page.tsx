@@ -1,8 +1,11 @@
-import React from 'react'
+import LoginFrom from '@/components/modules/auth/loginFrom'
+
 
 const LoginPage = () => {
   return (
-    <div>LoginPage</div>
+    <div>
+      <LoginFrom />
+    </div>
   )
 }
 

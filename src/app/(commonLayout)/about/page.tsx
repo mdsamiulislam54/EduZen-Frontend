@@ -1,8 +1,10 @@
+
 import React from 'react'
 
- const AboutPage = () => {
+const AboutPage = async () => {
+
   return (
-    <div>AboutPage</div>
+    <div></div>
   )
 }
 
