@@ -33,6 +33,7 @@ const LoginFrom = () => {
         onSubmit: async ({ value }) => {
             try {
                 setError(null)
+                console.log(value)
                 const result = await mutateAsync(value);
                 if (!result.success) {
                     return setError(result.message! || "Login Failed")
