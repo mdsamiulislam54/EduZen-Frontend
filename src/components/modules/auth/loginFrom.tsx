@@ -52,10 +52,7 @@ const LoginFrom = () => {
         <div className='h-full'>
             <div className="relative">
                 <CardHeader className="text-center space-y-3">
-                    <Link href={"/"} className="border-2 p-1 rounded-full mb-2 absolute top-0 left-2"
-                    >
-                        <ArrowLeft size={18} className='cursor-pointer' />
-                    </Link>
+                  
                     {/* Icon */}
                     <div className="flex justify-center">
                         <div className="w-12 h-12 flex items-center justify-center rounded-full gradient text-white text-xl font-bold shadow-md">

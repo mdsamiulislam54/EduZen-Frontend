@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import QueryClientProvider from "@/provider/queryClientProvider";
 import { Toaster } from "sonner";
+import { Navbar } from "@/components/modules/home/Navbar";
 
 
 const poppins = Poppins({
@@ -28,6 +29,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <QueryClientProvider>
+          <Navbar/>
           {children}
            <Toaster 
             position="top-right" 
