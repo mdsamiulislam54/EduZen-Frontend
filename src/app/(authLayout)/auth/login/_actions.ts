@@ -1,12 +1,12 @@
 "use server"
+import { setCookie } from "@/lib/cookies/cookie";
 import { setTokenCookie } from "@/lib/cookies/token";
 import { handleError } from "@/lib/error/handleError";
 import { httpClient } from "@/lib/httpClient/axios";
 import { ILoginApiResponse } from "@/types/auth.types";
 import { ILogin, loginZodSchema } from "@/zod/auth.zod";
-import { redirect } from "next/navigation";
 
-export const loginAction = async (payload: ILogin): Promise<ILoginApiResponse> => {
+export const loginAction = async (payload: ILogin) => {
     const parsedPayload = loginZodSchema.safeParse(payload);
 
     if (!parsedPayload.success) {
@@ -17,12 +17,15 @@ export const loginAction = async (payload: ILogin): Promise<ILoginApiResponse> =
         }
     }
     try {
-        const response = await httpClient.post<ILoginApiResponse>("/login", payload);
+        const response = await httpClient.post<ILoginApiResponse>("/auth/login", payload);
         const { accessToken, refreshToken, token } = response.data;
         await setTokenCookie("accessToken", accessToken!);
         await setTokenCookie("refreshToken", refreshToken!);
-        await setTokenCookie("better-auth.session_token", token!);
-        redirect("/dashboard")
+        await setCookie("better-auth.session_token", token!, 60*60*24);
+        return {
+            success: false,
+            message: "Login successful"
+        }
     } catch (error) {
         const errorMessage = handleError(error);
         console.log(error)

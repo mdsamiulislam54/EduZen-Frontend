@@ -8,16 +8,19 @@ import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
 import { ILogin, loginZodSchema } from '@/zod/auth.zod';
 import { useForm } from '@tanstack/react-form';
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ArrowBigLeft, ArrowLeft, Eye, EyeOff, Lock } from 'lucide-react';
+import { useMutation,  } from '@tanstack/react-query'
+import {  ArrowLeft, Eye, EyeOff, Lock } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 
 const LoginFrom = () => {
     const [Error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
-    const { mutateAsync } = useMutation({
+    const router = useRouter();
+    const { mutateAsync, isPending } = useMutation({
         mutationFn: (payload: ILogin) => loginAction(payload),
         onSuccess: () => {
 
@@ -33,11 +36,11 @@ const LoginFrom = () => {
         onSubmit: async ({ value }) => {
             try {
                 setError(null)
-                console.log(value)
                 const result = await mutateAsync(value);
-                if (!result.success) {
-                    return setError(result.message! || "Login Failed")
-                }
+                router.push("/dashboard");
+                toast.success(result.message)
+
+                console.log(result)
             } catch (error) {
                 const message = handleError(error)
                 console.log(`Login failed: ${message}`);
@@ -49,9 +52,9 @@ const LoginFrom = () => {
         <div className='h-full'>
             <div className="relative">
                 <CardHeader className="text-center space-y-3">
-                    <Link href={"/"} className="border-2 p-1 rounded-full mb-2 absolute top-0 left-2" 
+                    <Link href={"/"} className="border-2 p-1 rounded-full mb-2 absolute top-0 left-2"
                     >
-                        <ArrowLeft size={18} className='cursor-pointer'/>
+                        <ArrowLeft size={18} className='cursor-pointer' />
                     </Link>
                     {/* Icon */}
                     <div className="flex justify-center">
@@ -147,12 +150,12 @@ const LoginFrom = () => {
                             )
                         }
 
-                        <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitted]}>
+                        <form.Subscribe selector={(s) => [s.canSubmit,]}>
                             {
-                                ([canSubmit, isSubmitted]) => (
+                                ([canSubmit]) => (
                                     <AppSubmitButton
-                                        isPending={isSubmitted}
-                                        disabled={!canSubmit}
+                                        isPending={isPending}
+                                        disabled={!canSubmit || isPending}
 
                                     >
                                         Log In
