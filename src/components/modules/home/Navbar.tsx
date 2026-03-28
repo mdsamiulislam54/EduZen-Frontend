@@ -25,9 +25,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 interface MenuItem {
   title: string;
@@ -52,17 +52,13 @@ interface Navbar1Props {
       title: string;
       url: string;
     };
-    signup: {
-      title: string;
-      url: string;
-    };
   };
 }
 
 const Navbar = ({
   logo = {
     url: "/",
-    // src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
+    src: "#",
     alt: "logo",
     title: "EduZen",
   },
@@ -71,11 +67,11 @@ const Navbar = ({
     { title: "About", url: "/about" },
     { title: "Contact", url: "/contact" },
     { title: "Subscription", url: "/subscription" },
+    { title: "Dashboard", url: "/dashboard" },
 
   ],
   auth = {
-    login: { title: "Login", url: "/auth/login" },
-    signup: { title: "Sign up", url: "/auth/register" },
+    login: { title: "Login", url: "/auth/login" }
   },
   className,
 }: Navbar1Props) => {
@@ -122,8 +118,7 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="lg" render={<Link href={auth.login.url} />} nativeButton={false}>{auth.login.title}</Button>
-            <Button size="lg" render={<Link href={auth.signup.url}></Link>} nativeButton={false}>{auth.signup.title}</Button>
+            <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
           </div>
         </nav>
 
@@ -161,8 +156,7 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                    <Button variant="outline" render={<a href={auth.login.url} />} nativeButton={false}>{auth.login.title}</Button>
-                    <Button render={<a href={auth.signup.url} />} nativeButton={false}>{auth.signup.title}</Button>
+                    <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
                   </div>
                 </div>
               </SheetContent>
