@@ -1,29 +1,39 @@
-// import Sidebar from "@/components/dashboard/Sidebar";
-// import Navbar from "@/components/dashboard/Navbar";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { getCurrentUser } from "@/service/auth.service";
+import { IUser } from "@/types/user.type";
+import { AppSidebar } from "@/components/modules/Dashboard/sidebar";
+import DashboardNavbar from "@/components/modules/Dashboard/DashboardNavbar";
+export default async function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+   const user:IUser | null = await getCurrentUser();
   return (
-    <div className="flex h-screen">
-
-      {/* Sidebar */}
-      <div className="w-64 bg-gray-900 text-white">
-        {/* <Sidebar /> */}
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-
-        {/* Navbar */}
-        <div className="h-16 shadow">
-          {/* <Navbar /> */}
-        </div>
-
-        {/* Page Content */}
-        <div className="p-4 overflow-y-auto">
+    <SidebarProvider >
+      <AppSidebar user={user} />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
+          <DashboardNavbar/>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4">
+          <div  />
           {children}
         </div>
-
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }

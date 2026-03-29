@@ -22,7 +22,7 @@ type AppFiledProps = {
     prepend?: React.ReactNode;
     className?: string;
     disable?: boolean;
-    type?: "text" | "email" | "password" | "number";
+    type?: "text" | "email" | "password" | "number" | "checkbox";
 }
 
 const AppField = ({
@@ -61,7 +61,21 @@ const AppField = ({
                     value={field.state.value}
                     placeholder={placeholder}
                     onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
+                    onChange={(e) => {
+                        let value: string | number | boolean;
+
+                        if (type === "checkbox") {
+                            value = e.currentTarget.checked;
+                        } else if (type === "number") {
+                            const raw = e.currentTarget.value;
+
+                            value = raw === "" ? "" : Number(raw);
+                        } else {
+                            value = e.currentTarget.value;
+                        }
+
+                        field.handleChange(value);
+                    }}
                     disabled={disable}
                     aria-invalid={hasError}
                     aria-describedby={hasError ? `${field.name}-error` : undefined}

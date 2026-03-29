@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import QueryClientProvider from "@/provider/queryClientProvider";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/provider/theme-provider";
 
 
 
@@ -24,19 +25,25 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en" suppressHydrationWarning
       className={`${poppins.className}  h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <QueryClientProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <QueryClientProvider>
 
-          {children}
-           <Toaster 
-            position="top-right" 
-            richColors
-          />
-        </QueryClientProvider>
-
+            {children}
+            <Toaster
+              position="top-right"
+              richColors
+            />
+          </QueryClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

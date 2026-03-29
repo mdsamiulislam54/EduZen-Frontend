@@ -20,24 +20,24 @@ export async function proxy(req: NextRequest) {
             user = isValidAccessToken.data;
         }
 
-        if (!user) {
-            return NextResponse.redirect(new URL("/auth/login", req.url));
-        }
+        // if (!user) {
+        //     return NextResponse.redirect(new URL("/auth/login", req.url));
+        // }
 
         const roleFromPath = routeOwner(pathname); // returns Role or 'null'
 
         if (pathname === "/dashboard") {
             return NextResponse.redirect(
-                new URL(`/dashboard/${user.role.toLowerCase()}`, req.url)
+                new URL(`/dashboard/${user?.role.toLowerCase()}`, req.url)
             );
         }
         if (roleFromPath && roleFromPath.toLowerCase() !== user.role.toLowerCase()) {
             return NextResponse.redirect(
-                new URL(`/dashboard/${user.role.toLowerCase()}`, req.url)
+                new URL(`/dashboard/${user?.role.toLowerCase()}`, req.url)
             );
         }
 
-        if (pathname === "/create-coaching" && !user.hasSubscription) {
+        if (pathname === "/create-coaching" && !user?.hasSubscription) {
             return NextResponse.redirect(new URL("/pricing", req.url));
         }
 
