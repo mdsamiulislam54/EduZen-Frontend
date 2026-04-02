@@ -14,11 +14,25 @@ export const subscriptionPlanSchema = z.object({
 });
 
 export type TSubscriptionPlan = {
+   id?:string,
   name: string;
   price: number;
   duration_days: number;
   max_students: number;
   max_teachers: number;
+  max_batches: number;
+  has_attendance?: boolean;
+  has_sms?: boolean;
+  has_exam?: boolean;
+  status?: "ACTIVE" | "INACTIVE";
+};
+export type TUpdateSubscriptionPlan = {
+  id?:string,
+  name?: string;
+  price?: number;
+  duration_days?: number;
+  max_students?: number;
+  max_teachers?: number;
   max_batches: number;
   has_attendance?: boolean;
   has_sms?: boolean;

@@ -1,5 +1,5 @@
 "use client"
-import { loginAction } from '@/app/(authLayout)/auth/login/_actions';
+import { loginAction } from '@/app/auth/login/_actions';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -51,22 +51,22 @@ const LoginFrom = () => {
     return (
         <div className='h-full'>
             <div className="relative">
-                <CardHeader className="text-center space-y-3">
+                <CardHeader className="text-center space-y-3 mb-10">
                   
                     {/* Icon */}
                     <div className="flex justify-center">
-                        <div className="w-12 h-12 flex items-center justify-center rounded-full gradient text-white text-xl font-bold shadow-md">
+                        <div className="w-12 h-12 flex items-center justify-center rounded-full gradient dark:bg-gray-900 text-white text-xl font-bold shadow-md">
                             <Lock />
                         </div>
                     </div>
 
-                    {/* Title */}
-                    <CardTitle className="text-2xl font-bold gradient bg-clip-text text-transparent">
+                    {/* Title
+                    <CardTitle className="text-2xl font-bold  ">
                         Welcome Back
-                    </CardTitle>
+                    </CardTitle> */}
 
                     {/* Subtitle */}
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm ">
                         Login to your account to continue
                     </p>
 

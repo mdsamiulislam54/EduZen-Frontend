@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { JwtPayload, jwtUtils } from "./lib/jwt/jwtUtlis";
 import { Role, routeOwner } from "./lib/auth/authUtils";
+import { getNewAccessToken, isTokenExpiredSoon } from "./service/auth.service";
+import { request } from "https";
+async function refreshTokenMiddleware(refreshToken: string): Promise<boolean> {
+    try {
+        const refreshResponse = await getNewAccessToken(refreshToken);
+        return refreshResponse;
 
+    } catch (error) {
+        console.error("Error refreshing token:", error);
+        return false;
+
+    }
+}
 export async function proxy(req: NextRequest) {
     try {
         const { pathname } = req.nextUrl;
@@ -20,9 +32,9 @@ export async function proxy(req: NextRequest) {
             user = isValidAccessToken.data;
         }
 
-        // if (!user) {
-        //     return NextResponse.redirect(new URL("/auth/login", req.url));
-        // }
+        if (pathname.startsWith("/dashboard") && !user) {
+            return NextResponse.redirect(new URL("/auth/login", req.url));
+        }
 
         const roleFromPath = routeOwner(pathname); // returns Role or 'null'
 
@@ -31,7 +43,7 @@ export async function proxy(req: NextRequest) {
                 new URL(`/dashboard/${user?.role.toLowerCase()}`, req.url)
             );
         }
-        if (roleFromPath && roleFromPath.toLowerCase() !== user.role.toLowerCase()) {
+        if (roleFromPath && roleFromPath.toLowerCase() !== user?.role.toLowerCase()) {
             return NextResponse.redirect(
                 new URL(`/dashboard/${user?.role.toLowerCase()}`, req.url)
             );
@@ -39,6 +51,35 @@ export async function proxy(req: NextRequest) {
 
         if (pathname === "/create-coaching" && !user?.hasSubscription) {
             return NextResponse.redirect(new URL("/pricing", req.url));
+        }
+
+        if (isValidAccessToken?.success && refreshToken && (await isTokenExpiredSoon(refreshToken))) {
+
+            try {
+                const nextHeaders = new Headers(req.headers);
+                const response = NextResponse.next({
+                    request: {
+                        headers: nextHeaders
+                    }
+                })
+                const refreshed = await refreshTokenMiddleware(refreshToken);
+                if (refreshed) {
+                    nextHeaders.set("X-Token-Refreshed", "1");
+                }
+                return NextResponse.next(
+                    {
+                        request: {
+                            headers: nextHeaders
+                        },
+                        headers: response.headers
+                    }
+                )
+
+            } catch (error) {
+                console.error("Error in token refresh flow:", error);
+
+            }
+
         }
 
         return NextResponse.next();

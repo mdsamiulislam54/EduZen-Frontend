@@ -1,6 +1,6 @@
 "use client";
 
-import { Book, GraduationCap, Menu, Sunset, Trees, Zap } from "lucide-react";
+import { GraduationCap, Menu, } from "lucide-react";
 
 import {
   Accordion,
@@ -25,9 +25,10 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ModeToggle } from "../DarkThemeButton/DarkMode";
 
 interface MenuItem {
   title: string;
@@ -94,7 +95,7 @@ const Navbar = ({
 
 
   return (
-    <section className={cn("p-4 sticky top-0 z-50 w-full transition-transform duration-300 bg-background/95 backdrop-blur bg-transparent ",
+    <section className={cn("p-4 sticky top-0 z-50 w-full transition-transform duration-300  backdrop-blur bg-transparent ",
       visible ? "translate-y-0" : "",
       className
     )}>
@@ -118,6 +119,7 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
+            <ModeToggle/>
             <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
           </div>
         </nav>

@@ -6,11 +6,9 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "@/provider/theme-provider";
 
 
-
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
-  variable: "--font-poppins", // optional (for CSS variable use)
 });
 
 export const metadata: Metadata = {
@@ -26,22 +24,23 @@ export default function RootLayout({
   return (
     <html
       lang="en" suppressHydrationWarning
-      className={`${poppins.className}  h-full antialiased`}
+
     >
-      <body className="min-h-full flex flex-col">
+      <body className={poppins.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
+          <Toaster
+            position="top-right"
+            richColors
+          />
           <QueryClientProvider>
 
             {children}
-            <Toaster
-              position="top-right"
-              richColors
-            />
+
           </QueryClientProvider>
         </ThemeProvider>
       </body>

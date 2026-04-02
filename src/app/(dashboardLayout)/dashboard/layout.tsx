@@ -1,22 +1,21 @@
 
-
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { getCurrentUser } from "@/service/auth.service";
 import { IUser } from "@/types/user.type";
 import { AppSidebar } from "@/components/modules/Dashboard/sidebar";
 import DashboardNavbar from "@/components/modules/Dashboard/DashboardNavbar";
+
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-   const user:IUser | null = await getCurrentUser();
+  const user: IUser | null = await getCurrentUser();
   return (
     <SidebarProvider >
       <AppSidebar user={user} />
@@ -27,11 +26,13 @@ export default async function DashboardLayout({
             orientation="vertical"
             className="mr-2 data-[orientation=vertical]:h-4"
           />
-          <DashboardNavbar/>
+          <DashboardNavbar />
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          <div  />
-          {children}
+          <div />
+   
+            {children}
+   
         </div>
       </SidebarInset>
     </SidebarProvider>

@@ -123,12 +123,11 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-poppins), sans-serif;
+
   }
-  html {
-    @apply font-sans;
-  }
+ 
 }
+
 
 /* globals.css */
 .gradient {
