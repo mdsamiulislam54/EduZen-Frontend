@@ -1,7 +1,7 @@
 "use server"
 
 import { httpClient } from "@/lib/httpClient/axios";
-import { TOwner } from "@/types/owner.type";
+import { IOwnerSingle, TOwner } from "@/types/owner.type";
 import { cookies } from "next/headers";
 
 
@@ -20,15 +20,16 @@ export const getAllOwners = async (): Promise<TOwner[]> => {
 
     }
 }
-export const getAllOwnersById = async (id: string): Promise<TOwner> => {
+export const getAllOwnersById = async (id: string): Promise<IOwnerSingle> => {
     try {
         const cookieStore = await cookies()
-        const response = await httpClient.get(`/admin/owner/${id}`, {
+        const response = await httpClient.get(`/admin/owners/${id}`, {
             headers: {
                 Cookie: cookieStore.toString()
             }
         })
-        return response.data as TOwner;
+        console.log(response.data);
+        return response.data as IOwnerSingle;
     } catch (error) {
         console.error("Error fetching owner:", error);
         throw new Error("Failed to fetch owner", { cause: error });
