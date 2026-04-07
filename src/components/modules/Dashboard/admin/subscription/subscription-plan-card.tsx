@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllSubscriptionPlans } from "@/app/(dashboardLayout)/dashboard/admin/subscription-plan/_actions";
+import { deleteSubscriptionPlan, getAllSubscriptionPlans } from "@/app/(dashboardLayout)/dashboard/admin/subscription-plan/_actions";
 import SubscriptionSkeletonCard from "@/components/SubscriptionSkeletonCard";
 import { Card } from "@/components/ui/card";
 import { TSubscriptionPlan } from "@/zod/subscription.zod.schema";
@@ -18,10 +18,13 @@ import {
 import ErrorState from "../../../Error/Error";
 import { useState } from "react";
 import SubscriptionPlanUpdateFromPage from "./Subscription-plan-update";
+import { toast } from "sonner";
 
 const SubscriptionPlanCard = () => {
+    const queryClient = useQueryClient();
     const [isOpen, setIsOpen] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState<TSubscriptionPlan | null>(null);
+    const [deleteMutation, setDeleteMutation] = useState("")
 
     const { data, isPending, isError } = useQuery({
         queryKey: ["subscription-plans"],
@@ -29,17 +32,20 @@ const SubscriptionPlanCard = () => {
     });
 
 
-    // 🔥 Delete Mutation
-    // const deleteMutation = useMutation({
-    //     mutationFn: async (id: string) => {
 
-    //         // await deleteSubscriptionPlan(id)
-    //         console.log("Delete:", id);
-    //     },
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries({ queryKey: ["subscription-plans"] });
-    //     },
-    // });
+    const {mutateAsync, isPending: isDeleting} = useMutation({
+        mutationFn: async (id: string) =>{
+            setDeleteMutation(id)
+            await deleteSubscriptionPlan(id)
+        },
+        onError: (error) => {
+            console.error("Failed to delete subscription plan:", error);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["subscription-plans"] });
+            toast.success("Subscription Plan Deleted Successfully");
+        },
+    });
 
     if (isPending) {
         return <SubscriptionSkeletonCard />;
@@ -139,8 +145,8 @@ const SubscriptionPlanCard = () => {
                                 Edit
                             </Button>
 
-                            <Button variant="destructive" className="w-full cursor-pointer">
-                                Delete
+                            <Button variant="destructive" onClick={async ()=> await mutateAsync(plan.id as string)} className="w-full cursor-pointer">
+                                {isDeleting && deleteMutation === plan.id ? "Deleting..." : "Delete"}
                             </Button>
                         </div>
                     </Card>
