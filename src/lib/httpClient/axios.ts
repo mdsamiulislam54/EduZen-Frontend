@@ -1,5 +1,5 @@
 
-import { getNewAccessToken, isTokenExpired, isTokenExpiredSoon } from "@/service/auth.service";
+import { getNewAccessToken, isTokenExpiredSoon } from "@/service/auth.service";
 import { ApiResponse } from "@/types/apiTypes";
 import axios from "axios";
 import { cookies, headers } from "next/headers";

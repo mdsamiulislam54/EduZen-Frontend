@@ -2,14 +2,14 @@
 import { loginAction } from '@/app/auth/login/_actions';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {  CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { handleError } from '@/lib/error/handleError';
 import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
 import { ILogin, loginZodSchema } from '@/zod/auth.zod';
 import { useForm } from '@tanstack/react-form';
 import { useMutation,  } from '@tanstack/react-query'
-import {  ArrowLeft, Eye, EyeOff, Lock } from 'lucide-react';
+import {  Eye, EyeOff, Lock } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -23,7 +23,11 @@ const LoginFrom = () => {
     const { mutateAsync, isPending } = useMutation({
         mutationFn: (payload: ILogin) => loginAction(payload),
         onSuccess: () => {
-
+            toast.success("Login successful");
+        },
+        onError: (error) => {
+            const message = handleError(error)
+            toast.error(`Login failed: ${message}`);
         }
     });
 
@@ -36,11 +40,8 @@ const LoginFrom = () => {
         onSubmit: async ({ value }) => {
             try {
                 setError(null)
-                const result = await mutateAsync(value);
+                 await mutateAsync(value);
                 router.push("/dashboard");
-                toast.success(result.message)
-
-                console.log(result)
             } catch (error) {
                 const message = handleError(error)
                 console.log(`Login failed: ${message}`);

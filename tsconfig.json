@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/components/modules/subscription/skeleton-cardtsx"  ],
+, "src/components/modules/Dashboard/admin/subscription/skeleton-cardtsx"  ],
   "exclude": ["node_modules"]
 }

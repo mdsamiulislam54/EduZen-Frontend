@@ -1,4 +1,4 @@
-import SubscriptionPlanForm from '@/components/modules/subscription/SubscriptionPlan-Form'
+import SubscriptionPlanForm from '@/components/modules/Dashboard/admin/subscription/SubscriptionPlan-Form'
 import React from 'react'
 
 const SubscriptionCreatePage = () => {

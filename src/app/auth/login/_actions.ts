@@ -27,8 +27,11 @@ export const loginAction = async (payload: ILogin) => {
             message: "Login successful"
         }
     } catch (error) {
+       console.error("Login error:", error);
         const errorMessage = handleError(error);
-        console.log(error)
-        throw new Error(errorMessage);
+        return {
+            success: false,
+            message: errorMessage
+        }
     }
 }

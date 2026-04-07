@@ -1,50 +1,61 @@
 "use client"
-import { createSubscriptionPlan } from "@/app/(dashboardLayout)/dashboard/admin/subscription-create/_actions"
 import { Card, CardHeader } from "@/components/ui/card"
 import AppField from "@/shared/from/AppField"
 import AppSubmitButton from "@/shared/from/SubmitButton"
-import { subscriptionPlanSchema, TSubscriptionPlan } from "@/zod/subscription.zod.schema"
-
 import { useForm } from "@tanstack/react-form"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-
-const SubscriptionPlanForm = () => {
+import {  TUpdateSubscriptionPlan, updateSubscriptionPlanSchema } from '@/zod/subscription.zod.schema';
+import { updateSubscriptionPlan } from "@/app/(dashboardLayout)/dashboard/admin/subscription-create/_actions"
+import { Button } from "@/components/ui/button"
+import { X } from "lucide-react"
+import { Dialog, DialogHeader, } from "@/components/ui/dialog"
+interface SubscriptionPlanUpdateFromPageProps {
+    onOpen: () => void;
+    defaultValues: TUpdateSubscriptionPlan;
+}
+const SubscriptionPlanUpdateFromPage = ({ onOpen, defaultValues }: SubscriptionPlanUpdateFromPageProps) => {
+    const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
-        mutationKey: ["create-subscription-plan"],
-        mutationFn: (data: TSubscriptionPlan) => createSubscriptionPlan(data),
+        mutationKey: ["update-subscription-plan"],
+        mutationFn: async ({ planId, data }: { planId: string; data: Partial<TUpdateSubscriptionPlan> }) => updateSubscriptionPlan(planId, data),
         onError: (error) => {
-            toast.error("Failed to create subscription plan: " + error.message);
+            toast.error("Failed to update subscription plan: " + error.message);
         },
         onSuccess: () => {
-            toast.success("Subscription Plan Created Successfully");
+            queryClient.invalidateQueries({ queryKey: ["subscription-plans"] });
+            toast.success("Subscription Plan Updated Successfully");
             form.reset();
+            onOpen();
         }
     })
     const form = useForm({
         defaultValues: {
-            name: "",
-            price: 0,
-            duration_days: 30,
-            max_students: 0,
-            max_teachers: 0,
-            max_batches: 0,
+            name: defaultValues.name,
+            price: defaultValues.price,
+            duration_days: defaultValues.duration_days,
+            max_students: defaultValues.max_students,
+            max_teachers: defaultValues.max_teachers,
+            max_batches: defaultValues.max_batches,
 
 
         },
         onSubmit: async ({ value }) => {
-          await mutateAsync(value);
-          
+            await mutateAsync({ planId: defaultValues.id!, data: value });
 
         }
 
     })
     return (
-        <div>
-            <Card className="w-full p-2">
-                <CardHeader>
-                    <h1 className="text-2xl font-bold">Create Subscription Plan</h1>
-                </CardHeader>
+        <Dialog >
+
+            <div>
+                <Button variant="outline" onClick={onOpen} className="absolute top-2 right-2 dark:hover:bg-gray-900 transition-all duration-300 cursor-pointer"><X size={60} /></Button>
+            </div>
+            <Card className="w-10/12 p-4">
+                <DialogHeader>
+                    <h1 className="text-xl font-bold">Update Subscription Plan</h1>
+                </DialogHeader>
 
                 <form
                     onSubmit={(e) => {
@@ -57,7 +68,7 @@ const SubscriptionPlanForm = () => {
                     <div className="grid md:grid-cols-2 gap-5">
                         <form.Field
                             name='name'
-                            validators={{ onChange: subscriptionPlanSchema.shape.name }}
+                            validators={{ onChange: updateSubscriptionPlanSchema.shape.name }}
                         >
                             {
                                 (filed) => (
@@ -77,7 +88,7 @@ const SubscriptionPlanForm = () => {
                         </form.Field>
                         <form.Field
                             name='price'
-                            validators={{ onChange: subscriptionPlanSchema.shape.price }}
+                            validators={{ onChange: updateSubscriptionPlanSchema.shape.price }}
                         >
                             {
                                 (filed) => (
@@ -100,7 +111,7 @@ const SubscriptionPlanForm = () => {
                     <div className="grid md:grid-cols-2 gap-5">
                         <form.Field
                             name='duration_days'
-                            validators={{ onChange: subscriptionPlanSchema.shape.duration_days }}
+                            validators={{ onChange: updateSubscriptionPlanSchema.shape.duration_days }}
                         >
                             {
                                 (filed) => (
@@ -120,7 +131,7 @@ const SubscriptionPlanForm = () => {
                         </form.Field>
                         <form.Field
                             name='max_students'
-                            validators={{ onChange: subscriptionPlanSchema.shape.max_students }}
+                            validators={{ onChange: updateSubscriptionPlanSchema.shape.max_students }}
                         >
                             {
                                 (filed) => (
@@ -143,7 +154,7 @@ const SubscriptionPlanForm = () => {
 
                         <form.Field
                             name='max_teachers'
-                            validators={{ onChange: subscriptionPlanSchema.shape.max_teachers }}
+                            validators={{ onChange: updateSubscriptionPlanSchema.shape.max_teachers }}
                         >
                             {
                                 (filed) => (
@@ -163,7 +174,7 @@ const SubscriptionPlanForm = () => {
                         </form.Field>
                         <form.Field
                             name='max_batches'
-                            validators={{ onChange: subscriptionPlanSchema.shape.max_batches }}
+                            validators={{ onChange: updateSubscriptionPlanSchema.shape.max_batches }}
                         >
                             {
                                 (filed) => (
@@ -189,9 +200,10 @@ const SubscriptionPlanForm = () => {
                                 <AppSubmitButton
                                     isPending={isPending}
                                     disabled={!canSubmit || isPending}
+                                    pendingLabel="Updating..."
 
                                 >
-                                    Create Plan
+                                    Update Plan
                                 </AppSubmitButton>
                             )
                         }
@@ -199,8 +211,8 @@ const SubscriptionPlanForm = () => {
 
                 </form>
             </Card>
-        </div>
+        </Dialog>
     )
 }
 
-export default SubscriptionPlanForm
+export default SubscriptionPlanUpdateFromPage

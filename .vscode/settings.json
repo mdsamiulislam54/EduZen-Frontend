@@ -3,5 +3,11 @@
     "prisma-smart-formatter.typescriptreact.defaultFormatter": "vscode.typescript-language-features",
     "cSpell.words": [
         "SCRECT"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+    "activityBar.background": "#cd740f",
+    "statusBar.background": "#0545db",
+    "titleBar.activeBackground": "#2f3939"
+  }
 }
+
