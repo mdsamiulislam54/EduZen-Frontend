@@ -67,3 +67,6 @@ export interface IOwnerSingle {
   updatedAt?: string;
   coachingCenter?: ICoachingCenter;
 }
+
+
+

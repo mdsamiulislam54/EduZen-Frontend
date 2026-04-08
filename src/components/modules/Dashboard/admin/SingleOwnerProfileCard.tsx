@@ -42,7 +42,7 @@ const SingleOwnerProfileCard = ({ id }: { id: string }) => {
         </div>
         <h1 className="mt-4 text-xl font-bold text-center">{owner.name}</h1>
         <div className="flex gap-2 mt-2 flex-wrap justify-center">
-          <Badge variant={owner.status?.ACTIVE === "ACTIVE" ? "success" : "destructive"}>{owner.status?.ACTIVE}</Badge>
+          <Badge variant={owner.status?.ACTIVE === "ACTIVE" ? "default" : "destructive"}>{owner.status?.ACTIVE}</Badge>
           {owner.role && <Badge variant="secondary">{owner.role}</Badge>}
         </div>
 
@@ -76,7 +76,7 @@ const SingleOwnerProfileCard = ({ id }: { id: string }) => {
                 <div className="flex items-center gap-2"><Mail className="w-5 h-5 text-primary" /> {center.email}</div>
                 {center.phone && <div className="flex items-center gap-2"><UserCheck className="w-5 h-5 text-primary" /> {center.phone}</div>}
                 {center.address && <div className="flex items-center gap-2"><MapPin className="w-5 h-5 text-primary" /> {center.address}</div>}
-                {center.status && <Badge variant={center.status.PENDING === "PENDING" ? "destructive" : "success"}>{center.status.PENDING}</Badge>}
+                {center.status && <Badge variant={center.status?.PENDING === "PENDING" ? "destructive" : 'default'}>{center.status.PENDING}</Badge>}
               </div>
             </CardContent>
           </Card>

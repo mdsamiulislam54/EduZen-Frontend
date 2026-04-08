@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export const title = "Multi-line List Items";
 
 const Loader = ({length=16}) => (
-  <div className={`grid  ${length > 16 ? 'grid-cols-10' : 'grid-cols-1 min-h-screen' } gap-4`}>
+  <div className={`grid  ${length > 16 ? 'grid-cols-10' : length === 4 ? 'grid-cols-4' : 'grid-cols-1' } gap-4`}>
     {Array.from({ length: length}).map((_, i) => (
       <div className="flex flex-col gap-2 rounded-md border p-4" key={i}>
         <Skeleton className="h-5 w-3/4" />
