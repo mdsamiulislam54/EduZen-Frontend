@@ -6,6 +6,7 @@ import {
   BarChart3,
   UserCheck,
   ClipboardList,
+  ClipboardListIcon,
 } from "lucide-react";
 
 import { IRoutePage } from "@/types/route.type";
@@ -61,6 +62,26 @@ export const ownerRoutes: IRoutePage[] = [
     url: "/dashboard/owner/subscription",
     icon: CreditCard,
   },
+  {
+    title: "Attendance",
+    url: "/dashboard/owner/attendance",
+    icon: ClipboardListIcon,
+  },
+  {
+    title: "Analytics",
+    url: "/dashboard/owner/analytics",
+    icon: BarChart3,
+  },
+  {
+    title:" Batches",
+    url:"/dashboard/owner/batches",
+    icon: BookOpen,
+  },
+  {
+    title:"Subjects",
+    url:"/dashboard/owner/subjects",
+    icon: BookOpen,
+  }
 ];
 
 /* ================= TEACHER ================= */

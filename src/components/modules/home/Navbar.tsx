@@ -1,7 +1,6 @@
 "use client";
 
 import { GraduationCap, Menu, } from "lucide-react";
-
 import {
   Accordion,
   AccordionContent,
@@ -29,6 +28,10 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ModeToggle } from "../DarkThemeButton/DarkMode";
+import { useAuth } from "@/provider/AuthProdiver";
+import { useMutation } from "@tanstack/react-query";
+import { logout } from "@/service/auth.service";
+import { toast } from "sonner";
 
 interface MenuItem {
   title: string;
@@ -73,12 +76,13 @@ const Navbar = ({
   ],
   auth = {
     login: { title: "Login", url: "/auth/login" }
+
   },
   className,
 }: Navbar1Props) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
-
+  const { currentUser } = useAuth();
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
@@ -92,6 +96,18 @@ const Navbar = ({
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll)
   }, [prevScrollPos])
+
+  const { mutate: logoutMutation } = useMutation({
+    mutationFn: async () => await logout(),
+    onSuccess: () => {
+      toast.success("Logout successful")
+      window.location.reload();
+
+    },
+    onError: () => {
+      toast.error("Logout failed")
+    }
+  })
 
 
   return (
@@ -119,8 +135,13 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
-            <ModeToggle/>
-            <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+            <ModeToggle />
+            {
+              currentUser ? <Button variant="outline" className={"cursor-pointer"} onClick={() => logoutMutation()}>Logout</Button>
+                : <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+            }
+
+
           </div>
         </nav>
 
@@ -158,7 +179,10 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
-                    <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+                    {
+                      currentUser ? <Button variant="outline" className={"cursor-pointer"} onClick={() => logoutMutation()}>Logout</Button>
+                        : <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+                    }
                   </div>
                 </div>
               </SheetContent>
