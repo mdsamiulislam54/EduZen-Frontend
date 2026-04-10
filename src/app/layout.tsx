@@ -9,6 +9,7 @@ import { AuthProvider } from "@/provider/AuthProdiver";
 import { IUser } from "@/types/user.type";
 
 
+
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -44,7 +45,7 @@ export default async function RootLayout({
               richColors
             />
             <QueryClientProvider>
-
+              
               {children}
 
             </QueryClientProvider>

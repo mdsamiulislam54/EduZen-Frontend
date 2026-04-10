@@ -28,7 +28,7 @@ export const getAllOwnersById = async (id: string): Promise<IOwnerSingle> => {
                 Cookie: cookieStore.toString()
             }
         })
-        console.log(response.data);
+      
         return response.data as IOwnerSingle;
     } catch (error) {
         console.error("Error fetching owner:", error);

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { JwtPayload, jwtUtils } from "./lib/jwt/jwtUtlis";
 import { Role, routeOwner } from "./lib/auth/authUtils";
 import { getNewAccessToken, isTokenExpiredSoon } from "./service/auth.service";
-import { request } from "https";
+
 async function refreshTokenMiddleware(refreshToken: string): Promise<boolean> {
     try {
         const refreshResponse = await getNewAccessToken(refreshToken);
@@ -85,7 +85,7 @@ export async function proxy(req: NextRequest) {
         return NextResponse.next();
 
     } catch (error) {
-        console.error("Proxy middleware error:", error);
+        // console.error("Proxy middleware error:", error);
         return NextResponse.redirect(new URL("/auth/login", req.url));
     }
 }

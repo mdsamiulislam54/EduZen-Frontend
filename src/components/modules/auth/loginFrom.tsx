@@ -2,14 +2,14 @@
 import { loginAction } from '@/app/auth/login/_actions';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {  CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { handleError } from '@/lib/error/handleError';
 import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
 import { ILogin, loginZodSchema } from '@/zod/auth.zod';
 import { useForm } from '@tanstack/react-form';
-import { useMutation,  } from '@tanstack/react-query'
-import {  Eye, EyeOff, Lock } from 'lucide-react';
+import { useMutation, } from '@tanstack/react-query'
+import { Eye, EyeOff, Lock } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -22,13 +22,7 @@ const LoginFrom = () => {
     const router = useRouter();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: (payload: ILogin) => loginAction(payload),
-        onSuccess: () => {
-            toast.success("Login successful");
-        },
-        onError: (error) => {
-            const message = handleError(error)
-            toast.error(`Login failed: ${message}`);
-        }
+
     });
 
     const form = useForm({
@@ -40,8 +34,15 @@ const LoginFrom = () => {
         onSubmit: async ({ value }) => {
             try {
                 setError(null)
-                 await mutateAsync(value);
-                router.push("/dashboard");
+                const res = await mutateAsync(value);
+              
+                if (res.success) {
+                    toast.success(res.message);
+                    router.push('/dashboard');
+                } else {
+                    toast.error(res.message);
+                }
+
             } catch (error) {
                 const message = handleError(error)
                 console.log(`Login failed: ${message}`);
@@ -53,7 +54,7 @@ const LoginFrom = () => {
         <div className='h-full'>
             <div className="relative">
                 <CardHeader className="text-center space-y-3 mb-10">
-                  
+
                     {/* Icon */}
                     <div className="flex justify-center">
                         <div className="w-12 h-12 flex items-center justify-center rounded-full gradient dark:bg-gray-900 text-white text-xl font-bold shadow-md">
