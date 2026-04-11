@@ -1,6 +1,6 @@
 
 
-enum SubjectStatus {
+export enum SubjectStatus {
   ACTIVE,
   INACTIVE
     }

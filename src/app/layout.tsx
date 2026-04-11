@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/provider/theme-provider";
 import { getCurrentUser, JwtPayload } from "@/service/auth.service";
 import { AuthProvider } from "@/provider/AuthProdiver";
 import { IUser } from "@/types/user.type";
+import { SweetAlertProvider } from "@/provider/SweetalertProvider";
 
 
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
 
     >
       <body className={poppins.className}>
+
         <AuthProvider user={user}>
           <ThemeProvider
             attribute="class"
@@ -45,9 +47,9 @@ export default async function RootLayout({
               richColors
             />
             <QueryClientProvider>
-              
-              {children}
-
+              <SweetAlertProvider>
+                {children}
+              </SweetAlertProvider>
             </QueryClientProvider>
           </ThemeProvider>
         </AuthProvider>

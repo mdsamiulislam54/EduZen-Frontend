@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, CellContext } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 import TableSkeleton from "./TableSkeleton"
@@ -15,10 +15,11 @@ interface DataTableProps<TData> {
     columns: ColumnDef<TData>[],
     actions?: DataTableAction<TData>,
     emptyMessage?: string,
-    isLoading?: boolean
+    isLoading?: boolean,
+    caption?: string
 }
 
-const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading }: DataTableProps<TData>) => {
+const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, caption }: DataTableProps<TData>) => {
 
     const tableColumns: ColumnDef<TData>[] = actions ? [...columns, {
         id: "actions",
@@ -69,14 +70,16 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading }: 
         getCoreRowModel: getCoreRowModel()
     })
 
-    console.log("DataTable:",table.getRowModel().rows.length)
+    console.log("DataTable:", table.getRowModel().rows.length)
     return (
         <div className="relative">
             {
                 isLoading && (<TableSkeleton />)
             }
-            <Table>
-         
+            <Table className="shadow-sm">
+                <TableCaption>
+                    {caption}
+                </TableCaption>
                 <TableHeader>
                     {
                         table.getHeaderGroups().map((hg) => (
@@ -97,7 +100,7 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading }: 
                         table.getRowModel().rows.length ? (
 
                             table.getRowModel().rows.map((row) => (
-                                
+
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>

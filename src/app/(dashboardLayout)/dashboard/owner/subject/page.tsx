@@ -4,6 +4,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import Link from 'next/link'
 import { getAllSubject } from './_actions'
 import SubjectTablePage from '@/components/modules/Dashboard/Owner/SubjectTable/SubjectTable'
+import CreateSubjectButton from '@/components/modules/Dashboard/Owner/SubjectTable/CreateSubjectButton '
 
 
 const SubjectPage = async () => {
@@ -21,17 +22,15 @@ const SubjectPage = async () => {
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <div>
-                <nav>
-                    <Card className='m-0'>
-                        <div className='flex items-center justify-between p-2'>
-                            <p>All Subject List</p>
-                            <Button>
-                                <Link href={'/dashboard/owner/create-subject'}>Create Subject</Link>
-                            </Button>
+                <nav className='shadow-sm mb-4 '>
+                    <div className='m-0'>
+                        <div className='flex items-center justify-end p-2'>
+
+                            <CreateSubjectButton />
                         </div>
-                    </Card>
+                    </div>
                 </nav>
-                <SubjectTablePage/>
+                <SubjectTablePage />
             </div>
         </HydrationBoundary>
     )
