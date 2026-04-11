@@ -2,8 +2,6 @@ import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query
 import { getAllOwners } from "./_actions"
 import OwnerProfileCard from "@/components/modules/Dashboard/admin/OwnerProfileCard"
 
-
-
 const OwnerPage = async () => {
   const queryClient = new QueryClient()
 

@@ -69,17 +69,17 @@ export const ownerRoutes: IRoutePage[] = [
   },
   {
     title: "Analytics",
-    url: "/dashboard/owner/analytics",
+    url: "/dashboard/owner/analytic",
     icon: BarChart3,
   },
   {
     title:" Batches",
-    url:"/dashboard/owner/batches",
+    url:"/dashboard/owner/batch",
     icon: BookOpen,
   },
   {
     title:"Subjects",
-    url:"/dashboard/owner/subjects",
+    url:"/dashboard/owner/subject",
     icon: BookOpen,
   }
 ];
