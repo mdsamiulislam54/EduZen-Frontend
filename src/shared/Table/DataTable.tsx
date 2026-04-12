@@ -5,6 +5,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, CellContext } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 import TableSkeleton from "./TableSkeleton"
+import { Card } from "@/components/ui/card"
 interface DataTableAction<TData> {
     onView?: (data: TData) => void
     onEdit?: (data: TData) => void
@@ -72,11 +73,11 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, ca
 
     console.log("DataTable:", table.getRowModel().rows.length)
     return (
-        <div className="relative">
+        <Card >
             {
                 isLoading && (<TableSkeleton />)
             }
-            <Table className="shadow-sm">
+            <Table className="">
                 <TableCaption>
                     {caption}
                 </TableCaption>
@@ -124,7 +125,7 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, ca
                     }
                 </TableBody>
             </Table>
-        </div>
+        </Card>
     )
 }
 

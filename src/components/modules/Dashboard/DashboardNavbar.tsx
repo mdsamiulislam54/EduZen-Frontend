@@ -18,7 +18,7 @@ export default function DashboardNavbar() {
     <div className="flex items-center justify-between px-4 py-3  bg-background">
 
       {/* LEFT SIDE */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 mr-4">
 
         {/* Home Button */}
         <Link href="/">
@@ -44,12 +44,11 @@ export default function DashboardNavbar() {
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="flex items-center gap-10">
+      <div className="flex items-center gap-10 ">
 
-        {/* Dark Mode Toggle */}
-        <Button variant="ghost" size="icon" className='ml-5'>
+     
           <ModeToggle />
-        </Button>
+      
 
         {/* Notification */}
         <Button variant="ghost" size="icon" className="relative">

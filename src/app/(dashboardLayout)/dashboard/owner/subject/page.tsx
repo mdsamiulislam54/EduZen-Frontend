@@ -10,26 +10,24 @@ import CreateSubjectButton from '@/components/modules/Dashboard/Owner/SubjectTab
 const SubjectPage = async () => {
     const queryClient = new QueryClient()
 
-    await Promise.all([
-        queryClient.prefetchQuery({
+    await queryClient.prefetchQuery({
             queryKey: ["subject"],
-            queryFn: async () => await getAllSubject(),
-            staleTime: 1000 * 60 * 60,
-            gcTime: 1000 * 60 * 6
+            queryFn: async () => await getAllSubject()
+            
         })
-    ])
+
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <div>
-                <nav className='shadow-sm mb-4 '>
+                <Card className='p-0 mb-4'>
                     <div className='m-0'>
                         <div className='flex items-center justify-end p-2'>
 
                             <CreateSubjectButton />
                         </div>
                     </div>
-                </nav>
+                </Card>
                 <SubjectTablePage />
             </div>
         </HydrationBoundary>

@@ -42,9 +42,7 @@ const SubjectTablePage = () => {
             queryClient.invalidateQueries({ queryKey: ["subject"] })
         }
     })
-    const { } = useQuery({
-        queryKey: [""]
-    })
+
 
     const handleDeleteSubject = async (data: ISubject) => {
 

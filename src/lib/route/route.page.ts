@@ -49,7 +49,7 @@ export const ownerRoutes: IRoutePage[] = [
   },
   {
     title: "Teachers",
-    url: "/dashboard/owner/teachers",
+    url: "/dashboard/owner/teacher",
     icon: UserCheck,
   },
   {

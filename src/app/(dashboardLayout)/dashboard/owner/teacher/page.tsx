@@ -1,0 +1,54 @@
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
+import React from 'react'
+import { getAllTeacher } from './_actions'
+import TableQueryController from '@/shared/Table/QueryController/TableQueryController'
+import CreateTeacherButton from '@/components/modules/Dashboard/Teacher/CreateTeacherButton'
+import { Card } from '@/components/ui/card'
+
+const TeacherPage = async ({ searchParams }: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) => {
+    const queryParams = await searchParams;
+
+    const queryString = new URLSearchParams(
+        Object.entries(queryParams).reduce((acc, [key, value]) => {
+            if (value) acc[key] = String(value);
+            return acc;
+        }, {} as Record<string, string>)
+    ).toString();
+
+
+
+
+    const queryClient = new QueryClient()
+    await queryClient.prefetchQuery({
+        queryKey: ["teacher", queryString],
+        queryFn: async () => await getAllTeacher(queryString)
+    })
+    return (
+        <HydrationBoundary state={dehydrate(queryClient)}>
+
+            <div className='m-0'>
+                <div className='flex items-center justify-end p-2'>
+                    <CreateTeacherButton />
+                </div>
+            </div>
+
+
+            <TableQueryController
+                searchKey='search'
+                sortKey='sort'
+                filterKey="filter"
+                filterOptions={
+                    [
+                        { label: "Active", value: "ACTIVE" },
+                        { label: "Inactive", value: "INACTIVE" },
+                    ]
+                }
+            />
+            <div>page</div>
+        </HydrationBoundary>
+    )
+}
+
+export default TeacherPage
