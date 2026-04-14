@@ -1,9 +1,9 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
-import React from 'react'
 import { getAllTeacher } from './_actions'
 import TableQueryController from '@/shared/Table/QueryController/TableQueryController'
 import CreateTeacherButton from '@/components/modules/Dashboard/Teacher/CreateTeacherButton'
-import { Card } from '@/components/ui/card'
+
+import TeacherTable from '@/components/modules/Dashboard/Owner/teacher/TeacherTable'
 
 const TeacherPage = async ({ searchParams }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -41,12 +41,13 @@ const TeacherPage = async ({ searchParams }: {
                 filterKey="filter"
                 filterOptions={
                     [
-                        { label: "Active", value: "ACTIVE" },
-                        { label: "Inactive", value: "INACTIVE" },
+                        { label: "Active", value: "active" },
+                        { label: "Male", value: "male" },
+                        { label: "Female", value: "female" },
                     ]
                 }
             />
-            <div>page</div>
+            <TeacherTable queryString={queryString} />
         </HydrationBoundary>
     )
 }

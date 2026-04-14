@@ -73,7 +73,8 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, ca
 
     console.log("DataTable:", table.getRowModel().rows.length)
     return (
-        <Card >
+        <Card className="overflow-hidden w-full">
+            <div className="overflow-x-auto w-full">
             {
                 isLoading && (<TableSkeleton />)
             }
@@ -105,7 +106,7 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, ca
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
-                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext()) } 
                                         </TableCell>
                                     ))}
                                 </TableRow>
@@ -125,6 +126,7 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, ca
                     }
                 </TableBody>
             </Table>
+            </div>
         </Card>
     )
 }

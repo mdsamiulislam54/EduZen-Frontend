@@ -22,7 +22,7 @@ type AppFiledProps = {
     prepend?: React.ReactNode;
     className?: string;
     disable?: boolean;
-    type?: "text" | "email" | "password" | "number" | "checkbox";
+    type?: "text" | "email" | "password" | "number" | "checkbox" | "date" | "file";
 }
 
 const AppField = ({
@@ -33,7 +33,7 @@ const AppField = ({
     className,
     disable,
     label,
-    type = "text"
+    type
 
 }: AppFiledProps) => {
     const firstError = field.state.meta.isTouched && field.state.meta.errors.length > 0 ? getErrorMessage(field.state.meta.errors[0]) : null;

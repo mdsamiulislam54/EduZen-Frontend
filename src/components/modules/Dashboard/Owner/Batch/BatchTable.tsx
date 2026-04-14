@@ -57,7 +57,7 @@ const BatchTablePage = () => {
             },
         },
         {
-            accessorKey: "actions",
+            id: "actions",
             header: "Actions",
         },
     ]

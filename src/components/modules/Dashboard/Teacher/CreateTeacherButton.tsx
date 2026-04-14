@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import CreateTeacherForm from "../Owner/Form/CreateTeacherForm"
 
 
 
@@ -20,13 +21,13 @@ const CreateTeacherButton = () => {
         Create Teacher
       </Button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+      <Dialog open={open}  onOpenChange={setOpen} >
+        <DialogContent className="!max-w-2xl overflow-y-scroll ">
           <DialogHeader>
             <DialogTitle>Create Teacher</DialogTitle>
           </DialogHeader>
 
-          {/* <CreateSubjectForm onClose={() => setOpen(false)} /> */}
+          <CreateTeacherForm onClose={()=>setOpen(!open)} />
         </DialogContent>
       </Dialog>
     </>

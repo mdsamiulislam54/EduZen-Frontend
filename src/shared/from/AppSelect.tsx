@@ -29,8 +29,19 @@ const AppSelect = ({ field, label, options, className }: AppSelectProps) => {
         onChange={(e) => field.handleChange(e.target.value)}
         onBlur={field.handleBlur}
         className={cn(
-          "w-full border px-3 py-2 rounded-md",
-          error && "border-destructive"
+          "w-full rounded-md px-3 py-2 border transition-colors",
+
+          // light mode
+          "bg-white text-black border-gray-300",
+
+          // dark mode
+          "dark:bg-black dark:text-white dark:border-gray-900",
+
+          // focus
+          "focus:outline-none focus:ring-2 focus:ring-primary",
+
+          // error
+          error && "border-destructive focus:ring-destructive"
         )}
       >
         <option value="">Select {label}</option>

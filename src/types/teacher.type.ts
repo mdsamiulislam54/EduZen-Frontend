@@ -7,7 +7,6 @@ enum TeacherStatus {
 enum Gender {
     MALE,
     FEMALE,
-    OTHER
 }
 
 export interface ITeacher {
@@ -26,3 +25,30 @@ export interface ITeacher {
     status: TeacherStatus;
     isDeleted: boolean;
 }
+export interface ITeacherCreate {
+    id?: string,
+    subjectIds: string[],
+    teacherData: {
+        education: string
+        address: string
+        name: string;
+        email: string;
+        dateOfBirth: string
+        phone: string;
+        image: string
+        experience: number
+        gender: Gender
+    }
+}
+
+export interface ITeacherUp {
+    id: string,
+    education: string
+    address: string
+    name: string;
+    image: string
+    experience: number
+
+}
+
+export type ITeacherUpdate = Partial<ITeacherUp>;
