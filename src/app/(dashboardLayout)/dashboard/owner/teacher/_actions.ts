@@ -14,7 +14,7 @@ export const getAllTeacher = async (query: string) => {
     }
 }
 
-export const createTeacher = async (payload: Partial<ITeacherCreate>) => {
+export const createTeacher = async (payload: ITeacherCreate) => {
     try {
         const response = await httpClient.post(`/teacher`, payload);
         return await response.data

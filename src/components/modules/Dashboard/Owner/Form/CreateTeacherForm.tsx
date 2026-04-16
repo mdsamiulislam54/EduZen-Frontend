@@ -5,22 +5,24 @@ import AppField from '@/shared/from/AppField';
 import AppSelect from '@/shared/from/AppSelect';
 import AppMultiSelect from '@/shared/from/MultiSelect';
 import AppSubmitButton from '@/shared/from/SubmitButton';
-import { ITeacher, ITeacherCreate, ITeacherUpdate } from '@/types/teacher.type';
+import { Gender, ITeacher, ITeacherCreate, ITeacherUpdate } from '@/types/teacher.type';
 import { teacherCreateSchema } from '@/zod/Teacher.zod.schema';
 
 import { useForm } from '@tanstack/react-form';
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { getDefaultValues } from '../teacher/GetDefalutValue';
 interface ICreateTeacherProps {
     onClose: () => void;
     mode?: "create" | "edit",
-    initialData?: ITeacherCreate | null
+    initialData?: ITeacher | null
 }
-const CreateTeacherForm = ({ onClose, mode, initialData }: ICreateTeacherProps) => {
+
+const CreateTeacherForm = ({ onClose, mode = "create", initialData }: ICreateTeacherProps) => {
     const queryClient = new QueryClient()
     const { mutateAsync, isPending } = useMutation({
-        mutationKey: ["create-subject"],
-        mutationFn: async (data: Partial<ITeacherCreate>) => createTeacher(data),
+        mutationKey: ["create-teacher"],
+        mutationFn: async (data: ITeacherCreate) => createTeacher(data),
         onError: (error) => {
             toast.error("Failed to create teacher: " + error.message);
         },
@@ -49,24 +51,20 @@ const CreateTeacherForm = ({ onClose, mode, initialData }: ICreateTeacherProps) 
         queryFn: async () => await getAllSubject()
     })
     const form = useForm({
-        defaultValues: {
-            ...initialData
-        },
+        defaultValues: getDefaultValues(mode, initialData),
         onSubmit: async ({ value }) => {
             if (mode === "edit") {
-                const teacherData = {
-                    subjectIds: [value?.subjectIds],
-                    teacherData: value?.teacherData
-                }
-                console.log("edit", teacherData)
-                // await updateMutate({ ...value, id: initialData?.id })
+
+                await updateMutate({ ...value, id: initialData?.id })
             } else {
                 const teacherData = {
                     subjectIds: value?.subjectIds ?? [],
-                    teacherData: value?.teacherData
+                    teacherData: {
+                        ...value.teacherData
+                    }
                 }
-                // console.log("create",teacherData)
-                await mutateAsync(teacherData);
+                console.log("create",teacherData)
+                // await mutateAsync(teacherData);
             }
         }
 
@@ -288,7 +286,7 @@ const CreateTeacherForm = ({ onClose, mode, initialData }: ICreateTeacherProps) 
                                 disabled={!canSubmit || isPending || updateIsPending}
 
                             >
-                                {mode === "create" ? " Create Subject" : "Update"}
+                                {mode === "create" ? " Create Teacher" : "Update Teacher"}
                             </AppSubmitButton>
                         )
                     }

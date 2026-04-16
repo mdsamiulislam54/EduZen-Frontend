@@ -1,12 +1,12 @@
 enum TeacherStatus {
-    ACTIVE,
-    INACTIVE,
-    ON_LEAVE
+    ACTIVE = "ACTIVE",
+    INACTIVE = "INACTIVE",
+    ON_LEAVE = "ON_LEAVE"
 }
 
-enum Gender {
-    MALE,
-    FEMALE,
+export enum Gender {
+    MALE = "MALE",
+    FEMALE = "FEMALE",
 }
 
 export interface ITeacher {
@@ -24,31 +24,45 @@ export interface ITeacher {
     gender: Gender
     status: TeacherStatus;
     isDeleted: boolean;
+    teacherSubjects: {
+        subjectId: string
+    }[];
+    meta:{
+        page:number,
+        totalPage:number,
+        limit:number,
+        total:number
+    }
 }
 export interface ITeacherCreate {
-    id?: string,
     subjectIds: string[],
     teacherData: {
-        education: string
-        address: string
+        education?: string
+        address?: string
         name: string;
         email: string;
-        dateOfBirth: string
+        dateOfBirth?: string
         phone: string;
-        image: string
-        experience: number
-        gender: Gender
+        image?: File | string
+        experience?: number
+        gender?: "MALE" | "FEMALE"
+    }
+}
+export interface ITeacherUpdate {
+    id?: string,
+    subjectIds?: string[],
+    teacherData: {
+        education?: string
+        address?: string
+        name?: string
+        email?: string
+        phone?: string
+        dateOfBirth?: string
+        image?: string
+        experience?: number
+        gender?: "MALE" | "FEMALE"
     }
 }
 
-export interface ITeacherUp {
-    id: string,
-    education: string
-    address: string
-    name: string;
-    image: string
-    experience: number
 
-}
 
-export type ITeacherUpdate = Partial<ITeacherUp>;

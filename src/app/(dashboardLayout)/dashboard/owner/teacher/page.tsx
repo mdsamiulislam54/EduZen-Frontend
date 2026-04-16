@@ -4,20 +4,14 @@ import TableQueryController from '@/shared/Table/QueryController/TableQueryContr
 import CreateTeacherButton from '@/components/modules/Dashboard/Teacher/CreateTeacherButton'
 
 import TeacherTable from '@/components/modules/Dashboard/Owner/teacher/TeacherTable'
+import { buildQueryString } from '@/lib/utils'
 
 const TeacherPage = async ({ searchParams }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) => {
     const queryParams = await searchParams;
 
-    const queryString = new URLSearchParams(
-        Object.entries(queryParams).reduce((acc, [key, value]) => {
-            if (value) acc[key] = String(value);
-            return acc;
-        }, {} as Record<string, string>)
-    ).toString();
-
-
+    const queryString = buildQueryString(queryParams)
 
 
     const queryClient = new QueryClient()

@@ -1,14 +1,19 @@
 "use client"
 
 import { getAllTeacher } from "@/app/(dashboardLayout)/dashboard/owner/teacher/_actions"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import DataTable from "@/shared/Table/DataTable"
-import { ITeacher } from "@/types/teacher.type"
+import { ITeacher, ITeacherUpdate } from "@/types/teacher.type"
 import { useQuery } from "@tanstack/react-query"
 import { CellContext } from "@tanstack/react-table"
+import { useState } from "react"
+import CreateTeacherForm from "../Form/CreateTeacherForm"
 export interface ITeacherProps {
   queryString: string
 }
 const TeacherTable = ({ queryString }: ITeacherProps) => {
+  const [open, setOpen] = useState(false);
+  const [selectedTeacher, setSelectedTeacher] = useState<ITeacher | null>(null);
   const { data: teachers, isPending } = useQuery({
     queryKey: ["teacher"],
     queryFn: async () => await getAllTeacher(queryString)
@@ -46,6 +51,8 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
     console.log(data)
   }
   const handleEdit = async (data: ITeacher) => {
+    setSelectedTeacher(data)
+    setOpen(true)
     console.log(data)
   }
   const handleDelete = async (data: ITeacher) => {
@@ -67,6 +74,20 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
         }}
 
       />
+
+      {
+        open && (
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="!max-w-3xl overflow-y-scroll ">
+              <DialogHeader>
+                <DialogTitle>Update Subject</DialogTitle>
+              </DialogHeader>
+
+              <CreateTeacherForm onClose={() => setOpen(false)} mode='edit' initialData={selectedTeacher} />
+            </DialogContent>
+          </Dialog>
+        )
+      }
     </>
   )
 }

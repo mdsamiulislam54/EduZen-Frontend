@@ -11,7 +11,8 @@ import { toast } from 'sonner'
 import Swal from 'sweetalert2'
 import CreateSubjectForm from '../Form/CreateSubjectForm'
 
-import { DialogContent, DialogHeader,Dialog,DialogTitle } from '@/components/ui/dialog'
+import { DialogContent, DialogHeader, Dialog, DialogTitle } from '@/components/ui/dialog'
+import { useRouter } from 'next/navigation'
 
 
 /**
@@ -23,13 +24,14 @@ import { DialogContent, DialogHeader,Dialog,DialogTitle } from '@/components/ui/
     status: SubjectStatus,
  */
 
-const SubjectTablePage = () => {
+const SubjectTablePage = ({ queryString }: { queryString: string }) => {
     const queryClient = new QueryClient();
     const [open, setOpen] = useState(false);
     const [selectedSubject, setSelectedSubject] = useState<ISubject | null>(null);
+    const router = useRouter()
     const { data: subject, isLoading: subjectLoading } = useQuery({
-        queryKey: ["subject"],
-        queryFn: async () => await getAllSubject(),
+        queryKey: ["subject",queryString],
+        queryFn: async () => await getAllSubject(queryString),
     });
 
     const { mutate: deleteMutate } = useMutation({
@@ -39,12 +41,13 @@ const SubjectTablePage = () => {
         },
         onSuccess: () => {
             toast.success("Subject Delete Successful")
+            router.push(window.location.href)
             queryClient.invalidateQueries({ queryKey: ["subject"] })
         }
     })
 
 
-    const handleDeleteSubject = async (data: ISubject) => {
+    const handleDeleteSubject = (data: ISubject) => {
 
         Swal.fire({
             title: "Are you sure Delete This Subject?",
@@ -61,6 +64,7 @@ const SubjectTablePage = () => {
 
     }
     const handleEditSubject = (data: ISubject) => {
+        console.log(data)
         setSelectedSubject(data);
         setOpen(true);
     }
@@ -97,10 +101,12 @@ const SubjectTablePage = () => {
 
     ]
 
+
     return (
         <>
-            <DataTable
-                data={subject || []}
+      
+            <DataTable<ISubject>
+                data={subject?.data || []}
                 columns={subjectColumns}
                 isLoading={subjectLoading}
                 emptyMessage='Subject data not available'

@@ -1,20 +1,36 @@
 "use server"
 
 import { httpClient } from "@/lib/httpClient/axios"
-import { ISubject } from "@/types/subject.type"
+
+import { ISubject, SubjectResponse } from "@/types/subject.type"
 
 
-export const getAllSubject = async () => {
+export const getAllSubject = async (query?: string) => {
     try {
-        const res = await httpClient.get("/subject")
-        return res.data as ISubject[]
+        const res = await httpClient.get<SubjectResponse>(
+            `/subject?${query}`
+        );
+     
+        return {
+            data: res.data.data,
+            meta: res.data.meta,
+        };
     } catch (error) {
         console.error("Error fetching subject data:", error);
-        return []
-    }
-}
 
-export const updateSubject = async (data: Partial<ISubject>, id:string) => {
+        return {
+            data: [],
+            meta: {
+                page: 1,
+                limit: 10,
+                total: 0,
+                totalPages: 0,
+            },
+        };
+    }
+};
+
+export const updateSubject = async (data: Partial<ISubject>, id: string) => {
     try {
         const res = await httpClient.patch<{ message?: string }>(`/subject/${id}`, data)
         return {
@@ -26,7 +42,7 @@ export const updateSubject = async (data: Partial<ISubject>, id:string) => {
         return []
     }
 }
-export const deleteSubject = async (id:string) => {
+export const deleteSubject = async (id: string) => {
     try {
         const res = await httpClient.delete<{ message?: string }>(`/subject/${id}`,)
         return {

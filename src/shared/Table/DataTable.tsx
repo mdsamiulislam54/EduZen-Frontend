@@ -71,7 +71,7 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, ca
         getCoreRowModel: getCoreRowModel()
     })
 
-    console.log("DataTable:", table.getRowModel().rows.length)
+  
     return (
         <Card className="overflow-hidden w-full">
             <div className="overflow-x-auto w-full">

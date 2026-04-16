@@ -22,7 +22,7 @@ const CreateTeacherButton = () => {
       </Button>
 
       <Dialog open={open}  onOpenChange={setOpen} >
-        <DialogContent className="!max-w-2xl overflow-y-scroll ">
+        <DialogContent className="!max-w-3xl overflow-y-scroll ">
           <DialogHeader>
             <DialogTitle>Create Teacher</DialogTitle>
           </DialogHeader>

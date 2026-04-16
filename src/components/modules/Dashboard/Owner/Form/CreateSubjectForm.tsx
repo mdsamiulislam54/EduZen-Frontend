@@ -1,3 +1,4 @@
+"use client"
 import { createSubject } from '@/app/(dashboardLayout)/dashboard/owner/create-subject/_actions';
 import { updateSubject } from '@/app/(dashboardLayout)/dashboard/owner/subject/_actions';
 import AppField from '@/shared/from/AppField';
@@ -8,6 +9,8 @@ import { subjectZodSchema } from '@/zod/Subject.zod.schema';
 
 import { useForm } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+
 import { toast } from 'sonner';
 interface CreateSubjectFormProps {
   onClose: () => void;
@@ -15,7 +18,8 @@ interface CreateSubjectFormProps {
   initialData?: ISubject | null
 }
 
-const CreateSubjectForm = ({ onClose, mode, initialData }: CreateSubjectFormProps) => {
+const CreateSubjectForm = ({ onClose, mode="create", initialData }: CreateSubjectFormProps) => {
+  const router = useRouter()
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["create-subject"],
     mutationFn: async (data: Partial<ISubject>) => createSubject(data),
@@ -28,7 +32,7 @@ const CreateSubjectForm = ({ onClose, mode, initialData }: CreateSubjectFormProp
       form.reset();
     }
   })
-  const { mutateAsync: updateMutate, isPending: updateIsPenidng } = useMutation({
+  const { mutateAsync: updateMutate, isPending: updateIsPending} = useMutation({
     mutationKey: ["update-subject"],
     mutationFn: async (data: Partial<ISubject> & { id?: string }) => updateSubject(data, data.id!),
     onError: (error) => {
@@ -47,6 +51,7 @@ const CreateSubjectForm = ({ onClose, mode, initialData }: CreateSubjectFormProp
     onSubmit: async ({ value }) => {
       if (mode === "edit") {
         await updateMutate({ ...value, id: initialData?.id })
+        router.push(window.location.href)
       } else {
         await mutateAsync(value);
       }
@@ -91,8 +96,8 @@ const CreateSubjectForm = ({ onClose, mode, initialData }: CreateSubjectFormProp
           {
             ([canSubmit]) => (
               <AppSubmitButton
-                isPending={isPending || updateIsPenidng}
-                disabled={!canSubmit || isPending || updateIsPenidng}
+                isPending={isPending || updateIsPending}
+                disabled={!canSubmit || isPending || updateIsPending}
 
               >
                 {mode === "create" ? " Create Subject" : "Update"}
