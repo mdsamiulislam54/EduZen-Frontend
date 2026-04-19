@@ -1,16 +1,19 @@
 "use client"
 
-import { getAllTeacher, getTeacherById } from "@/app/(dashboardLayout)/dashboard/owner/teacher/_actions"
+import { deleteTeacher, getAllTeacher, getTeacherById } from "@/app/(dashboardLayout)/dashboard/owner/teacher/_actions"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import DataTable from "@/shared/Table/DataTable"
 import { ITeacher, ITeacherUpdate } from "@/types/teacher.type"
-import { useQuery } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { CellContext } from "@tanstack/react-table"
 import { useState } from "react"
 import CreateTeacherForm from "../Form/CreateTeacherForm"
 import AppPagination from "@/shared/pagination/AppPagination"
 import ErrorState from "@/components/modules/Error/Error"
 import TeacherProfileFull from "./TeacherProfile"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
+import Swal from "sweetalert2"
 export interface ITeacherProps {
   queryString: string
 }
@@ -18,7 +21,9 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
   const [open, setOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState<ITeacher | null>(null);
-  const [selectedTeacherId, setSelectedTeacherId] = useState("")
+  const [selectedTeacherId, setSelectedTeacherId] = useState("");
+  const router = useRouter()
+  const queryClient = new QueryClient()
   const { data: teachers, isPending } = useQuery({
     queryKey: ["teacher", queryString],
     queryFn: async () => await getAllTeacher(queryString)
@@ -28,6 +33,18 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
     queryKey: ["single-teacher", selectedTeacherId],
     queryFn: () => getTeacherById(selectedTeacherId),
     enabled: !!selectedTeacherId,
+  })
+
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: deleteTeacher,
+    onError: (err) => {
+      toast.error(err?.message || "Something went wrong");
+    },
+    onSuccess: () => {
+      toast.success("Teacher Delete Successful")
+      router.push(window.location.href)
+      queryClient.invalidateQueries({ queryKey: ["teacher"] })
+    }
   })
   const teacherColumns = [
     { accessorKey: "Image", header: "Image" },
@@ -68,7 +85,18 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
     console.log(data)
   }
   const handleDelete = async (data: ITeacher) => {
-    console.log(data)
+    Swal.fire({
+      title: "Are you sure Delete This Subject?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteMutate(data.id)
+      }
+    });
   }
 
   if (isError) return <ErrorState message="Single teacher not found" />
