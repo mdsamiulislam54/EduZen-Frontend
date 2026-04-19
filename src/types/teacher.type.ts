@@ -1,3 +1,5 @@
+import { Meta } from "./subject.type";
+
 enum TeacherStatus {
     ACTIVE = "ACTIVE",
     INACTIVE = "INACTIVE",
@@ -66,3 +68,7 @@ export interface ITeacherUpdate {
 
 
 
+export interface ITeacherResponse {
+    data: ITeacher[];
+    meta?: Meta;
+}

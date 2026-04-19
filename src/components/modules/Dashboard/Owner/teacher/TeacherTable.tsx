@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 import { CellContext } from "@tanstack/react-table"
 import { useState } from "react"
 import CreateTeacherForm from "../Form/CreateTeacherForm"
+import AppPagination from "@/shared/pagination/AppPagination"
 export interface ITeacherProps {
   queryString: string
 }
@@ -15,7 +16,7 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
   const [open, setOpen] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState<ITeacher | null>(null);
   const { data: teachers, isPending } = useQuery({
-    queryKey: ["teacher"],
+    queryKey: ["teacher", queryString],
     queryFn: async () => await getAllTeacher(queryString)
   })
   const teacherColumns = [
@@ -63,7 +64,7 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
   return (
     <>
       <DataTable
-        data={teachers || []}
+        data={teachers?.data || []}
         columns={teacherColumns}
         isLoading={isPending}
         emptyMessage="Teacher is not available"
@@ -74,6 +75,17 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
         }}
 
       />
+
+      {
+        teachers?.meta && (
+          <AppPagination meta={{
+            page:teachers.meta.page,
+            total:teachers.meta.total,
+            totalPages:teachers.meta.totalPages,
+            limit:teachers.meta.limit,
+          }} />
+        )
+      }
 
       {
         open && (

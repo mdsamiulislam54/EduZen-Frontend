@@ -31,13 +31,13 @@ const TeacherPage = async ({ searchParams }: {
 
             <TableQueryController
                 searchKey='search'
-                sortKey='sort'
-                filterKey="filter"
+                sortKey='sortOrder'
+                filterKey="gender"
                 filterOptions={
                     [
-                        { label: "Active", value: "active" },
-                        { label: "Male", value: "male" },
-                        { label: "Female", value: "female" },
+                       
+                        { label: "Male", value: "MALE" },
+                        { label: "Female", value: "FEMALE" },
                     ]
                 }
             />

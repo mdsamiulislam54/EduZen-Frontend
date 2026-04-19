@@ -13,6 +13,7 @@ import CreateSubjectForm from '../Form/CreateSubjectForm'
 
 import { DialogContent, DialogHeader, Dialog, DialogTitle } from '@/components/ui/dialog'
 import { useRouter } from 'next/navigation'
+import AppPagination from '@/shared/pagination/AppPagination'
 
 
 /**
@@ -30,7 +31,7 @@ const SubjectTablePage = ({ queryString }: { queryString: string }) => {
     const [selectedSubject, setSelectedSubject] = useState<ISubject | null>(null);
     const router = useRouter()
     const { data: subject, isLoading: subjectLoading } = useQuery({
-        queryKey: ["subject",queryString],
+        queryKey: ["subject", queryString],
         queryFn: async () => await getAllSubject(queryString),
     });
 
@@ -104,7 +105,7 @@ const SubjectTablePage = ({ queryString }: { queryString: string }) => {
 
     return (
         <>
-      
+
             <DataTable<ISubject>
                 data={subject?.data || []}
                 columns={subjectColumns}
@@ -118,7 +119,16 @@ const SubjectTablePage = ({ queryString }: { queryString: string }) => {
                     }
                 }
             />
-
+            {
+                subject?.meta && (
+                    <AppPagination meta={{
+                        page: subject.meta.page,
+                        total: subject.meta.total,
+                        totalPages: subject.meta.totalPages,
+                        limit: subject.meta.limit,
+                    }} />
+                )
+            }
             {
                 open && (
                     <Dialog open={open} onOpenChange={setOpen}>

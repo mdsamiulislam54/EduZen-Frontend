@@ -1,16 +1,27 @@
 "use server"
 
 import { httpClient } from "@/lib/httpClient/axios";
-import { ITeacher, ITeacherCreate, ITeacherUpdate } from "@/types/teacher.type";
+import { ITeacherCreate, ITeacherResponse, ITeacherUpdate } from "@/types/teacher.type";
 
 export const getAllTeacher = async (query: string) => {
     try {
-        const res = await httpClient.get(query ? `/teacher?${query}` : "/teacher")
-        return await res.data as ITeacher[]
+        const res = await httpClient.get<ITeacherResponse>(query ? `/teacher?${query}` : "/teacher")
+        return {
+            data: res.data.data,
+            meta: res.data.meta,
+        };
     } catch (error) {
         console.log("Teacher  failed", error);
 
-        return []
+        return {
+            data: [],
+            meta: {
+                page: 1,
+                limit: 10,
+                total: 0,
+                totalPages: 0,
+            },
+        };
     }
 }
 

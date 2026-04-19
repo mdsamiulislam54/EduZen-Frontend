@@ -61,7 +61,7 @@ const AppField = ({
                     value={field.state.value || ""}
                     placeholder={placeholder}
                     onBlur={field.handleBlur}
-                    onChange={(e) => {
+                    onChange={(e) => {  
                         let value: string | number | boolean;
 
                         if (type === "checkbox") {

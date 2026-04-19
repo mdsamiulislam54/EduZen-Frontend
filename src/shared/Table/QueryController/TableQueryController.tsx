@@ -58,14 +58,22 @@ const TableQueryController = ({
 
                             <Select
                                 defaultValue={searchParams.get(filterKey) ?? ""}
-                                onValueChange={(value) => updateParams(filterKey, value)}
+                                onValueChange={(value) => {
+
+                                    if (value === "all") {
+                                        updateParams("filter", "")
+                                    } else {
+                                        updateParams("filter", `${filterKey}:${value}`)
+                                    }
+                                }}
+
                             >
                                 <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="Filter" />
                                 </SelectTrigger>
 
                                 <SelectContent>
-                                    <SelectItem value="">All</SelectItem>
+                                    <SelectItem value="all">All</SelectItem>
                                     {filterOptions.map((opt) => (
                                         <SelectItem key={opt.value} value={opt.value}>
                                             {opt.label}
@@ -85,7 +93,7 @@ const TableQueryController = ({
                             <Select
                                 defaultValue={searchParams.get(sortKey) ?? ""}
                                 onValueChange={(value) => {
-                                    updateParams(sortKey,value)
+                                    updateParams(sortKey, value)
                                 }}
                             >
                                 <SelectTrigger className="w-[150px]">
