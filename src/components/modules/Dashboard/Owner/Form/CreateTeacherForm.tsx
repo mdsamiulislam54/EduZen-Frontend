@@ -12,6 +12,7 @@ import { useForm } from '@tanstack/react-form';
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { getDefaultValues } from '../teacher/GetDefalutValue';
+import FileInput from '@/shared/from/FileInput';
 interface ICreateTeacherProps {
     onClose: () => void;
     mode?: "create" | "edit",
@@ -47,8 +48,8 @@ const CreateTeacherForm = ({ onClose, mode = "create", initialData }: ICreateTea
     })
 
     const { data: subject } = useQuery({
-        queryKey: ["subject"],
-        queryFn: async () => await getAllSubject()
+        queryKey: ["subject",],
+        queryFn: () => getAllSubject()
     })
     const form = useForm({
         defaultValues: getDefaultValues(mode, initialData),
@@ -62,15 +63,16 @@ const CreateTeacherForm = ({ onClose, mode = "create", initialData }: ICreateTea
                     teacherData: {
                         ...value.teacherData
                     }
-                }
-                console.log("create",teacherData)
-                // await mutateAsync(teacherData);
+                } as ITeacherCreate
+                console.log("create", teacherData)
+                await mutateAsync(teacherData);
             }
         }
 
     })
     return (
         <div className="">
+
             <form
 
                 onSubmit={(e) => {
@@ -216,18 +218,15 @@ const CreateTeacherForm = ({ onClose, mode = "create", initialData }: ICreateTea
                     <div className='grid md:grid-cols-2 gap-4'>
                         <form.Field
                             name='teacherData.image'
-                            validators={{ onChange: teacherCreateSchema.shape.teacherData.shape.image }}
+                           
 
                         >
                             {
                                 (filed) => (
-                                    <AppField
-                                        field={filed}
-                                        label='Image'
-                                        placeholder='Select Your Photo'
-                                        type="file"
-                                        className="space-y-4"
-
+                                    <FileInput
+                                        label="Profile Image"
+                                        value={filed.state.value}
+                                        onChange={(file) => filed.handleChange(file)}
                                     />
 
 
@@ -259,13 +258,15 @@ const CreateTeacherForm = ({ onClose, mode = "create", initialData }: ICreateTea
                     </div>
 
                     <div className=' border-b border-purple-600'>
-                        <form.Field name="subjectIds">
+                        <form.Field name="subjectIds"
+                            validators={{onChange: teacherCreateSchema.shape.subjectIds }}
+                        >
                             {(field) => (
                                 <AppMultiSelect
                                     field={field}
                                     label=" Subjects"
                                     options={
-                                        subject?.map((sub) => ({
+                                        subject?.data.map((sub) => ({
                                             label: sub.name,
                                             value: sub.id,
                                         })) ?? []

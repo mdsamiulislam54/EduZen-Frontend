@@ -12,18 +12,21 @@ export const teacherCreateSchema = z.object({
         name: z.string("Name is required"),
         email: z.string("Invalid email"),
 
-        education: z.string("Education is required"),
-        address: z.string("Address is required"),
+        education: z.string("Education is required").optional(),
+        address: z.string("Address is required").optional(),
 
         phone: z.string("Phone must be at least 10 digits"),
 
-        image: z.string("Image must be a valid URL"),
+        image: z.union([
+            z.instanceof(File),
+            z.string().min(1)
+        ]).optional(),
 
         experience: z
             .number()
             .min(0, "Experience must be a positive number"),
 
-        gender: GenderEnum,
+        gender: GenderEnum.optional(),
 
         dateOfBirth: z.string().transform((val) => (val ? new Date(val) : undefined)),
     }),

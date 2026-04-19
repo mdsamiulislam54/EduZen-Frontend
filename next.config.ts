@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/docs/assets/img/elementor-placeholder-image.png"
       }
+ 
     ]
     
   }

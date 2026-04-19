@@ -30,6 +30,7 @@ export const getAllSubject = async (query?: string) => {
     }
 };
 
+
 export const updateSubject = async (data: Partial<ISubject>, id: string) => {
     try {
         const res = await httpClient.patch<{ message?: string }>(`/subject/${id}`, data)

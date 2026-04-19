@@ -1,6 +1,6 @@
 "use client"
 
-import { getAllTeacher } from "@/app/(dashboardLayout)/dashboard/owner/teacher/_actions"
+import { getAllTeacher, getTeacherById } from "@/app/(dashboardLayout)/dashboard/owner/teacher/_actions"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import DataTable from "@/shared/Table/DataTable"
 import { ITeacher, ITeacherUpdate } from "@/types/teacher.type"
@@ -9,15 +9,25 @@ import { CellContext } from "@tanstack/react-table"
 import { useState } from "react"
 import CreateTeacherForm from "../Form/CreateTeacherForm"
 import AppPagination from "@/shared/pagination/AppPagination"
+import ErrorState from "@/components/modules/Error/Error"
+import TeacherProfileFull from "./TeacherProfile"
 export interface ITeacherProps {
   queryString: string
 }
 const TeacherTable = ({ queryString }: ITeacherProps) => {
   const [open, setOpen] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState<ITeacher | null>(null);
+  const [selectedTeacherId, setSelectedTeacherId] = useState("")
   const { data: teachers, isPending } = useQuery({
     queryKey: ["teacher", queryString],
     queryFn: async () => await getAllTeacher(queryString)
+  })
+
+  const { data: singleTeacher, isError } = useQuery({
+    queryKey: ["single-teacher", selectedTeacherId],
+    queryFn: () => getTeacherById(selectedTeacherId),
+    enabled: !!selectedTeacherId,
   })
   const teacherColumns = [
     { accessorKey: "Image", header: "Image" },
@@ -49,7 +59,8 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
   ]
 
   const handleView = async (data: ITeacher) => {
-    console.log(data)
+    setOpenProfile(!openProfile)
+    setSelectedTeacherId(data.id)
   }
   const handleEdit = async (data: ITeacher) => {
     setSelectedTeacher(data)
@@ -60,7 +71,7 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
     console.log(data)
   }
 
-
+  if (isError) return <ErrorState message="Single teacher not found" />
   return (
     <>
       <DataTable
@@ -79,10 +90,10 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
       {
         teachers?.meta && (
           <AppPagination meta={{
-            page:teachers.meta.page,
-            total:teachers.meta.total,
-            totalPages:teachers.meta.totalPages,
-            limit:teachers.meta.limit,
+            page: teachers.meta.page,
+            total: teachers.meta.total,
+            totalPages: teachers.meta.totalPages,
+            limit: teachers.meta.limit,
           }} />
         )
       }
@@ -92,7 +103,7 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="!max-w-3xl overflow-y-scroll ">
               <DialogHeader>
-                <DialogTitle>Update Subject</DialogTitle>
+                <DialogTitle>Update Teacher</DialogTitle>
               </DialogHeader>
 
               <CreateTeacherForm onClose={() => setOpen(false)} mode='edit' initialData={selectedTeacher} />
@@ -100,6 +111,20 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
           </Dialog>
         )
       }
+      {
+        openProfile && singleTeacher && (
+          <Dialog open={openProfile} onOpenChange={setOpenProfile}>
+            <DialogContent className="!max-w-5xl !h-screen overflow-y-scroll ">
+              {/* <DialogHeader>
+                <DialogTitle>Update Subject</DialogTitle>
+              </DialogHeader> */}
+
+              <TeacherProfileFull teacher={singleTeacher} />
+            </DialogContent>
+          </Dialog>
+        )
+      }
+
     </>
   )
 }
