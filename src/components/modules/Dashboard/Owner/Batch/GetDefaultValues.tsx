@@ -8,7 +8,8 @@ export const getBatchDefaultValues = (
   //  EDIT MODE
   if (mode === "edit" && initialData) {
     return {
-      teacherIds: initialData.teacherIds?.map(t => t.teacherId) ?? [],
+      teacherIds: initialData.batchTeachers?.map((t)=> t.teacherId)?? [],
+      feeType:initialData.batchFee[0].feeType ?? "",
       batchData: {
         batchName: initialData.batchName ?? "",
         batchCode: initialData.batchCode ?? "",
@@ -17,6 +18,7 @@ export const getBatchDefaultValues = (
         endTime: initialData.endTime ?? new Date(),
         daysOfWeek: initialData.daysOfWeek ?? [],
         status: initialData.status,
+        
       },
       amount: initialData.batchFee?.[0]?.amount ?? 0,
     };

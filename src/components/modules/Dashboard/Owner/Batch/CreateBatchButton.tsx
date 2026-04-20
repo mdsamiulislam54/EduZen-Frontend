@@ -22,7 +22,7 @@ const CreateBatchButton = () => {
             </Button>
 
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="!max-w-3xl !overflow-y-scroll !min-h-screen ">
+                <DialogContent className="!max-w-3xl !overflow-y-scroll ">
                     <DialogHeader>
                         <DialogTitle>Create Batch</DialogTitle>
                     </DialogHeader>

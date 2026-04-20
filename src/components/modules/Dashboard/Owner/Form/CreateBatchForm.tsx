@@ -1,7 +1,7 @@
 "use client"
 
-import { createBatch } from "@/app/(dashboardLayout)/dashboard/owner/batch/_actions";
-import { IBatch, ICreateBatchPayload } from "@/types/batch.type";
+import { createBatch, updateBatch } from "@/app/(dashboardLayout)/dashboard/owner/batch/_actions";
+import { IBatch, IBatchUpdate, ICreateBatchPayload } from "@/types/batch.type";
 import { useForm } from "@tanstack/react-form";
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -28,7 +28,7 @@ const CreateBatchForm = ({ onClose, mode = 'create', initialData }: ICreateBatch
         },
         onSuccess: () => {
             toast.success("Subject  Created Successfully");
-            queryClient.invalidateQueries({queryKey:["batch"]})
+            queryClient.invalidateQueries({ queryKey: ["batch"] })
             onClose()
             form.reset();
         }
@@ -38,30 +38,30 @@ const CreateBatchForm = ({ onClose, mode = 'create', initialData }: ICreateBatch
         queryKey: ["teacher"],
         queryFn: async () => await getAllTeacher()
     })
-    // const { mutateAsync: updateMutate, isPending: updateIsPending } = useMutation({
-    //     mutationKey: ["update-subject"],
-    //     mutationFn: async (data: Partial<ISubject> & { id?: string }) => updateSubject(data, data.id!),
-    //     onError: (error) => {
-    //         toast.error("Failed to Update subject: " + error.message);
-    //     },
-    //     onSuccess: () => {
-    //         toast.success("Subject  Update Successfully");
-    //         onClose()
-    //         form.reset();
-    //     }
-    // })
+    const { mutateAsync: updateMutate, isPending: updateIsPending } = useMutation({
+        mutationKey: ["update-subject"],
+        mutationFn: async (data: Partial<IBatchUpdate> & { id?: string }) => updateBatch(data, data.id!),
+        onError: (error) => {
+            toast.error("Failed to Update subject: " + error.message);
+        },
+        onSuccess: () => {
+            toast.success("Subject  Update Successfully");
+            onClose()
+            form.reset();
+        }
+    })
     const form = useForm({
         defaultValues: getBatchDefaultValues(mode, initialData),
         onSubmit: async ({ value }) => {
             if (mode === "edit") {
-                // await updateMutate({ ...value, id: initialData?.id })
+                await updateMutate({ ...value, id: initialData?.id })
             } else {
                 if (!value.batchData.startTime || !value.batchData.endTime) {
                     throw new Error("Start time and end time required")
                 }
                 const batchData = {
                     amount: value?.amount ?? 0,
-                    feeType:value?.feeType??[],
+                    feeType: value?.feeType ?? [],
                     teacherIds: value?.teacherIds ?? [],
                     batchData: {
                         ...value.batchData,
@@ -153,7 +153,7 @@ const CreateBatchForm = ({ onClose, mode = 'create', initialData }: ICreateBatch
                                 (filed) => (
                                     <AppField
                                         field={filed}
-                                        label='Batch Name '
+                                        label='Max Students '
                                         placeholder='Enter max students...'
                                         type="number"
                                         className="space-y-4"
@@ -167,7 +167,7 @@ const CreateBatchForm = ({ onClose, mode = 'create', initialData }: ICreateBatch
                         </form.Field>
                         <form.Field
                             name="batchData.daysOfWeek"
-                            // validators={{ onChange: createBatchSchema.shape.batchData.shape.daysOfWeek }}
+                        // validators={{ onChange: createBatchSchema.shape.batchData.shape.daysOfWeek }}
 
                         >
                             {(field) => (
@@ -268,7 +268,7 @@ const CreateBatchForm = ({ onClose, mode = 'create', initialData }: ICreateBatch
                             {(field) => (
                                 <AppMultiSelect
                                     field={field}
-                                    label=" Subjects"
+                                    label=" Teachers"
                                     options={
                                         teachers?.data.map((tec) => ({
                                             label: tec.name,
@@ -287,11 +287,11 @@ const CreateBatchForm = ({ onClose, mode = 'create', initialData }: ICreateBatch
                     {
                         ([canSubmit]) => (
                             <AppSubmitButton
-                                isPending={isPending}
-                                disabled={!canSubmit || isPending}
+                                isPending={isPending || updateIsPending}
+                                disabled={!canSubmit || isPending || updateIsPending}
 
                             >
-                                {mode === "create" ? " Create Teacher" : "Update Teacher"}
+                                {mode === "create" ? " Create Batch" : "Update Batch"}
                             </AppSubmitButton>
                         )
                     }

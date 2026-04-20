@@ -1,16 +1,39 @@
 "use client"
 
-import { getAllBatch } from "@/app/(dashboardLayout)/dashboard/owner/batch/_actions"
+import { deleteBatch, getAllBatch, updateBatch } from "@/app/(dashboardLayout)/dashboard/owner/batch/_actions"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import AppPagination from "@/shared/pagination/AppPagination"
 import DataTable from "@/shared/Table/DataTable"
-import { IBatch } from "@/types/batch.type"
-import { useQuery } from "@tanstack/react-query"
+import { IBatch, IBatchUpdate } from "@/types/batch.type"
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { CellContext } from "@tanstack/react-table"
+import { useState } from "react"
+import CreateBatchForm from "../Form/CreateBatchForm"
+import Swal from "sweetalert2"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 const BatchTablePage = () => {
-    const { data:batch, isPending } = useQuery({
+
+    const queryClient = new QueryClient();
+    const router = useRouter()
+    const [selectedBatch, setSelectedBatch] = useState<IBatch | null>(null);
+    const [open, setOpen] = useState(false)
+    const { data: batch, isPending } = useQuery({
         queryKey: ["batch"],
         queryFn: async () => await getAllBatch()
+    })
+
+    const { mutate: deleteMutate } = useMutation({
+        mutationFn: deleteBatch,
+        onError: (err) => {
+            toast.error(err?.message || "Something went wrong");
+        },
+        onSuccess: () => {
+            toast.success("Batch Delete Successful")
+            router.push(window.location.href)
+            queryClient.invalidateQueries({ queryKey: ["teacher"] })
+        }
     })
 
     const batchColumns = [
@@ -64,13 +87,24 @@ const BatchTablePage = () => {
     ]
 
     const handleUpdateBatch = async (data: IBatch) => {
+        setSelectedBatch(data)
+        setOpen(!open)
         console.log(data)
     }
+
     const handleDeleteBatch = async (data: IBatch) => {
-        console.log(data)
-    }
-    const handleViewBatch = async (data: IBatch) => {
-        console.log(data)
+        Swal.fire({
+            title: "Are you sure Delete This Batch?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMutate(data.id)
+            }
+        });
     }
     return (
         <>
@@ -82,7 +116,6 @@ const BatchTablePage = () => {
                 actions={
                     {
                         onDelete: handleDeleteBatch,
-                        onView: handleViewBatch,
                         onEdit: handleUpdateBatch
                     }
                 }
@@ -96,6 +129,21 @@ const BatchTablePage = () => {
                         totalPages: batch.meta.totalPages,
                         limit: batch.meta.limit,
                     }} />
+                )
+            }
+
+
+            {
+                open && (
+                    <Dialog open={open} onOpenChange={setOpen}>
+                        <DialogContent className="!max-w-3xl overflow-y-scroll ">
+                            <DialogHeader>
+                                <DialogTitle>Update Batch</DialogTitle>
+                            </DialogHeader>
+
+                            <CreateBatchForm onClose={() => setOpen(false)} mode='edit' initialData={selectedBatch} />
+                        </DialogContent>
+                    </Dialog>
                 )
             }
         </>

@@ -72,11 +72,12 @@ export interface IBatch {
     daysOfWeek: DayOfWeek[];
     status: BatchStatus;
     isDeleted: boolean;
-    teacherIds?: {
+    batchTeachers?: {
         teacherId:string
     }[];
     batchFee: {
-        amount: number
+        amount: number,
+        feeType:FeeType
     }[]
 }
 
