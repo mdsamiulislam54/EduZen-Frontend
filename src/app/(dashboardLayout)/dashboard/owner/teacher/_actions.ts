@@ -3,7 +3,7 @@
 import { httpClient } from "@/lib/httpClient/axios";
 import { ISingleTeacher, ITeacherCreate, ITeacherResponse, ITeacherUpdate } from "@/types/teacher.type";
 
-export const getAllTeacher = async (query: string) => {
+export const getAllTeacher = async (query?: string) => {
     try {
         const res = await httpClient.get<ITeacherResponse>(query ? `/teacher?${query}` : "/teacher")
         return {

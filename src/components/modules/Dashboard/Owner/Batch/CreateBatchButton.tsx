@@ -9,6 +9,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import CreateSubjectForm from "../Form/CreateSubjectForm"
+import CreateBatchForm from "../Form/CreateBatchForm"
 
 
 const CreateBatchButton = () => {
@@ -21,12 +22,12 @@ const CreateBatchButton = () => {
             </Button>
 
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent>
+                <DialogContent className="!max-w-3xl !overflow-y-scroll !min-h-screen ">
                     <DialogHeader>
                         <DialogTitle>Create Batch</DialogTitle>
                     </DialogHeader>
 
-                    <CreateSubjectForm onClose={() => setOpen(false)} />
+                    <CreateBatchForm onClose={() => setOpen(false)} />
                 </DialogContent>
             </Dialog>
         </>

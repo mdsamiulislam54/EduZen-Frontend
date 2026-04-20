@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnyFieldApi } from "@tanstack/react-form";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 type Option = {
   label: string;
@@ -45,12 +46,13 @@ const AppMultiSelect = ({ field, label, options }: AppMultiSelectProps) => {
         {value.map((val) => {
           const opt = options.find((o) => o.value === val);
           return (
-            <span
+            <Badge 
+            
               key={val}
               className=" px-2 py-1 rounded text-sm"
             >
               {opt?.label}
-            </span>
+            </Badge>
           );
         })}
       </div>

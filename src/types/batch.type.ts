@@ -1,18 +1,28 @@
+import { Meta } from "./subject.type";
 
 
-enum BatchStatus {
+ export enum BatchStatus {
     ACTIVE,
     INACTIVE,
     COMPLETED
 }
 
-enum FeeType {
+ export enum FeeType {
     MONTHLY,
     COURSE,
     ADMISSION,
     EXAM
 }
 
+export enum DaysOfWeek {
+  SUNDAY = "SUNDAY",
+  MONDAY = "MONDAY",
+  TUESDAY = "TUESDAY",
+  WEDNESDAY = "WEDNESDAY",
+  THURSDAY = "THURSDAY",
+  FRIDAY = "FRIDAY",
+  SATURDAY = "SATURDAY",
+}
 export interface ICreateBatchPayload {
     amount: number;
     feeType: FeeType;
@@ -21,18 +31,24 @@ export interface ICreateBatchPayload {
         batchName: string;
         batchCode?: string;
         max_students: number;
-        startTime: Date;
-        endTime: Date;
-        daysOfWeek: (
-            | "SUNDAY"
-            | "MONDAY"
-            | "TUESDAY"
-            | "WEDNESDAY"
-            | "THURSDAY"
-            | "FRIDAY"
-            | "SATURDAY"
-        )[];
+        startTime: string;
+        endTime: string;
+        daysOfWeek: DayOfWeek[];
         status: BatchStatus
+    }
+}
+export interface IBatchUpdate {
+    amount?: number;
+    feeType?: FeeType;
+    teacherIds?: string[];
+    batchData: {
+        batchName?: string;
+        batchCode?: string;
+        max_students?: number;
+        startTime?: Date;
+        endTime?: Date;
+        daysOfWeek:DayOfWeek[];
+        status?: BatchStatus
     }
 }
 export enum DayOfWeek {
@@ -53,10 +69,20 @@ export interface IBatch {
     max_students: number;
     startTime: Date;
     endTime: Date;
-    daysOfWeek: DayOfWeek;
+    daysOfWeek: DayOfWeek[];
     status: BatchStatus;
     isDeleted: boolean;
+    teacherIds?: {
+        teacherId:string
+    }[];
     batchFee: {
         amount: number
     }[]
+}
+
+
+
+export interface IBatchResponses {
+    data: IBatch[];
+    meta?: Meta;
 }

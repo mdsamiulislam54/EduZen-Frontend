@@ -1,13 +1,14 @@
 "use client"
 
 import { getAllBatch } from "@/app/(dashboardLayout)/dashboard/owner/batch/_actions"
+import AppPagination from "@/shared/pagination/AppPagination"
 import DataTable from "@/shared/Table/DataTable"
 import { IBatch } from "@/types/batch.type"
 import { useQuery } from "@tanstack/react-query"
 import { CellContext } from "@tanstack/react-table"
 
 const BatchTablePage = () => {
-    const { data, isPending } = useQuery({
+    const { data:batch, isPending } = useQuery({
         queryKey: ["batch"],
         queryFn: async () => await getAllBatch()
     })
@@ -74,7 +75,7 @@ const BatchTablePage = () => {
     return (
         <>
             <DataTable
-                data={data || []}
+                data={batch?.data || []}
                 columns={batchColumns}
                 emptyMessage="Batch Data not available"
                 isLoading={isPending}
@@ -87,6 +88,16 @@ const BatchTablePage = () => {
                 }
 
             />
+            {
+                batch?.meta && (
+                    <AppPagination meta={{
+                        page: batch.meta.page,
+                        total: batch.meta.total,
+                        totalPages: batch.meta.totalPages,
+                        limit: batch.meta.limit,
+                    }} />
+                )
+            }
         </>
     )
 }

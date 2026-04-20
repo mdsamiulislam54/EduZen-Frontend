@@ -21,3 +21,15 @@ export const buildQueryString = (
     }, {} as Record<string, string>)
   ).toString();
 };
+
+
+export const toBdISOString = (value: string | Date): string => {
+  const date = value instanceof Date ? value : new Date(value)
+
+  // timezone offset remove
+  const tzOffset = date.getTimezoneOffset() * 60000
+
+  const localTime = new Date(date.getTime() - tzOffset).toISOString()
+
+  return localTime
+}

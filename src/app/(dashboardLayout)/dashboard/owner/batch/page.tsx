@@ -4,15 +4,16 @@ import BatchTablePage from "@/components/modules/Dashboard/Owner/Batch/BatchTabl
 
 import CreateBatchButton from "@/components/modules/Dashboard/Owner/Batch/CreateBatchButton"
 import { Card } from "@/components/ui/card"
+import TableQueryController from "@/shared/Table/QueryController/TableQueryController"
 
 
 const BatchPage = async () => {
     const queryClient = new QueryClient()
     await queryClient.prefetchQuery({
-            queryKey: ["batch"],
-            queryFn: async () => await getAllBatch()
-        })
-   
+        queryKey: ["batch"],
+        queryFn: async () => await getAllBatch()
+    })
+
     return (
         <HydrationBoundary state={dehydrate(queryClient)} >
             <div>
@@ -23,7 +24,10 @@ const BatchPage = async () => {
                         </div>
                     </div>
                 </Card>
-
+                <TableQueryController
+                    searchKey='search'
+                    sortKey="sortOrder"
+                />
                 <BatchTablePage />
             </div>
         </HydrationBoundary>
