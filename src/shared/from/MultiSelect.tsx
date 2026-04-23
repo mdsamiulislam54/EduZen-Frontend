@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnyFieldApi } from "@tanstack/react-form";
-import { Check } from "lucide-react";
+import { ArrowBigDownIcon, ArrowDown, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
@@ -37,7 +37,7 @@ const AppMultiSelect = ({ field, label, options }: AppMultiSelectProps) => {
       {/* Selected Box (Dropdown Trigger) */}
       <div
         onClick={() => setOpen(!open)}
-        className="border rounded-md px-3 py-2 min-h-[42px] cursor-pointer flex flex-wrap gap-2 z-9999 "
+        className=" relative border rounded-md px-3 py-2 min-h-[42px] cursor-pointer flex flex-wrap gap-2 z-9999 "
       >
         {value.length === 0 && (
           <span className="text-gray-400 text-sm">{label}</span>
@@ -55,6 +55,10 @@ const AppMultiSelect = ({ field, label, options }: AppMultiSelectProps) => {
             </Badge>
           );
         })}
+
+        <span className="absolute top-2 right-2">
+          <ArrowDown/>
+        </span>
       </div>
 
       {/* Dropdown */}

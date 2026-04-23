@@ -36,7 +36,7 @@ const TableQueryController = ({
     const hasQuery = searchParams.toString().length > 0;
 
     return (
-        <Card className="p-2">
+        <Card className="p-2 mb-4">
             <div className="sm:flex justify-between items-center sm:space-y-0 space-y-4">
 
                 <div>

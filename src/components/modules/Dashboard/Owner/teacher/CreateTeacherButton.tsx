@@ -8,7 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import CreateTeacherForm from "../Owner/Form/CreateTeacherForm"
+import CreateTeacherForm from "../Form/CreateTeacherForm"
+
 
 
 

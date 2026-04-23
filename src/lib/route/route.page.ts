@@ -54,7 +54,7 @@ export const ownerRoutes: IRoutePage[] = [
   },
   {
     title: "Students",
-    url: "/dashboard/owner/students",
+    url: "/dashboard/owner/student",
     icon: Users,
   },
   {

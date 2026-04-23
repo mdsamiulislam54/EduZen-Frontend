@@ -1,10 +1,11 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { getAllTeacher } from './_actions'
 import TableQueryController from '@/shared/Table/QueryController/TableQueryController'
-import CreateTeacherButton from '@/components/modules/Dashboard/Teacher/CreateTeacherButton'
+
 
 import TeacherTable from '@/components/modules/Dashboard/Owner/teacher/TeacherTable'
 import { buildQueryString } from '@/lib/utils'
+import CreateTeacherButton from '@/components/modules/Dashboard/Owner/teacher/CreateTeacherButton'
 
 const TeacherPage = async ({ searchParams }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>

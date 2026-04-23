@@ -1,0 +1,89 @@
+import { UserStatus } from "./owner.type";
+import { Meta } from "./subject.type";
+import { Gender } from "./teacher.type";
+
+export enum StudentStatus {
+    ACTIVE = "ACTIVE",
+    INACTIVE = "INACTIVE",
+    SUSPENDED = "SUSPENDED"
+}
+
+export type GenderType = "MALE" | "FEMALE" | "OTHER";
+
+
+export enum BloodGroup {
+    A_POSITIVE = 'A_POSITIVE',
+    A_NEGATIVE = 'A_NEGATIVE',
+    B_POSITIVE = 'B_POSITIVE',
+    B_NEGATIVE = 'B_NEGATIVE',
+    AB_POSITIVE = 'AB_POSITIVE',
+    AB_NEGATIVE = 'AB_NEGATIVE',
+    O_POSITIVE = 'O_POSITIVE',
+    O_NEGATIVE = 'O_NEGATIVE'
+}
+
+export interface ICreateStudent {
+    batchId: string[];
+    studentData: {
+        name: string;
+        fatherName: string;
+        matherName: string;
+        age: number;
+        address: string;
+        email: string;
+        phone: string;
+        image: File | null
+        dateOfBirth: string | null;
+        gender: GenderType
+        bloodGroup: BloodGroup
+    }
+}
+export interface IStudentUpdate {
+    batchIds: string[];
+    studentData: {
+        status?: StudentStatus;
+        fatherName?: string;
+        matherName?: string;
+        age?: number;
+        address?: string;
+
+        name?: string;
+        email?: string;
+        phone?: string;
+        image?: File | null
+        dateOfBirth?: Date | null;
+        gender?: GenderType
+        bloodGroup?: BloodGroup
+    }
+}
+export interface IStudent {
+    id: string;
+    status: StudentStatus;
+    isDeleted: boolean;
+    name: string;
+    email: string;
+    image: string;
+    fatherName: string,
+    matherName: string,
+    age: number,
+    address: string,
+    emailVerified: boolean;
+    needPasswordChange: boolean;
+    dateOfBirth: Date | null;
+    deletedAt: Date | null;
+    hasSubscription: boolean;
+    teamPassword: string | null;
+    phone: string;
+    gender?: GenderType;
+    bloodGroup: BloodGroup
+    batchStudents?: {
+        batch: {
+            id: string;
+        }
+    }[]
+}
+
+export interface IStudentResponse {
+    data: IStudent[];
+    meta?: Meta;
+}

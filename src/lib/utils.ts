@@ -23,7 +23,10 @@ export const buildQueryString = (
 };
 
 
-export const toBdISOString = (value: string | Date): string => {
+export const toBdISOString = (value: string | Date | null|  undefined): string => {
+  if (value === undefined || value === null) {
+    return "";
+  }
   const date = value instanceof Date ? value : new Date(value)
 
   // timezone offset remove
