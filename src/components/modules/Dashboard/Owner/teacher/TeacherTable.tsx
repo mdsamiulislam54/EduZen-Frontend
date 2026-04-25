@@ -35,7 +35,7 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
     enabled: !!selectedTeacherId,
   })
 
-  const { mutate: deleteMutate } = useMutation({
+  const { mutateAsync: deleteMutate } = useMutation({
     mutationFn: deleteTeacher,
     onError: (err) => {
       toast.error(err?.message || "Something went wrong");
@@ -91,70 +91,85 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Yes, delete it!",
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          await deleteMutate(data.id);
+          return true;
+        } catch (error) {
+          Swal.showValidationMessage(
+            `Delete failed: ${(error as Error).message}`
+          );
+          return false;
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        deleteMutate(data.id)
+        toast.success("Teacher deleted successfully");
+        queryClient.invalidateQueries({ queryKey: ["teacher"] });
       }
+
     });
   }
 
-  if (isError) return <ErrorState message="Single teacher not found" />
-  return (
-    <>
-      <DataTable
-        data={teachers?.data || []}
-        columns={teacherColumns}
-        isLoading={isPending}
-        emptyMessage="Teacher is not available"
-        actions={{
-          onDelete: handleDelete,
-          onEdit: handleEdit,
-          onView: handleView
-        }}
+    if (isError) return <ErrorState message="Single teacher not found" />
+    return (
+      <>
+        <DataTable
+          data={teachers?.data || []}
+          columns={teacherColumns}
+          isLoading={isPending}
+          emptyMessage="Teacher is not available"
+          actions={{
+            onDelete: handleDelete,
+            onEdit: handleEdit,
+            onView: handleView
+          }}
 
-      />
+        />
 
-      {
-        teachers?.meta && (
-          <AppPagination meta={{
-            page: teachers.meta.page,
-            total: teachers.meta.total,
-            totalPages: teachers.meta.totalPages,
-            limit: teachers.meta.limit,
-          }} />
-        )
-      }
+        {
+          teachers?.meta && (
+            <AppPagination meta={{
+              page: teachers.meta.page,
+              total: teachers.meta.total,
+              totalPages: teachers.meta.totalPages,
+              limit: teachers.meta.limit,
+            }} />
+          )
+        }
 
-      {
-        open && (
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="!max-w-3xl overflow-y-scroll ">
-              <DialogHeader>
-                <DialogTitle>Update Teacher</DialogTitle>
-              </DialogHeader>
+        {
+          open && (
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="!max-w-3xl overflow-y-scroll ">
+                <DialogHeader>
+                  <DialogTitle>Update Teacher</DialogTitle>
+                </DialogHeader>
 
-              <CreateTeacherForm onClose={() => setOpen(false)} mode='edit' initialData={selectedTeacher} />
-            </DialogContent>
-          </Dialog>
-        )
-      }
-      {
-        openProfile && singleTeacher && (
-          <Dialog open={openProfile} onOpenChange={setOpenProfile}>
-            <DialogContent className="!max-w-5xl !h-screen overflow-y-scroll ">
-              {/* <DialogHeader>
+                <CreateTeacherForm onClose={() => setOpen(false)} mode='edit' initialData={selectedTeacher} />
+              </DialogContent>
+            </Dialog>
+          )
+        }
+        {
+          openProfile && singleTeacher && (
+            <Dialog open={openProfile} onOpenChange={setOpenProfile}>
+              <DialogContent className="!max-w-5xl !h-screen overflow-y-scroll ">
+                {/* <DialogHeader>
                 <DialogTitle>Update Subject</DialogTitle>
               </DialogHeader> */}
 
-              <TeacherProfileFull teacher={singleTeacher} />
-            </DialogContent>
-          </Dialog>
-        )
-      }
+                <TeacherProfileFull teacher={singleTeacher} />
+              </DialogContent>
+            </Dialog>
+          )
+        }
 
-    </>
-  )
-}
+      </>
+    )
+  }
 
-export default TeacherTable
+  export default TeacherTable

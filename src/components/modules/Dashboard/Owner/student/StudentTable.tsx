@@ -12,10 +12,11 @@ import { useState } from "react";
 import CreateStudentFormPage from "../Form/CreateStudentForm";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
-import { ca } from "zod/v4/locales";
+import { useRouter } from "next/navigation";
 
 const StudentTable = ({ query }: { query?: string }) => {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
+  const router = useRouter();
   const [selectedStudent, setSelectedStudent] = useState<IStudent | null>(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const { data: students, isPending } = useQuery({
@@ -120,8 +121,7 @@ const StudentTable = ({ query }: { query?: string }) => {
   }
 
   const handleStudentView = (data: IStudent) => {
-    // setSelectedStudent(data);
-    setIsViewModalOpen(!isViewModalOpen);
+    router.push(`/dashboard/owner/student/profile/${data.id}`);
     console.log("View student with ID:", data.id);
   }
 

@@ -1,7 +1,7 @@
 "use server"
 
 import { httpClient } from "@/lib/httpClient/axios";
-import { ICreateStudent, IStudentResponse, IStudentUpdate } from "@/types/student.type";
+import { ICreateStudent, IStudentResponse, IStudentUpdate, SingleStudent } from "@/types/student.type";
 
 export const createStudent = async (payload: ICreateStudent) => {
     try {
@@ -34,7 +34,7 @@ export const getAllStudents = async (query?: string) => {
 export const getStudentById = async (id: string) => {
     try {
         const response = await httpClient.get(`/student/${id}`);
-        return response.data;
+        return response.data as SingleStudent
     } catch (error) {
         console.error("Error fetching student:", error);
         throw error;

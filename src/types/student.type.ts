@@ -87,3 +87,42 @@ export interface IStudentResponse {
     data: IStudent[];
     meta?: Meta;
 }
+
+export interface StudentFee {
+  id: string;
+  amount: number;
+  paidAmount: number;
+  dueAmount: number;
+  paymentStatus: string;
+}
+
+export interface BatchStudent {
+  id: string;
+  batchId: string;
+  status: string;
+}
+
+export interface CoachingCenter {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+}
+
+export interface SingleStudent {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  address: string | null;
+  image: string | null;
+  rollNumber: string;
+  gender: string;
+  bloodGroup: string | null;
+  dateOfBirth: string;
+  status: string;
+  coachingCenter?: CoachingCenter;
+  studentFees: StudentFee[];
+  batchStudents: BatchStudent[];
+}
