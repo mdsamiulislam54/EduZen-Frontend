@@ -1,18 +1,27 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
-import { getOwnerDashboardData } from './_actions';
+import { getOwnerDashboardChartData, getOwnerDashboardData } from './_actions';
 import OwnerDashboardCardPage from '@/components/modules/Dashboard/Owner/DashboardCard/OwnerDashboardCard';
+import ChartData from '@/components/modules/Dashboard/Owner/DashboardCard/ChartData';
 
-const OwnerPage = () => {
+const OwnerPage = async () => {
     const queryClient = new QueryClient();
-    queryClient.prefetchQuery({
-        queryKey: ['owner-dashboard-data'],
-        queryFn: async () => await getOwnerDashboardData()
-    })
+    Promise.all([
+        queryClient.prefetchQuery({
+            queryKey: ["ownerDashboardData"],
+            queryFn: async () => await getOwnerDashboardData()
+        }),
+        queryClient.prefetchQuery({
+            queryKey: ["ownerDashboardChartData"],
+            queryFn: async () => await getOwnerDashboardChartData()
+        })
+    ])
+
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <div>
-               <OwnerDashboardCardPage/>
+                <OwnerDashboardCardPage />
+                <ChartData />
             </div>
         </HydrationBoundary>
     )

@@ -13,15 +13,15 @@ import Swal from "sweetalert2"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
-const BatchTablePage = () => {
+const BatchTablePage = ({ query }: { query?: string }) => {
 
     const queryClient = new QueryClient();
     const router = useRouter()
     const [selectedBatch, setSelectedBatch] = useState<IBatch | null>(null);
     const [open, setOpen] = useState(false)
     const { data: batch, isPending } = useQuery({
-        queryKey: ["batch"],
-        queryFn: async () => await getAllBatch()
+        queryKey: ["batch", query],
+        queryFn: async () => await getAllBatch(query)
     })
 
     const { mutate: deleteMutate } = useMutation({

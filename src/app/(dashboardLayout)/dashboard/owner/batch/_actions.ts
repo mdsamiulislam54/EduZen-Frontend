@@ -8,9 +8,9 @@ export interface IBatchResponse {
     message: string
 }
 
-export const getAllBatch = async () => {
+export const getAllBatch = async (query?:string) => {
     try {
-        const res = await httpClient.get<IBatchResponses>("/batch",)
+        const res = await httpClient.get<IBatchResponses>(query ? `/batch?${query}` : "/batch")
         return {
             data: res.data.data,
             meta: res.data.meta,

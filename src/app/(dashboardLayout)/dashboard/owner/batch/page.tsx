@@ -5,13 +5,17 @@ import BatchTablePage from "@/components/modules/Dashboard/Owner/Batch/BatchTabl
 import CreateBatchButton from "@/components/modules/Dashboard/Owner/Batch/CreateBatchButton"
 import { Card } from "@/components/ui/card"
 import TableQueryController from "@/shared/Table/QueryController/TableQueryController"
+import { unknown } from "zod"
+import { buildQueryString } from "@/lib/utils"
 
 
-const BatchPage = async () => {
+const BatchPage = async ({ params }: { params: Promise<{ [key: string]: string | string[] | undefined }> }) => {
+    const queryParams = await params;
+    const queryString = buildQueryString(queryParams);
     const queryClient = new QueryClient()
     await queryClient.prefetchQuery({
-        queryKey: ["batch"],
-        queryFn: async () => await getAllBatch()
+        queryKey: ["batch", queryString],
+        queryFn: async () => await getAllBatch(queryString)
     })
 
     return (
@@ -25,10 +29,11 @@ const BatchPage = async () => {
                     </div>
                 </Card>
                 <TableQueryController
-                    searchKey='search'
+                    searchKey="search"
                     sortKey="sortOrder"
                 />
-                <BatchTablePage />
+
+                <BatchTablePage query={queryString} />
             </div>
         </HydrationBoundary>
     )

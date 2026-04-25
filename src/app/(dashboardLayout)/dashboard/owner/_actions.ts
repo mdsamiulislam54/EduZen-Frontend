@@ -8,7 +8,13 @@ interface OwnerDashboardData {
     totalTeachers: number;
     totalSubjects: number;
 }
-export const getOwnerDashboardData = async ():Promise<{ success: boolean; data?: OwnerDashboardData; message?: string }> => {
+
+interface OwnerDashboardChartData {
+    date: string;
+    count: number;
+    totalFee:number;
+}
+export const getOwnerDashboardData = async (): Promise<{ success: boolean; data?: OwnerDashboardData; message?: string }> => {
     try {
         const response = await httpClient.get("/coaching/owner/dashboard");
         return {
@@ -20,6 +26,23 @@ export const getOwnerDashboardData = async ():Promise<{ success: boolean; data?:
         return {
             success: false,
             message: "Failed to fetch dashboard data"
+        }
+    }
+};
+
+export const getOwnerDashboardChartData = async (): Promise<{ success: boolean; data?: OwnerDashboardChartData[]; message?: string }> => {
+    try {
+        const response = await httpClient.get("/coaching/owner/dashboard/student-growth");
+        return {
+            success: true,
+            data: response.data as OwnerDashboardChartData[]
+        }
+    } catch (error) {
+
+        console.log("Error fetching owner dashboard chart data:", error);
+        return {
+            success: false,
+            message: "Failed to fetch dashboard chart data"
         }
     }
 }
