@@ -1,5 +1,13 @@
+"use client"
+
+import Loader from "@/components/modules/Loader/loader"
+
 export default function Loading() {
-  return <p>Loading...</p>
+  return (
+    <div>
+      <Loader/>
+    </div>
+  )
 }
 
 

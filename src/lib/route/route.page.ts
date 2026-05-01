@@ -93,7 +93,7 @@ export const teacherRoutes: IRoutePage[] = [
   },
   {
     title: "My Classes",
-    url: "/dashboard/teacher/classes",
+    url: "/dashboard/teacher/my-class",
     icon: BookOpen,
   },
   {
