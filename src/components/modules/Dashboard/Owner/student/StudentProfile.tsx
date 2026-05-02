@@ -4,22 +4,33 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { BatchStudent, SingleStudent, StudentFee } from "@/types/student.type";
+import { BatchStudent, StudentFee } from "@/types/student.type";
 import { useQuery } from "@tanstack/react-query";
-import { get } from "http";
 import { getStudentById } from "@/app/(dashboardLayout)/dashboard/owner/student/_actions";
 import ErrorState from "@/components/modules/Error/Error";
 import Loader from "@/components/modules/Loader/loader";
+import { getAttendanceByStudentId } from "@/app/(dashboardLayout)/dashboard/teacher/attendance/_actions";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import AttendancePage from "./AttendancePage";
+import { useState } from "react";
 
 interface StudentProfileProps {
-  id: string
+  id: string,
+  queryString: string
 }
 
-export default function StudentProfile({ id }: StudentProfileProps) {
+export default function StudentProfile({ id, queryString }: StudentProfileProps) {
+
+  const [isOpen, setIsOpen] = useState(false)
   const { data: student, isPending, isError } = useQuery({
     queryKey: ["student", id],
     queryFn: async () => await getStudentById(id)
   })
+
+  const { data: attendance } = useQuery({
+    queryKey: ["attendance-student", queryString],
+    queryFn: async () => await getAttendanceByStudentId(student?.id as string, queryString)
+  });
 
   if (isPending) return <Loader length={1} />;
   if (isError) return <ErrorState message="Failed to load student data" />;
@@ -31,9 +42,10 @@ export default function StudentProfile({ id }: StudentProfileProps) {
     ?.split(" ")
     .map((n: string) => n[0])
     .join("");
-  console.log("Student data:", student);
   return (
     <div className="w-full min-h-screen bg-background text-foreground">
+
+      {/* {JSON.stringify(attendance)} */}
       {/* Banner */}
       <div className="relative h-48 md:h-64 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
         {student.image && (
@@ -72,7 +84,11 @@ export default function StudentProfile({ id }: StudentProfileProps) {
 
         {/* Action Buttons */}
         <div className="flex gap-3 mt-4 flex-wrap">
-          <button className="px-4 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90">
+          <button
+            onClick={() => {
+              setIsOpen(!isOpen)
+            }}
+            className="px-4 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90">
             View Attendance
           </button>
           <button className="px-4 py-2 rounded-md bg-secondary text-secondary-foreground hover:opacity-90">
@@ -150,6 +166,26 @@ export default function StudentProfile({ id }: StudentProfileProps) {
           </CardContent>
         </Card>
       </div>
+
+      {
+        attendance && isOpen && (
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogContent className="!max-w-3xl overflow-y-scroll ">
+              <DialogHeader>
+                <DialogTitle>Update Student</DialogTitle>
+              </DialogHeader>
+
+              <AttendancePage data={attendance?.data} meta={{
+                page: attendance.meta?.page ?? 0,
+                limit: 2,
+                total: attendance.meta?.total ?? 0,
+                totalPages: attendance.meta?.totalPages ?? 0
+              }} />
+            </DialogContent>
+          </Dialog>
+        )
+      }
+
     </div>
   );
 }

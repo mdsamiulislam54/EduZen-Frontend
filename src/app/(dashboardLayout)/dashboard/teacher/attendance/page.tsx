@@ -1,5 +1,4 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
-import { getAllStudents } from "../../owner/student/_actions";
 import { getAllBatch } from "../../owner/batch/_actions";
 import NavbarAttendancePage from "@/components/modules/Dashboard/Teacher/Attendance/Navabar_Attendance";
 import { buildQueryString } from "@/lib/utils";

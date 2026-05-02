@@ -2,6 +2,7 @@
 import { AxiosError } from "axios";
 import { httpClient } from "@/lib/httpClient/axios"
 import { Meta } from "@/types/subject.type"
+import { IStudentAttendanceResponse } from "@/types/attendance.type";
 export interface IAttendanceStudent {
     data: {
         name: string,
@@ -64,4 +65,21 @@ export const getAllStudentAttendance = async (id: string, query?: string) => {
         throw new Error("Something went wrong");
     }
 };
+export const getAttendanceByStudentId = async (studentId: string, query?: string) => {
+    try {
+        const res = await httpClient.get<IStudentAttendanceResponse>(query ? `/attendance/${studentId}?${query}` : `/attendance/${studentId}`);
 
+        return {
+            data: res?.data?.data,
+            meta: res?.data?.meta
+        }
+
+
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message)
+            throw new Error(error?.message)
+        }
+        throw new Error("Something went wrong");
+    }
+}

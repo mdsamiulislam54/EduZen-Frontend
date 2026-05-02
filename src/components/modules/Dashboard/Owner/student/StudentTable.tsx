@@ -155,7 +155,7 @@ const StudentTable = ({ query }: { query?: string }) => {
           <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
             <DialogContent className="!max-w-3xl overflow-y-scroll ">
               <DialogHeader>
-                <DialogTitle>Update Student</DialogTitle>
+                <DialogTitle> Student Attendance</DialogTitle>
               </DialogHeader>
 
               <CreateStudentFormPage mode="edit" initialData={selectedStudent} onClose={() => setIsViewModalOpen(false)} />
