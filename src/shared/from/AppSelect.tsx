@@ -25,7 +25,7 @@ const AppSelect = ({ field, label, options, className }: AppSelectProps) => {
       </Label>
 
       <select
-        value={field.state.value}
+        value={field.state.value??""}
         onChange={(e) => field.handleChange(e.target.value)}
         onBlur={field.handleBlur}
         className={cn(
@@ -47,7 +47,7 @@ const AppSelect = ({ field, label, options, className }: AppSelectProps) => {
         <option value="">Select {label}</option>
 
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
+          <option key={opt.value} value={opt.value??""}>
             {opt.label}
           </option>
         ))}

@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { ArrowUpDown, Filter, X } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 
 interface Props {
@@ -25,12 +26,10 @@ const TableQueryController = ({
     filterOptions = [],
 }: Props) => {
     const { searchParams, updateParams } = useQueryParams();
+    const [search, setSearch] = useState(searchParams.get(searchKey as string) ?? "");
     const router = useRouter()
     const clearParams = () => {
-        const url = new URL(window.location.href);
-        url.search = "";
-        window.history.pushState({}, "", url.toString());
-        router.push(url.pathname)
+        router.push(window.location.pathname);
     };
 
     const hasQuery = searchParams.toString().length > 0;
@@ -43,8 +42,7 @@ const TableQueryController = ({
                     {searchKey && (
                         <Input
                             placeholder="Search..."
-                            defaultValue={searchParams.get(searchKey) ?? ""}
-                            onChange={(e) => updateParams(searchKey, e.target.value)}
+                            onChange={(e) => updateParams(searchKey, e.target.value ?? "")}
                         />
                     )}
                 </div>
@@ -57,7 +55,7 @@ const TableQueryController = ({
                             <Filter className="w-4 h-4 text-muted-foreground" />
 
                             <Select
-                                defaultValue={searchParams.get(filterKey) ?? ""}
+                                value={searchParams.get(filterKey) ?? ""}
                                 onValueChange={(value) => {
 
                                     if (value === "all") {
@@ -68,14 +66,14 @@ const TableQueryController = ({
                                 }}
 
                             >
-                                <SelectTrigger className="w-[180px]">
+                                <SelectTrigger className="w-45">
                                     <SelectValue placeholder="Filter" />
                                 </SelectTrigger>
 
                                 <SelectContent>
                                     <SelectItem value="all">All</SelectItem>
                                     {filterOptions.map((opt) => (
-                                        <SelectItem key={opt.value} value={opt.value}>
+                                        <SelectItem key={opt.value} value={opt.value ?? ""}>
                                             {opt.label}
                                         </SelectItem>
                                     ))}

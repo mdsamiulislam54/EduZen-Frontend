@@ -25,7 +25,7 @@ const AppRadioGroup = ({ field, label, options }: Props) => {
             <input
               type="radio"
               name={field.name}
-              value={opt.value}
+              value={opt.value??""}
               checked={field.state.value === opt.value}
               onChange={() => field.handleChange(opt.value)}
               onBlur={field.handleBlur}

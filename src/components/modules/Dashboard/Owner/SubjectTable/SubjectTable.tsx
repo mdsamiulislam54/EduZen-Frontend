@@ -15,16 +15,6 @@ import { DialogContent, DialogHeader, Dialog, DialogTitle } from '@/components/u
 import { useRouter } from 'next/navigation'
 import AppPagination from '@/shared/pagination/AppPagination'
 
-
-/**
- * 
- * @returns   id:string,
-    coachingCenterId: string,
-    name:string,
-    subject_code: string,
-    status: SubjectStatus,
- */
-
 const SubjectTablePage = ({ queryString }: { queryString: string }) => {
     const queryClient = new QueryClient();
     const [open, setOpen] = useState(false);

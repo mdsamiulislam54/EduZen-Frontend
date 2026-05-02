@@ -180,19 +180,19 @@ const AttendanceForm = ({ students, batchId, markBy }: IAttendanceProps) => {
 
                             {/* Hidden fields */}
                             <form.Field name={`attendance[${index}].studentId`}>
-                                {(field) => <input type="hidden" value={field.state.value} />}
+                                {(field) => <input type="hidden" value={field.state.value??""} />}
                             </form.Field>
 
                             <form.Field name={`attendance[${index}].batchId`}>
-                                {(field) => <input type="hidden" value={field.state.value} />}
+                                {(field) => <input type="hidden" value={field.state.value??""} />}
                             </form.Field>
 
                             <form.Field name={`attendance[${index}].date`}>
-                                {(field) => <input type="hidden" value={field.state.value.toString()} />}
+                                {(field) => <input type="hidden" value={field.state.value.toString()??""} />}
                             </form.Field>
 
                             <form.Field name={`attendance[${index}].markBy`}>
-                                {(field) => <input type="hidden" value={field.state.value} />}
+                                {(field) => <input type="hidden" value={field.state.value??""} />}
                             </form.Field>
 
                         </div>
