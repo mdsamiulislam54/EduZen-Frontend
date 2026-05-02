@@ -62,19 +62,19 @@ const ExamTablePage = ({ queryString }: IExamTableProps) => {
 
                 const statusMap: Record<
                     ExamStatus,
-                    { label: string; variant: BadgeVariant }
+                    { label: string; variant: BadgeVariant, className?: string }
                 > = {
-                    UPCOMING: { label: "Upcoming", variant: "secondary" },
-                    ONGOING: { label: "Ongoing", variant: "ghost" },
-                    COMPLETED: { label: "Completed", variant: "outline" },
-                    CANCELLED: { label: "Cancelled", variant: "destructive" },
+                    UPCOMING: { label: "Upcoming", variant: "secondary", className: "bg-purple-800 text-white border-blue-200" },
+                    ONGOING: { label: "Ongoing", variant: "ghost", className: "bg-yellow-100 text-yellow-700 border-yellow-200" },
+                    COMPLETED: { label: "Completed", variant: "outline", className: "bg-green-100 text-green-700 border-green-200" },
+                    CANCELLED: { label: "Cancelled", variant: "destructive", className: "bg-red-100 text-red-700 border-red-200" },
                 };
 
 
                 const current = statusMap[status];
 
                 return (
-                    <Badge variant={current.variant}>
+                    <Badge variant={current.variant} className={current.className}>
                         {current.label}
                     </Badge>
                 );
@@ -85,6 +85,7 @@ const ExamTablePage = ({ queryString }: IExamTableProps) => {
         { accessorKey: "actions", header: "Actions" }
 
     ]
+
 
 
     return (

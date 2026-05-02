@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import CreateExamFormPage from "../Form/ExamCreateForm"
 
 
 
@@ -21,12 +22,12 @@ const CreateExamButton = () => {
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="!max-w-3xl ">
           <DialogHeader>
             <DialogTitle>Create Exam</DialogTitle>
           </DialogHeader>
 
-          {/* <CreateSubjectForm onClose={() => setOpen(false)} /> */}
+          <CreateExamFormPage onClose={()=> setOpen(!open)}/>
         </DialogContent>
       </Dialog>
     </>

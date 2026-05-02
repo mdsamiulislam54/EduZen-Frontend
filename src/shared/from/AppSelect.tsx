@@ -4,7 +4,7 @@ import { AnyFieldApi } from "@tanstack/react-form";
 
 type Option = {
   label: string;
-  value: string;
+  value: string | number;
 };
 
 type AppSelectProps = {
@@ -25,8 +25,12 @@ const AppSelect = ({ field, label, options, className }: AppSelectProps) => {
       </Label>
 
       <select
-        value={field.state.value??""}
-        onChange={(e) => field.handleChange(e.target.value)}
+        value={field.state.value ?? ""}
+        onChange={(e) => {
+          const val = e.target.value;
+          const parsedValue = typeof options[0]?.value === "number" ? Number(val) : val;
+          field.handleChange(parsedValue);
+        }}
         onBlur={field.handleBlur}
         className={cn(
           "w-full rounded-md px-3 py-2 border transition-colors",
@@ -44,10 +48,10 @@ const AppSelect = ({ field, label, options, className }: AppSelectProps) => {
           error && "border-destructive focus:ring-destructive"
         )}
       >
-        <option value="">Select {label}</option>
+        {/* <option value="">Select {label}</option> */}
 
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value??""}>
+          <option key={opt.value} value={opt.value ?? ""}>
             {opt.label}
           </option>
         ))}

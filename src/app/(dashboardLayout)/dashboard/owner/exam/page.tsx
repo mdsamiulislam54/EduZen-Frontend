@@ -5,20 +5,34 @@ import ExamTablePage from "@/components/modules/Dashboard/Owner/Exam/ExamTable";
 import { Card } from "@/components/ui/card";
 import TableQueryController from "@/shared/Table/QueryController/TableQueryController";
 import CreateExamButton from "@/components/modules/Dashboard/Owner/Exam/CreateExamButton";
+import { getAllBatch } from "../batch/_actions";
+import { getAllSubject } from "../subject/_actions";
 
 
 
 const ExamPage = async ({ searchParams }: {
-    searchParams: Promise<{[key: string]: string | string[] | undefined;}>}) => {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined; }>
+}) => {
 
     const queryString = buildQueryString(await searchParams);
 
     const queryClient = new QueryClient()
 
-    await queryClient.prefetchQuery({
-        queryKey: ["exam", queryString],
-        queryFn: () => getAllExam(queryString)
-    })
+    await Promise.all([
+        queryClient.prefetchQuery({
+            queryKey: ["exam", queryString],
+            queryFn: () => getAllExam(queryString)
+        }),
+        queryClient.prefetchQuery({
+            queryKey: ["batch"],
+            queryFn: () => getAllBatch()
+        }),
+        queryClient.prefetchQuery({
+            queryKey: ["subject"],
+            queryFn: () => getAllSubject()
+        }),
+
+    ])
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>

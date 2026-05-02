@@ -8,7 +8,7 @@ export type ExamStatus = "UPCOMING" | "ONGOING" | "COMPLETED" | "CANCELLED"
 export interface IExam {
     id: string,
     batchId: string,
-    subjectsId: string,
+    subjectId: string,
     name: string,
     totalMarks: number,
     passMarks: number,
@@ -19,13 +19,14 @@ export interface IExam {
 }
 export interface ICreateExam {
     batchId: string,
-    subjectsId: string,
+    subjectId: string,
     name: string,
     totalMarks: number,
     passMarks: number,
     examDate: string,
     startTime: string,
-    endTime: string
+    endTime: string,
+    status: ExamStatus
 }
 interface IExamResponse {
     data: IExam[],
@@ -36,6 +37,7 @@ export const createExam = async (payload: ICreateExam) => {
         const res = await httpClient.post(`/exam`, payload);
         return res.data;
     } catch (error) {
+        console.log(error)
         if (error instanceof AxiosError) {
             const message = error.response?.data.message || "something is wrong!"
             throw new Error(message)
@@ -48,7 +50,7 @@ export const createExam = async (payload: ICreateExam) => {
 
 export const getAllExam = async (query?: string) => {
     try {
-        console.log({query})
+        console.log({ query })
         const res = await httpClient.get<IExamResponse>(query ? `/exam?${query}` : `/exam`);
         return {
             data: res?.data?.data,
