@@ -80,6 +80,7 @@ const TeacherTable = ({ queryString }: ITeacherProps) => {
     setSelectedTeacherId(data.id)
   }
   const handleEdit = async (data: ITeacher) => {
+    console.log(data)
     setSelectedTeacher(data)
     setOpen(true)
     console.log(data)

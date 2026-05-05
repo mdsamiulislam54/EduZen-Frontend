@@ -117,12 +117,11 @@ const StudentTable = ({ query }: { query?: string }) => {
   const handleStudentEdit = (data: IStudent) => {
     setSelectedStudent(data);
     setIsViewModalOpen(!isViewModalOpen);
-    console.log("Edit student with ID:", data);
   }
 
   const handleStudentView = (data: IStudent) => {
     router.push(`/dashboard/owner/student/profile/${data.id}`);
-    console.log("View student with ID:", data.id);
+
   }
 
 
@@ -143,12 +142,9 @@ const StudentTable = ({ query }: { query?: string }) => {
 
       />
 
-      <AppPagination meta={students?.meta ?? {
-        totalPages: 0,
-        page: 0,
-        limit: 0,
-        total: 0
-      }} />
+      {students && students.meta && (
+        <AppPagination meta={students.meta} />
+      )}
 
       {
         isViewModalOpen && (

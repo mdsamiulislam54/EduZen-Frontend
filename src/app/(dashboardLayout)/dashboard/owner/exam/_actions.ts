@@ -18,6 +18,7 @@ export interface IExam {
     status: ExamStatus
 }
 export interface ICreateExam {
+    id?: string
     batchId: string,
     subjectId: string,
     name: string,
@@ -27,6 +28,17 @@ export interface ICreateExam {
     startTime: string,
     endTime: string,
     status: ExamStatus
+}
+export interface IUpdateExam {
+    batchId?: string,
+    subjectId?: string,
+    name?: string,
+    totalMarks?: number,
+    passMarks?: number,
+    examDate?: string,
+    startTime?: string,
+    endTime?: string,
+    status?: ExamStatus
 }
 interface IExamResponse {
     data: IExam[],
@@ -68,5 +80,38 @@ export const getAllExam = async (query?: string) => {
                 limit: 10,
             },
         };
+    }
+}
+
+export const updateExam = async (id: string, payload: Partial<IUpdateExam>) => {
+    try {
+        const res = await httpClient.patch(`/exam/${id}`, payload);
+        return res.data;
+    } catch (error) {
+        console.log(error)
+        if (error instanceof AxiosError) {
+            const message = error.response?.data.message || "something is wrong!"
+            throw new Error(message)
+        }
+
+        throw error
+
+    }
+}
+
+export const deleteExamById = async (id: string) => {
+    try {
+        const res = await httpClient.delete(`/exam/${id}`);
+        return res.data
+
+    } catch (error) {
+        console.log(error)
+        if (error instanceof AxiosError) {
+            const message = error.response?.data.message || "something is wrong!"
+            throw new Error(message)
+        }
+
+        throw error
+
     }
 }

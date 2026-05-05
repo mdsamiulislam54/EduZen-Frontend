@@ -13,19 +13,22 @@ import Loader from "@/components/modules/Loader/loader"
 
 const NavbarAttendancePage = ({ queryString }: { queryString: string }) => {
     const [selectedBatchId, setSelectedBatchId] = useState("");
+    const [openAttendance, setOpenAttendance] = useState(false);
     const { data: batch } = useQuery({
         queryKey: ["batch"],
         queryFn: async () => await getAllBatch()
     })
 
-    const { data: students, isPending } = useQuery({
+    const { data: students, isPending, isFetching, } = useQuery({
         queryKey: ["student", selectedBatchId, queryString],
-        queryFn: async () => await getAllStudentAttendance(selectedBatchId, queryString)
-        
-    })
+        queryFn: async () => {
+            return await getAllStudentAttendance(selectedBatchId, queryString);
+        },
+        enabled: !!selectedBatchId,
+    });
 
 
-  
+
     return (
         <div>
             <nav>
@@ -45,26 +48,25 @@ const NavbarAttendancePage = ({ queryString }: { queryString: string }) => {
                             </SelectContent>
                         </Select>
 
-                        <Button >
+                        <Button
+                            disabled={!selectedBatchId}
+                            onClick={() => setOpenAttendance(true)}
+                        >
                             Add Attendance
                         </Button>
                     </div>
                 </Card>
             </nav>
 
-          
 
-            {
-                isPending && (
-                    <Loader />
-                )
-            }
+            {isFetching && !students?.data && <Loader />}
 
-            {
-                students && (
-                    <AttendanceForm students={students?.data} batchId={selectedBatchId} />
-                )
-            }
+            { openAttendance && selectedBatchId && students?.data && (
+                <AttendanceForm
+                    students={students.data}
+                    batchId={selectedBatchId}
+                />
+            )}
 
             {
                 students?.meta && (

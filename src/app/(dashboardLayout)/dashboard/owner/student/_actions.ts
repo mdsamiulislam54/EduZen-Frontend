@@ -15,18 +15,20 @@ export const createStudent = async (payload: ICreateStudent) => {
 
 export const getAllStudents = async (query?: string) => {
     try {
-        console.log("Fetching students with query:", query);
-        const response = await httpClient.get<IStudentResponse>(query ? `/student?${query}` : "/student");
+        const url = query ? `/student?${query}` : "/student";
+        const response = await httpClient.get<IStudentResponse>(url);
         return {
-            data: response.data.data,
-            meta: response.data.meta
+            data: response.data.data ?? [],
+            meta: response.data.meta ?? {
+                totalPages: 0,
+                page: 1,
+                limit: 10,
+                total: 0,
+            },
         }
     } catch (error) {
         console.error("Error fetching students:", error);
-        return {
-            data: [],
-            meta: null
-        };
+        throw error;
 
     }
 }
@@ -53,7 +55,7 @@ export const updateStudent = async (id: string, payload: Partial<IStudentUpdate>
 
 export const deleteStudent = async (id: string) => {
     try {
-        const response = await httpClient.patch(`/student/delete/${id}`,{});
+        const response = await httpClient.patch(`/student/delete/${id}`, {});
         return response.data;
     } catch (error) {
         console.error("Error delete student:", error);

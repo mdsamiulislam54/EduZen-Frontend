@@ -67,7 +67,8 @@ export const getAllStudentAttendance = async (id: string, query?: string) => {
 };
 export const getAttendanceByStudentId = async (studentId: string, query?: string) => {
     try {
-        const res = await httpClient.get<IStudentAttendanceResponse>(query ? `/attendance/${studentId}?${query}` : `/attendance/${studentId}`);
+        const url = query ? `/attendance/${studentId}?${query}` : `/attendance/${studentId}`
+        const res = await httpClient.get<IStudentAttendanceResponse>(url);
 
         return {
             data: res?.data?.data,

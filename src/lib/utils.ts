@@ -36,3 +36,16 @@ export const toBdISOString = (value: string | Date | null|  undefined): string =
 
   return localTime
 }
+
+
+export const formatTime = (isoString?: string) => {
+    if (!isoString) return "";
+
+    const date = new Date(isoString);
+    return date.toISOString().slice(11, 16); // HH:mm
+};
+
+ export const formatDate = (isoString?: string) => {
+    if (!isoString) return "";
+    return new Date(isoString).toISOString().split("T")[0];
+};

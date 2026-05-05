@@ -1,6 +1,6 @@
 "use client"
 import { createSubject } from '@/app/(dashboardLayout)/dashboard/owner/create-subject/_actions';
-import { createExam, ICreateExam } from '@/app/(dashboardLayout)/dashboard/owner/exam/_actions';
+import { createExam, ICreateExam, IUpdateExam, updateExam } from '@/app/(dashboardLayout)/dashboard/owner/exam/_actions';
 import { getAllSubject, updateSubject } from '@/app/(dashboardLayout)/dashboard/owner/subject/_actions';
 import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
@@ -44,23 +44,19 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
 
 
     const { mutateAsync: updateMutate, isPending: updateIsPending } = useMutation({
-        mutationKey: ["update-subject"],
-        mutationFn: async (data: Partial<ISubject> & { id?: string }) => updateSubject(data, data.id!),
-        onError: (error) => {
-            toast.error("Failed to Update subject: " + error.message);
-        },
-        onSuccess: () => {
-            toast.success("Subject  Update Successfully");
-            onClose()
-            form.reset();
-        }
+        mutationKey: ["update-exam"],
+        mutationFn: async (data: Partial<IUpdateExam> & { id?: string }) => updateExam(data.id!, data,),
+        
     })
     const form = useForm({
         defaultValues: getExamDefaultValue(mode, initialData as ICreateExam),
         onSubmit: async ({ value }) => {
             try {
                 if (mode === "edit") {
-                    // await updateMutate({ ...value, id: initialData?.id })
+                    await updateMutate({ ...value, id: initialData?.id })
+                    toast.success("Exam Update Successfully!")
+                    onClose()
+                    queryClient.invalidateQueries({ queryKey: ["exam"] })
                     router.push(window.location.href)
                 } else {
                     console.log(value)
@@ -150,8 +146,7 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
                                 (filed) => (
                                     <AppField
                                         field={filed}
-                                        label='Subject Name'
-                                        placeholder='Enter Subject Name'
+                                        label='Exam Date'
                                         type="date"
                                         className="space-y-4"
 
@@ -293,7 +288,7 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
                                         { label: "ONGOING", value: "ONGOING" },
                                         { label: "COMPLETED", value: "COMPLETED" },
                                         { label: "CANCELLED", value: "CANCELLED" },
-                                    
+
                                     ]}
                                 />
 

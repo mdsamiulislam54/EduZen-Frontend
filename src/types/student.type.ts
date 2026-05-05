@@ -1,7 +1,5 @@
-import { UserStatus } from "./owner.type";
-import { Meta } from "./subject.type";
-import { Gender } from "./teacher.type";
 
+import { Meta } from "./subject.type";
 export enum StudentStatus {
     ACTIVE = "ACTIVE",
     INACTIVE = "INACTIVE",

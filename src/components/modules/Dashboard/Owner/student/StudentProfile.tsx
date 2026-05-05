@@ -13,13 +13,18 @@ import { getAttendanceByStudentId } from "@/app/(dashboardLayout)/dashboard/teac
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import AttendancePage from "./AttendancePage";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 interface StudentProfileProps {
   id: string,
-  queryString: string
+  queryString?: string
 }
 
-export default function StudentProfile({ id, queryString }: StudentProfileProps) {
+export default function StudentProfile({ id }: StudentProfileProps) {
+
+  const params = useSearchParams()
+  
+  const queryString = params.toString()
 
   const [isOpen, setIsOpen] = useState(false)
   const { data: student, isPending, isError } = useQuery({
@@ -29,7 +34,7 @@ export default function StudentProfile({ id, queryString }: StudentProfileProps)
 
   const { data: attendance } = useQuery({
     queryKey: ["attendance-student", queryString],
-    queryFn: async () => await getAttendanceByStudentId(student?.id as string, queryString)
+    queryFn: async () => await getAttendanceByStudentId(student?.id as string , queryString)
   });
 
   if (isPending) return <Loader length={1} />;

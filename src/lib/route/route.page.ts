@@ -7,6 +7,7 @@ import {
   UserCheck,
   ClipboardList,
   ClipboardListIcon,
+  PenTool,
 } from "lucide-react";
 
 import { IRoutePage } from "@/types/route.type";
@@ -110,6 +111,11 @@ export const teacherRoutes: IRoutePage[] = [
     title: "Attendance",
     url: "/dashboard/teacher/attendance",
     icon: ClipboardList,
+  },
+  {
+    title: "Marks",
+    url: "/dashboard/teacher/marks",
+    icon: PenTool,
   },
 ];
 

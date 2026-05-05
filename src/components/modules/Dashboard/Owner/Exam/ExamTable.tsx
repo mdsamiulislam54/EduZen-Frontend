@@ -1,21 +1,33 @@
 "use client"
 
-import { ExamStatus, getAllExam, IExam } from "@/app/(dashboardLayout)/dashboard/owner/exam/_actions"
+import { deleteExamById, ExamStatus, getAllExam, IExam } from "@/app/(dashboardLayout)/dashboard/owner/exam/_actions"
 import { Badge } from "@/components/ui/badge"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import AppPagination from "@/shared/pagination/AppPagination"
 import DataTable from "@/shared/Table/DataTable"
-import { useQuery } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { CellContext } from "@tanstack/react-table"
+import { useState } from "react"
+import { toast } from "sonner"
+import Swal from "sweetalert2"
+import CreateExamFormPage from "../Form/ExamCreateForm"
+import { useRouter } from "next/navigation"
 
 interface IExamTableProps {
     queryString?: string
 }
 const ExamTablePage = ({ queryString }: IExamTableProps) => {
-
+    const queryClient = new QueryClient();
+    const router = useRouter()
+    const [selectedExam, setSelectedExam] = useState<IExam | null>(null);
+    const [isOpen, setIsOpen] = useState(false)
     const { data: exam, isPending } = useQuery({
         queryKey: ["exam", queryString],
         queryFn: () => getAllExam(queryString),
     });
+    const { mutateAsync: deleteMutate } = useMutation({
+        mutationFn: deleteExamById,
+    })
     const columns = [
         { accessorKey: "name", header: "Name" },
         { accessorKey: "totalMarks", header: "TotalMarks" },
@@ -86,6 +98,41 @@ const ExamTablePage = ({ queryString }: IExamTableProps) => {
 
     ]
 
+    const handleUpdateExam = (data: IExam) => {
+        console.log(data)
+        setSelectedExam(data);
+        setIsOpen(!isOpen)
+    }
+    const handleDelete = async (data: IExam) => {
+        Swal.fire({
+            title: "Are you sure Delete This Exam?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                try {
+                    await deleteMutate(data.id);
+                    return true;
+                } catch (error) {
+                    Swal.showValidationMessage(
+                        `Delete failed: ${(error as Error).message}`
+                    );
+                    return false;
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                toast.success("Exam deleted successfully");
+                queryClient.invalidateQueries({ queryKey: ["exam"] });
+                router.push(window.location.href)
+            }
+
+        });
+    }
 
 
     return (
@@ -96,6 +143,10 @@ const ExamTablePage = ({ queryString }: IExamTableProps) => {
                 isLoading={isPending}
                 emptyMessage="Exam data not available"
                 caption="Exam Table"
+                actions={{
+                    onEdit: handleUpdateExam,
+                    onDelete: handleDelete
+                }}
             />
 
             {
@@ -108,6 +159,20 @@ const ExamTablePage = ({ queryString }: IExamTableProps) => {
                             limit: exam.meta.limit ?? 10,
                         }}
                     />
+                )
+            }
+
+            {
+                isOpen && selectedExam && (
+                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                        <DialogContent className="!max-w-3xl overflow-y-scroll ">
+                            <DialogHeader>
+                                <DialogTitle>Update Teacher</DialogTitle>
+                            </DialogHeader>
+
+                            <CreateExamFormPage onClose={() => setIsOpen(false)} mode='edit' initialData={selectedExam} />
+                        </DialogContent>
+                    </Dialog>
                 )
             }
         </>

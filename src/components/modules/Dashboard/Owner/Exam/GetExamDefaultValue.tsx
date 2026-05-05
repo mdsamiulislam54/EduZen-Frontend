@@ -1,4 +1,5 @@
 import { ExamStatus, ICreateExam } from "@/app/(dashboardLayout)/dashboard/owner/exam/_actions";
+import { formatDate, formatTime } from "@/lib/utils";
 
 export const getExamDefaultValue = (
     mode: "create" | "edit",
@@ -11,9 +12,9 @@ export const getExamDefaultValue = (
             name: initialData?.name ?? "",
             totalMarks: initialData?.totalMarks ?? 0,
             passMarks: initialData?.passMarks ?? 0,
-            examDate: initialData?.examDate ?? "",
-            startTime: initialData?.startTime ?? "",
-            endTime: initialData?.endTime ?? "",
+            examDate: formatDate(initialData?.examDate) ?? "",
+            startTime: formatTime(initialData?.startTime )?? "",
+            endTime: formatTime(initialData?.endTime)?? "",
             status: initialData?.status ?? "UPCOMING" as ExamStatus
         }
     }

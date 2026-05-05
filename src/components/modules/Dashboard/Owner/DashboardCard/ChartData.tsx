@@ -13,6 +13,7 @@ import {
 
 import { useQuery } from "@tanstack/react-query";
 import { getOwnerDashboardChartData } from "@/app/(dashboardLayout)/dashboard/owner/_actions";
+import Loader from "@/components/modules/Loader/loader";
 
 export default function ChartData() {
   const { data: chartData, isLoading } = useQuery({
@@ -23,11 +24,7 @@ export default function ChartData() {
   const data = chartData?.data || [];
 
   if (isLoading) {
-    return (
-      <div className="h-80 w-full rounded-xl border bg-background flex items-center justify-center">
-        Loading...
-      </div>
-    );
+    return <Loader length={1}/>
   }
 
   return (
