@@ -12,14 +12,15 @@ import {
 } from "recharts";
 
 import { useQuery } from "@tanstack/react-query";
-import { getOwnerDashboardChartData } from "@/app/(dashboardLayout)/dashboard/owner/_actions";
 import Loader from "@/components/modules/Loader/loader";
 import ErrorState from "@/components/modules/Error/Error";
+import { getTeacherDashboardChartData } from "@/app/(dashboardLayout)/dashboard/owner/_actions";
 
-export default function ChartData() {
+
+export default function StudentGrowthChartDataTeacherDashboard() {
   const { data: chartData, isLoading,isError } = useQuery({
     queryKey: ["ownerDashboardChartData"],
-    queryFn: getOwnerDashboardChartData,
+    queryFn: getTeacherDashboardChartData,
   });
 
   const data = chartData?.data || [];
@@ -34,7 +35,7 @@ export default function ChartData() {
       <h2 className="text-lg font-semibold mb-4">
        Student Growth & Revenue Over Time
       </h2>
-      
+
 
       <ResponsiveContainer width="100%" height="90%">
         <LineChart data={data}>

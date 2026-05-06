@@ -3,12 +3,7 @@
 import { getClassSchedule } from "@/app/(dashboardLayout)/dashboard/teacher/my-class/_actions"
 import DataTable from "@/shared/Table/DataTable";
 import { useQuery } from "@tanstack/react-query"
-/**
- *  "batchName": "English2026",
-            "day": "MONDAY",
-            "startTime": "2026-03-20T10:00:00.000Z",
-            "endTime": "2026-03-20T12:00:00.000Z"
- */
+
 const Teacher_Class_SchedulePage = () => {
     const { data: classSchedule, isPending } = useQuery({
         queryKey: ["class-schedule"],

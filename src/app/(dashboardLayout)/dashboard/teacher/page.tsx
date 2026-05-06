@@ -2,7 +2,8 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import { getTeacherDashboardCard } from "./_actions"
 import DashboardCardPage from "@/components/modules/Dashboard/Teacher/Dashboard-Teacher/DashboardCard"
 import ChartData from "@/components/modules/Dashboard/Owner/DashboardCard/ChartData"
-import { getOwnerDashboardChartData } from "../owner/_actions"
+import { getOwnerDashboardChartData, getTeacherDashboardChartData } from "../owner/_actions"
+import StudentGrowthChartDataTeacherDashboard from "@/components/modules/Dashboard/Teacher/ChartData/StudentGrowthChartData"
 
 
 const TeacherPage = async () => {
@@ -14,14 +15,14 @@ const TeacherPage = async () => {
     }),
     await queryClient.prefetchQuery({
       queryKey: ["ownerDashboardChartData"],
-      queryFn: async () => await getOwnerDashboardChartData()
+      queryFn: async () => await getTeacherDashboardChartData()
     })
 
   ])
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <DashboardCardPage />
-      <ChartData />
+      <StudentGrowthChartDataTeacherDashboard />
     </HydrationBoundary>
   )
 }
