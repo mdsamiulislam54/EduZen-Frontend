@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BatchStudent, StudentFee } from "@/types/student.type";
@@ -14,6 +14,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import AttendancePage from "./AttendancePage";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { getResultByRollNumber } from "@/app/(dashboardLayout)/dashboard/teacher/marks/_actions";
+import StudentResultPage from "./StudentResultPage";
+import { Button } from "@/components/ui/button";
 
 interface StudentProfileProps {
   id: string,
@@ -23,18 +26,24 @@ interface StudentProfileProps {
 export default function StudentProfile({ id }: StudentProfileProps) {
 
   const params = useSearchParams()
-  
+
   const queryString = params.toString()
 
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenResultPage, setIsOpenResultPage] = useState(false)
   const { data: student, isPending, isError } = useQuery({
     queryKey: ["student", id],
     queryFn: async () => await getStudentById(id)
   })
+  const { data: result, isPending: resultPending, isError: resultError } = useQuery({
+    queryKey: ["result", student?.rollNumber],
+    queryFn: async () => await getResultByRollNumber(student?.rollNumber as string),
+  })
 
   const { data: attendance } = useQuery({
     queryKey: ["attendance-student", queryString],
-    queryFn: async () => await getAttendanceByStudentId(student?.id as string , queryString)
+    queryFn: async () => await getAttendanceByStudentId(student?.id as string, queryString),
+
   });
 
   if (isPending) return <Loader length={1} />;
@@ -47,100 +56,110 @@ export default function StudentProfile({ id }: StudentProfileProps) {
     ?.split(" ")
     .map((n: string) => n[0])
     .join("");
+
   return (
     <div className="w-full min-h-screen bg-background text-foreground">
+      <div className="max-w-6xl mx-auto px-4 space-y-6">
+        {/* PROFILE HEADER */}
+        <Card className="rounded-2xl shadow-lg overflow-hidden py-0">
+          <div className="h-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
 
-      {/* {JSON.stringify(attendance)} */}
-      {/* Banner */}
-      <div className="relative h-48 md:h-64 w-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        {student.image && (
-          <Image
-            src={student.image}
-            alt="banner"
-            fill
-            className="object-cover opacity-30"
-          />
-        )}
-      </div>
+          <CardContent className="p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 -mt-16">
+              {/* LEFT */}
+              <div className="flex items-center gap-4">
+                <Avatar className="w-24 h-24 border-4 border-background shadow-xl">
+                  <AvatarImage src={student.image || ""} />
+                  <AvatarFallback>{initials}</AvatarFallback>
+                </Avatar>
 
-      {/* Profile Section */}
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="-mt-16 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <Avatar className="w-28 h-28 border-4 border-background shadow-xl">
-              <AvatarImage src={student.image || ""} />
-              <AvatarFallback>{initials}</AvatarFallback>
-            </Avatar>
+                <div>
+                  <h1 className="text-2xl font-bold">{fullName}</h1>
+                  <p className="text-muted-foreground text-sm">
+                    Roll: {student.rollNumber || "N/A"}
+                  </p>
 
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold">{fullName}</h1>
-              <p className="text-muted-foreground">Roll: {student.rollNumber}</p>
-              <div className="flex gap-2 mt-2">
-                <Badge variant="secondary">{student.gender}</Badge>
-                <Badge
-                  variant={student.status === "ACTIVE" ? "default" : "destructive"}
+                  <div className="flex gap-2 mt-2">
+                    <Badge variant="secondary">{student.gender}</Badge>
+                    <Badge
+                      variant={
+                        student.status === "ACTIVE" ? "default" : "destructive"
+                      }
+                    >
+                      {student.status}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+
+              {/* ACTION BUTTONS */}
+              <div className="flex gap-3 flex-wrap">
+                <Button
+                  disabled={isPending}
+                  onClick={() => setIsOpen(true)}
                 >
-                  {student.status}
-                </Badge>
+                  Attendance
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  disabled={resultPending}
+                  onClick={() => setIsOpenResultPage(true)}
+                >
+                  {resultPending ? "Loading..." : "View Result"}
+                </Button>
               </div>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
-        {/* Action Buttons */}
-        <div className="flex gap-3 mt-4 flex-wrap">
-          <button
-            onClick={() => {
-              setIsOpen(!isOpen)
-            }}
-            className="px-4 py-2 rounded-md bg-primary text-primary-foreground hover:opacity-90">
-            View Attendance
-          </button>
-          <button className="px-4 py-2 rounded-md bg-secondary text-secondary-foreground hover:opacity-90">
-            View Results
-          </button>
-        </div>
-
-        {/* Grid Info */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          {/* Personal Info */}
-          <Card>
-            <CardContent className="p-5 space-y-2">
-              <h2 className="text-lg font-semibold">Personal Info</h2>
-              <p><strong>Name:</strong> {student.name}</p>
-              <p><strong>Phone:</strong> {student.phone || "N/A"}</p>
-              <p><strong>Address:</strong> {student.address || "N/A"}</p>
-              <p><strong>Blood Group:</strong> {student.bloodGroup || "N/A"}</p>
-              <p><strong>Date of Birth:</strong> {new Date(student.dateOfBirth).toLocaleDateString()}</p>
+        {/* INFO GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* PERSONAL INFO */}
+          <Card className="rounded-2xl shadow">
+            <CardHeader>
+              <CardTitle>Personal Info</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <p><span className="font-medium">Phone:</span> {student.phone || "N/A"}</p>
+              <p><span className="font-medium">Address:</span> {student.address || "N/A"}</p>
+              <p><span className="font-medium">Blood Group:</span> {student.bloodGroup || "N/A"}</p>
+              <p><span className="font-medium">DOB:</span> {new Date(student.dateOfBirth).toLocaleDateString()}</p>
             </CardContent>
           </Card>
 
-          {/* Coaching Info */}
-          <Card>
-            <CardContent className="p-5 space-y-2">
-              <h2 className="text-lg font-semibold">Coaching Center</h2>
-              <p><strong>Owner Name:</strong> {student.coachingCenter?.name}</p>
-              <p><strong>Email:</strong> {student.coachingCenter?.email}</p>
-              <p><strong>Phone:</strong> {student.coachingCenter?.phone}</p>
-              <p><strong>Address:</strong> {student.coachingCenter?.address}</p>
+          {/* COACHING */}
+          <Card className="rounded-2xl shadow">
+            <CardHeader>
+              <CardTitle>Coaching Center</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <p>{student.coachingCenter?.name}</p>
+              <p className="text-muted-foreground">{student.coachingCenter?.email}</p>
+              <p>{student.coachingCenter?.phone}</p>
+              <p className="text-muted-foreground">{student.coachingCenter?.address}</p>
             </CardContent>
           </Card>
 
-          {/* Fee Info */}
-          <Card>
-            <CardContent className="p-5 space-y-2 overflow-y-scroll">
-              <h2 className="text-lg font-semibold">Fees</h2>
-              {student.studentFees?.length > 0 ? (
+          {/* FEES */}
+          <Card className="rounded-2xl shadow">
+            <CardHeader>
+              <CardTitle>Fees</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 max-h-62.5 overflow-y-auto">
+              {student.studentFees?.length ? (
                 student.studentFees.map((fee: StudentFee) => (
                   <div
                     key={fee.id}
-                    className="border rounded-md p-3 flex justify-between items-center"
+                    className="flex items-center justify-between p-3 border rounded-xl"
                   >
-                    <div>
-                      <p className="text-sm">Amount: {fee.amount}</p>
-                      <p className="text-sm">Paid: {fee.paidAmount}</p>
-                      <p className="text-sm">Due: {fee.dueAmount}</p>
+                    <div className="text-sm">
+                      <p>৳ {fee.amount}</p>
+                      <p className="text-muted-foreground">
+                        Paid: {fee.paidAmount} | Due: {fee.dueAmount}
+                      </p>
                     </div>
+
                     <Badge
                       variant={
                         fee.paymentStatus === "PAID" ? "default" : "destructive"
@@ -151,33 +170,39 @@ export default function StudentProfile({ id }: StudentProfileProps) {
                   </div>
                 ))
               ) : (
-                <p>No fee records</p>
+                <p className="text-sm text-muted-foreground">No fee records</p>
               )}
             </CardContent>
           </Card>
         </div>
 
-        {/* Batch Section */}
-        <Card className="mt-6">
-          <CardContent className="p-5">
-            <h2 className="text-lg font-semibold mb-3">Batches</h2>
-            <div className="flex flex-wrap gap-2">
-              {student.batchStudents?.map((batch: BatchStudent) => (
-                <Badge key={batch.id} variant="outline">
-                  {batch.id}
+        {/* BATCH */}
+        <Card className="rounded-2xl shadow">
+          <CardHeader>
+            <CardTitle>Batches</CardTitle>
+          </CardHeader>
+
+          <CardContent className="flex flex-wrap gap-2">
+            {student.batchStudents?.length ? (
+              student.batchStudents.map((b) => (
+                <Badge key={b.id} variant="outline" className="px-3 py-1">
+                  {b.batch?.batchName}
                 </Badge>
-              ))}
-            </div>
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">No batches</p>
+            )}
           </CardContent>
         </Card>
       </div>
+
 
       {
         attendance && isOpen && (
           <Dialog open={isOpen} onOpenChange={setIsOpen}>
             <DialogContent className="!max-w-3xl overflow-y-scroll ">
               <DialogHeader>
-                <DialogTitle>Update Student</DialogTitle>
+                <DialogTitle>View Attendance</DialogTitle>
               </DialogHeader>
 
               <AttendancePage data={attendance?.data} meta={{
@@ -186,6 +211,25 @@ export default function StudentProfile({ id }: StudentProfileProps) {
                 total: attendance.meta?.total ?? 0,
                 totalPages: attendance.meta?.totalPages ?? 0
               }} />
+            </DialogContent>
+          </Dialog>
+        )
+      }
+      {
+        isOpenResultPage && (
+          <Dialog open={isOpenResultPage} onOpenChange={setIsOpenResultPage}>
+            <DialogContent className="!max-w-4xl max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Student Result</DialogTitle>
+              </DialogHeader>
+
+              {resultPending && <Loader length={1} />}
+
+              {resultError && (
+                <ErrorState message="Failed to load result" />
+              )}
+
+              {result && <StudentResultPage result={result} />}
             </DialogContent>
           </Dialog>
         )

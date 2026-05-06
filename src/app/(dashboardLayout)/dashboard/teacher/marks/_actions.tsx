@@ -1,6 +1,7 @@
 "use server"
 
 import { httpClient } from "@/lib/httpClient/axios";
+import { IResult } from "@/types/Result.type";
 import { Meta } from "@/types/subject.type";
 import { AxiosError } from "axios";
 
@@ -72,6 +73,23 @@ export const getStudentByExamId = async (examId: string, query?: string) => {
             throw new Error(error.message);
         }
 
+        throw new Error("Something went wrong");
+    }
+}
+
+
+export const getResultByRollNumber = async (rollNumber: string, query?: string) => {
+    try {
+        const url = query ? `/mark/result/${rollNumber}?${query}` : `/mark/result/${rollNumber}`
+        const res = await httpClient.get(url);
+        return res.data as IResult
+
+
+    } catch (error) {
+        if (error instanceof Error) {
+            console.log(error.message)
+            throw new Error(error?.message)
+        }
         throw new Error("Something went wrong");
     }
 }

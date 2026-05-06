@@ -84,3 +84,5 @@ export const getAttendanceByStudentId = async (studentId: string, query?: string
         throw new Error("Something went wrong");
     }
 }
+
+
