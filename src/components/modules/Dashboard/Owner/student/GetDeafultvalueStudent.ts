@@ -42,7 +42,7 @@ export const getDefaultValueStudent = (
             phone: "",
             bloodGroup: initialData?.bloodGroup ?? undefined,
             dateOfBirth: null,
-            gender: initialData?.gender as GenderType ?? ""
+            gender: initialData?.gender as GenderType ?? "MALE"
 
 
         };

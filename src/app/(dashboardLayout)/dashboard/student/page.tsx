@@ -1,8 +1,17 @@
-import React from 'react'
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
+import { getStudentDashboardData } from "./_actions"
+import DashboardCardPage from "@/components/modules/Dashboard/Student/Dashboard/DashboardCard"
 
-const StudentPage = () => {
+const StudentPage = async () => {
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ["student-dashboard-data"],
+    queryFn: getStudentDashboardData
+  })
   return (
-    <div>StudentPage</div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <DashboardCardPage />
+    </HydrationBoundary>
   )
 }
 

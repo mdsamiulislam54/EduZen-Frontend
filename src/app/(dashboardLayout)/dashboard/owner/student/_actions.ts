@@ -2,14 +2,27 @@
 
 import { httpClient } from "@/lib/httpClient/axios";
 import { ICreateStudent, IStudentResponse, IStudentUpdate, SingleStudent } from "@/types/student.type";
+import { AxiosError } from "axios";
 
 export const createStudent = async (payload: ICreateStudent) => {
     try {
         const response = await httpClient.post("/student", payload);
         return response.data;
     } catch (error) {
-        console.error("Error creating student:", error);
-        throw error;
+        if (error instanceof AxiosError) {
+            const message =
+                error.response?.data?.message || "something went wrong"
+
+            console.log("Backend Error:", error.response?.data);
+
+            throw new Error(message);
+        }
+
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+
+        throw new Error("Something went wrong");
     }
 };
 
@@ -48,8 +61,21 @@ export const updateStudent = async (id: string, payload: Partial<IStudentUpdate>
         const response = await httpClient.patch(`/student/${id}`, payload);
         return response.data;
     } catch (error) {
-        console.error("Error updating student:", error);
-        throw error;
+        if (error instanceof AxiosError) {
+            const message =
+                error.response?.data?.message || "something went wrong"
+
+            console.log("Backend Error:", error.response?.data);
+
+            throw new Error(message);
+        }
+
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+
+        throw new Error("Something went wrong");
+
     }
 }
 
@@ -58,8 +84,21 @@ export const deleteStudent = async (id: string) => {
         const response = await httpClient.patch(`/student/delete/${id}`, {});
         return response.data;
     } catch (error) {
-        console.error("Error delete student:", error);
-        throw error;
+        if (error instanceof AxiosError) {
+            const message =
+                error.response?.data?.message || "something went wrong"
+
+            console.log("Backend Error:", error.response?.data);
+
+            throw new Error(message);
+        }
+
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+
+        throw new Error("Something went wrong");
+
     }
 }
 

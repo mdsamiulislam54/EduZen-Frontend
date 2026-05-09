@@ -98,7 +98,7 @@ const CreateStudentFormPage = ({ mode = "create", initialData, onClose }: Create
 
 
                 }
-                console.log("Value, ", value)
+               
                 console.log("payload, ", payload)
                 await createStudentMutate(payload);
             }
