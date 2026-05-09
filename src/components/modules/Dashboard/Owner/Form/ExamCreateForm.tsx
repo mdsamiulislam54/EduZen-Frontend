@@ -1,12 +1,9 @@
 "use client"
-import { createSubject } from '@/app/(dashboardLayout)/dashboard/owner/create-subject/_actions';
+
 import { createExam, ICreateExam, IUpdateExam, updateExam } from '@/app/(dashboardLayout)/dashboard/owner/exam/_actions';
-import { getAllSubject, updateSubject } from '@/app/(dashboardLayout)/dashboard/owner/subject/_actions';
+import { getAllSubject } from '@/app/(dashboardLayout)/dashboard/owner/subject/_actions';
 import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
-import { ISubject } from '@/types/subject.type';
-import { subjectZodSchema } from '@/zod/Subject.zod.schema';
-
 
 import { useForm } from '@tanstack/react-form';
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
@@ -17,7 +14,6 @@ import { getExamDefaultValue } from '../Exam/GetExamDefaultValue';
 import AppSelect from '@/shared/from/AppSelect';
 import { examSchema } from '@/zod/Exam.zod.scema';
 import { getAllBatch } from '@/app/(dashboardLayout)/dashboard/owner/batch/_actions';
-import AppMultiSelect from '@/shared/from/MultiSelect';
 interface CreateSubjectFormProps {
     onClose: () => void;
     mode?: "create" | "edit",

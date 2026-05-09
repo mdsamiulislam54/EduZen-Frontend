@@ -49,3 +49,17 @@ export const formatTime = (isoString?: string) => {
     if (!isoString) return "";
     return new Date(isoString).toISOString().split("T")[0];
 };
+
+
+import { AxiosError } from "axios";
+
+export const handleAxiosError = (error: unknown) => {
+  if (error instanceof AxiosError) {
+    throw new Error(
+      error.response?.data?.message ||
+        "Something went wrong!"
+    );
+  }
+
+  throw error;
+};

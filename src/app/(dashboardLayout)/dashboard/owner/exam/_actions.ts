@@ -1,6 +1,7 @@
 "use server"
 
 import { httpClient } from "@/lib/httpClient/axios"
+import { handleAxiosError } from "@/lib/utils";
 import { Meta } from "@/types/subject.type";
 import { AxiosError } from "axios";
 
@@ -50,12 +51,7 @@ export const createExam = async (payload: ICreateExam) => {
         return res.data;
     } catch (error) {
         console.log(error)
-        if (error instanceof AxiosError) {
-            const message = error.response?.data.message || "something is wrong!"
-            throw new Error(message)
-        }
-
-        throw error
+        handleAxiosError(error)
 
     }
 }
@@ -89,12 +85,7 @@ export const updateExam = async (id: string, payload: Partial<IUpdateExam>) => {
         return res.data;
     } catch (error) {
         console.log(error)
-        if (error instanceof AxiosError) {
-            const message = error.response?.data.message || "something is wrong!"
-            throw new Error(message)
-        }
-
-        throw error
+        handleAxiosError(error)
 
     }
 }
@@ -106,12 +97,7 @@ export const deleteExamById = async (id: string) => {
 
     } catch (error) {
         console.log(error)
-        if (error instanceof AxiosError) {
-            const message = error.response?.data.message || "something is wrong!"
-            throw new Error(message)
-        }
-
-        throw error
+         handleAxiosError(error)
 
     }
 }

@@ -1,6 +1,6 @@
 "use client"
-import { createSubject } from '@/app/(dashboardLayout)/dashboard/owner/create-subject/_actions';
-import { updateSubject } from '@/app/(dashboardLayout)/dashboard/owner/subject/_actions';
+
+import { createSubject, updateSubject } from '@/app/(dashboardLayout)/dashboard/owner/subject/_actions';
 import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
 import { ISubject } from '@/types/subject.type';

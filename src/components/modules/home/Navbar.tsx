@@ -2,6 +2,7 @@
 
 import { GraduationCap, Menu, } from "lucide-react";
 import {
+  
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -24,7 +25,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ModeToggle } from "../DarkThemeButton/DarkMode";
@@ -171,8 +171,7 @@ const Navbar = ({
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
                   <Accordion
-                    type="single"
-                    collapsible
+                    
                     className="flex w-full flex-col gap-4"
                   >
                     {menu.map((item) => renderMobileMenuItem(item))}

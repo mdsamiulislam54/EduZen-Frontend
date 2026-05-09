@@ -127,8 +127,8 @@ export const studentRoutes: IRoutePage[] = [
     icon: LayoutDashboard,
   },
   {
-    title: "My Courses",
-    url: "/dashboard/student/courses",
+    title: "My Class",
+    url: "/dashboard/student/my-class",
     icon: BookOpen,
   },
   {
