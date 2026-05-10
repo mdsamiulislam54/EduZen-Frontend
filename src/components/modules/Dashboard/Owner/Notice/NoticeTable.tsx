@@ -3,17 +3,23 @@
 import { getAllNotice } from "@/app/(dashboardLayout)/dashboard/owner/notice/_actions"
 import ErrorState from "@/components/modules/Error/Error"
 import { Badge } from "@/components/ui/badge"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 import AppPagination from "@/shared/pagination/AppPagination"
 import DataTable from "@/shared/Table/DataTable"
 import { INotice } from "@/types/notice.type"
 import { useQuery } from "@tanstack/react-query"
 import { CellContext, ColumnDef } from "@tanstack/react-table"
+import { useState } from "react"
+import ViewNoticePage from "./ViewNotice"
 
 
 
 const NoticeTable = ({ queryString }: { queryString: string }) => {
 
-
+    const [selectedNotice, setSelectedNotice] = useState<INotice | null>(null);
+    const [selectedViewNotice, setSelectedViewNotice] = useState<INotice | null>(null);
+    const [isOpen, setIsOpen] = useState(false)
+    const [isViewNotice, setIsViewNotice] = useState(false)
     const { data: notice, isPending, isError } = useQuery({
         queryKey: ["notice", queryString],
         queryFn: async () => await getAllNotice(queryString)
@@ -27,7 +33,11 @@ const NoticeTable = ({ queryString }: { queryString: string }) => {
         {
             accessorKey: "serial",
             header: "Serial",
-            cell: (props: CellContext<INotice, unknown>) => props.row.index + 1
+            cell: (props: CellContext<INotice, unknown>) => {
+                const pageIndex = props.table.getState().pagination.pageIndex;
+                const pageSize = props.table.getState().pagination.pageSize;
+                return pageIndex * pageSize + props.row.index + 1;
+            }
         },
         {
             accessorKey: "title",
@@ -88,7 +98,6 @@ const NoticeTable = ({ queryString }: { queryString: string }) => {
         },
 
 
-
         {
             accessorKey: "priority",
             header: "Priority",
@@ -137,15 +146,28 @@ const NoticeTable = ({ queryString }: { queryString: string }) => {
             },
         },
 
+        {
+            accessorKey: "createdAt",
+            header: "Date",
+            cell: (props: CellContext<INotice, unknown>) => {
+                const date = new Date(props.row.getValue("createdAt") as string)
+                const localDate = date.toLocaleString()
+                return (
+                    <span className="text-md tracking-wider">{localDate}</span>
+                )
+            }
+        },
 
 
     ]
 
     const handleUpdateNotice = (data: INotice) => {
-        console.log(data)
+        setSelectedNotice(data);
+        setIsOpen(!isOpen)
     }
     const handleViewNotice = (data: INotice) => {
-        console.log(data)
+        setSelectedViewNotice(data);
+        setIsViewNotice(!isViewNotice)
     }
     const handleDeleteNotice = (data: INotice) => {
         console.log(data)
@@ -173,11 +195,21 @@ const NoticeTable = ({ queryString }: { queryString: string }) => {
             {
                 notice?.meta && (
                     <AppPagination meta={{
-                        page: notice.meta.page??1,
-                        total: notice.meta.total??0,
-                        totalPages: notice.meta.totalPages??1,
-                        limit: notice.meta.limit??10,
+                        page: notice.meta.page ?? 0,
+                        total: notice.meta.total ?? 0,
+                        totalPages: notice.meta.totalPages ?? 0,
+                        limit: notice.meta.limit ?? 10,
                     }} />
+                )
+            }
+
+            {
+                isViewNotice && (
+                    <Dialog open={isViewNotice} onOpenChange={setIsViewNotice}>
+                        <DialogContent className="!max-w-4xl overflow-y-scroll ">
+                            <ViewNoticePage notice={selectedViewNotice} />
+                        </DialogContent>
+                    </Dialog>
                 )
             }
         </div>

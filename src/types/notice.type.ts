@@ -35,6 +35,7 @@ export interface INotice {
     priority?: "LOW" | "NORMAL" | "HIGH" | "URGENT";
     coachingCenterId: string;
     isPublished: boolean,
+    isPinned: boolean
     createdAt: string,
     updatedAt: string
 }
