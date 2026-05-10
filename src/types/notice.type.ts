@@ -9,9 +9,10 @@ export interface ICreateNotice {
     type?: "GENERAL" | "EXAM" | "HOLIDAY" | "PAYMENT" | "CLASS";
 
     priority?: "LOW" | "NORMAL" | "HIGH" | "URGENT";
+    isPinned?: boolean;
+    coachingCenterId?: string;
 
-    coachingCenterId: string;
-
+    isPublished?: boolean;
     createdBy?: string;
 }
 
@@ -29,7 +30,7 @@ export interface IUpdateNotice {
 }
 
 export interface INotice {
-    id:string,
+    id: string,
     title: string;
     description: string;
     type?: "GENERAL" | "EXAM" | "HOLIDAY" | "PAYMENT" | "CLASS";

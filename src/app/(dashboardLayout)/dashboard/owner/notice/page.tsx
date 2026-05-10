@@ -4,6 +4,7 @@ import { getAllNotice } from "./_actions";
 import NoticeTable from "@/components/modules/Dashboard/Owner/Notice/NoticeTable";
 import { Card } from "@/components/ui/card";
 import TableQueryController from "@/shared/Table/QueryController/TableQueryController";
+import CreateNoticeButton from "@/components/modules/Dashboard/Owner/Notice/CreateNoticeButton";
 
 
 const NoticePage = async ({ searchParams }: {
@@ -27,7 +28,7 @@ const NoticePage = async ({ searchParams }: {
                     <div className='m-0'>
                         <div className='flex items-center justify-end p-2'>
 
-                            {/* <CreateSubjectButton /> */}
+                          <CreateNoticeButton/>
                         </div>
                     </div>
                 </Card>

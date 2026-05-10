@@ -3,16 +3,17 @@
 import { deleteNotice, getAllNotice } from "@/app/(dashboardLayout)/dashboard/owner/notice/_actions"
 import ErrorState from "@/components/modules/Error/Error"
 import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import AppPagination from "@/shared/pagination/AppPagination"
 import DataTable from "@/shared/Table/DataTable"
 import { INotice } from "@/types/notice.type"
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
-import { CellContext, ColumnDef } from "@tanstack/react-table"
+import { CellContext } from "@tanstack/react-table"
 import { useState } from "react"
 import ViewNoticePage from "./ViewNotice"
 import Swal from "sweetalert2"
 import { toast } from "sonner"
+import CreateNoticeForm from "../Form/CreateNoticeForm"
 
 
 
@@ -28,7 +29,7 @@ const NoticeTable = ({ queryString }: { queryString: string }) => {
 
     });
 
-    const { mutateAsync: deleteMutate,  } = useMutation({
+    const { mutateAsync: deleteMutate, } = useMutation({
         mutationKey: ["delete-notice"],
         mutationFn: (id: string) => deleteNotice(id)
     })
@@ -237,10 +238,24 @@ const NoticeTable = ({ queryString }: { queryString: string }) => {
             }
 
             {
-                isViewNotice && (
+                isViewNotice && selectedViewNotice &&  (
                     <Dialog open={isViewNotice} onOpenChange={setIsViewNotice}>
                         <DialogContent className="!max-w-4xl overflow-y-scroll ">
                             <ViewNoticePage notice={selectedViewNotice} />
+                        </DialogContent>
+                    </Dialog>
+                )
+            }
+
+            {
+                isOpen && selectedNotice && (
+                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                        <DialogContent className="!max-w-4xl overflow-y-scroll ">
+                            <DialogHeader>
+                                <DialogTitle>Update Subject</DialogTitle>
+                            </DialogHeader>
+
+                            <CreateNoticeForm onClose={() => setIsOpen(false)} mode='edit' initialData={selectedNotice} />
                         </DialogContent>
                     </Dialog>
                 )

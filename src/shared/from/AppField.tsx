@@ -22,7 +22,7 @@ type AppFiledProps = {
     prepend?: React.ReactNode;
     className?: string;
     disable?: boolean;
-    type?: "text" | "email" | "password" | "number" | "checkbox" | "date" | "file"| "datetime-local"|"time";
+    type?: "text" | "email" | "password" | "number" | "checkbox" | "date" | "file"| "datetime-local"|"time"|"textarea";
 }
 
 const AppField = ({
