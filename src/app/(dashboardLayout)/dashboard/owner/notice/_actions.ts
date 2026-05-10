@@ -25,13 +25,14 @@ export const updateNotice = async (payload: Partial<ICreateNotice>, id: string) 
 export const getAllNotice = async (query?: string) => {
     try {
         const res = await httpClient.get<INoticeResponse>(query ? `/notice?${query}` : "/notice");
+        console.log("res:", res.data)
         return {
-            data: res.data.data,
-            meta: res.data.meta
+            data: res?.data?.data,
+            meta: res?.data?.meta
         }
     } catch (error) {
         console.log(error)
-         handleAxiosError(error)
+        handleAxiosError(error)
     }
 }
 export const getNoticeById = async (id: string) => {

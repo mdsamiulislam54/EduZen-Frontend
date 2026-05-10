@@ -41,5 +41,5 @@ export interface INotice {
 
 export interface INoticeResponse {
     data: INotice[],
-    meta: Meta
+    meta?: Meta
 }

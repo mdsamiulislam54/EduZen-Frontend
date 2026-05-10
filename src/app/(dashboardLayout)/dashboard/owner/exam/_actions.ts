@@ -58,7 +58,7 @@ export const createExam = async (payload: ICreateExam) => {
 
 export const getAllExam = async (query?: string) => {
     try {
-        console.log({ query })
+    
         const res = await httpClient.get<IExamResponse>(query ? `/exam?${query}` : `/exam`);
         return {
             data: res?.data?.data,

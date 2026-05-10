@@ -8,6 +8,7 @@ import {
   ClipboardList,
   ClipboardListIcon,
   PenTool,
+  Pin,
 } from "lucide-react";
 
 import { IRoutePage } from "@/types/route.type";
@@ -87,6 +88,11 @@ export const ownerRoutes: IRoutePage[] = [
     title:"Subjects",
     url:"/dashboard/owner/subject",
     icon: BookOpen,
+  },
+  {
+    title:"Notice",
+    url:"/dashboard/owner/notice",
+    icon: Pin,
   }
 ];
 
