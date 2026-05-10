@@ -29,6 +29,7 @@ export interface IUpdateNotice {
 }
 
 export interface INotice {
+    id:string,
     title: string;
     description: string;
     type?: "GENERAL" | "EXAM" | "HOLIDAY" | "PAYMENT" | "CLASS";

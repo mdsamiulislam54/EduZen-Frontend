@@ -1,21 +1,23 @@
 "use client"
 
-import { getAllNotice } from "@/app/(dashboardLayout)/dashboard/owner/notice/_actions"
+import { deleteNotice, getAllNotice } from "@/app/(dashboardLayout)/dashboard/owner/notice/_actions"
 import ErrorState from "@/components/modules/Error/Error"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import AppPagination from "@/shared/pagination/AppPagination"
 import DataTable from "@/shared/Table/DataTable"
 import { INotice } from "@/types/notice.type"
-import { useQuery } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query"
 import { CellContext, ColumnDef } from "@tanstack/react-table"
 import { useState } from "react"
 import ViewNoticePage from "./ViewNotice"
+import Swal from "sweetalert2"
+import { toast } from "sonner"
 
 
 
 const NoticeTable = ({ queryString }: { queryString: string }) => {
-
+    const queryClient = new QueryClient()
     const [selectedNotice, setSelectedNotice] = useState<INotice | null>(null);
     const [selectedViewNotice, setSelectedViewNotice] = useState<INotice | null>(null);
     const [isOpen, setIsOpen] = useState(false)
@@ -24,6 +26,11 @@ const NoticeTable = ({ queryString }: { queryString: string }) => {
         queryKey: ["notice", queryString],
         queryFn: async () => await getAllNotice(queryString)
 
+    });
+
+    const { mutateAsync: deleteMutate,  } = useMutation({
+        mutationKey: ["delete-notice"],
+        mutationFn: (id: string) => deleteNotice(id)
     })
 
     if (isError) return <ErrorState message="Notice data not available" />
@@ -170,7 +177,33 @@ const NoticeTable = ({ queryString }: { queryString: string }) => {
         setIsViewNotice(!isViewNotice)
     }
     const handleDeleteNotice = (data: INotice) => {
-        console.log(data)
+        Swal.fire({
+            title: "Are you sure Delete This Notice?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                try {
+                    await deleteMutate(data.id);
+                    return true;
+                } catch (error) {
+                    Swal.showValidationMessage(
+                        `Delete failed: ${(error as Error).message}`
+                    );
+                    return false;
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                toast.success("Notice deleted successfully");
+                queryClient.invalidateQueries({ queryKey: ["notice"] });
+            }
+
+        });
     }
 
 
