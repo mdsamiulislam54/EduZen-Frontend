@@ -143,7 +143,7 @@ const ViewNoticePage = ({
         </div>
 
         {/* Body */}
-        <CardContent className="p-6 md:p-8 space-y-6">
+        <CardContent className=" md:py-4 space-y-6">
           
           <div className="space-y-3">
             <h2 className="text-lg font-semibold">

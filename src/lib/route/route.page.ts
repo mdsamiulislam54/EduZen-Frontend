@@ -9,6 +9,8 @@ import {
   ClipboardListIcon,
   PenTool,
   Pin,
+  PiIcon,
+  PinIcon,
 } from "lucide-react";
 
 import { IRoutePage } from "@/types/route.type";
@@ -141,5 +143,10 @@ export const studentRoutes: IRoutePage[] = [
     title: "Payments",
     url: "/dashboard/student/payments",
     icon: CreditCard,
+  },
+  {
+    title: "Notice",
+    url: "/dashboard/student/notice",
+    icon: PinIcon,
   },
 ];
