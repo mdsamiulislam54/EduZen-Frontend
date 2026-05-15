@@ -63,6 +63,8 @@ export interface IStudent {
     image: string;
     fatherName: string,
     matherName: string,
+    rollNumber?:string,
+    batchName?:string,
     age: number,
     address: string,
     emailVerified: boolean;
@@ -128,4 +130,17 @@ export interface SingleStudent {
     coachingCenter?: CoachingCenter;
     studentFees: StudentFee[];
     batchStudents: BatchStudent[];
+}
+export interface IStudentFeeData {
+    totalAmount: number;
+    paidAmount: number;
+    dueAmount: number;
+    status: "PAID" | "PARTIAL" | "UNPAID";
+}
+
+export interface IStudentFee {
+    id: string;
+    studentId: string;
+    student: IStudent;
+    fee: IStudentFeeData;
 }

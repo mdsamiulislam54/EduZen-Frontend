@@ -137,7 +137,7 @@ export const studentRoutes: IRoutePage[] = [
   },
   {
     title: "Payments",
-    url: "/dashboard/student/payments",
+    url: "/dashboard/student/payment",
     icon: CreditCard,
   },
   {

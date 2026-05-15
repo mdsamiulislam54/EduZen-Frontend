@@ -1,11 +1,12 @@
 "use client"
 
-import Loader from "@/components/modules/Loader/loader"
+import DashboardSkeleton from "@/components/modules/Loader/dashboard"
+
 
 export default function Loading() {
   return (
     <div>
-      <Loader/>
+      <DashboardSkeleton/>
     </div>
   )
 }
