@@ -71,11 +71,7 @@ export const ownerRoutes: IRoutePage[] = [
     url: "/dashboard/owner/exam",
     icon: BookOpen,
   },
-  {
-    title: "Attendance",
-    url: "/dashboard/owner/attendance",
-    icon: ClipboardListIcon,
-  },
+
   {
     title: "Analytics",
     url: "/dashboard/owner/analytic",

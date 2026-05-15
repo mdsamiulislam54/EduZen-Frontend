@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { getAllOwnersById } from '../_actions';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import SingleOwnerProfileCard from '@/components/modules/Dashboard/admin/SingleOwnerProfileCard';

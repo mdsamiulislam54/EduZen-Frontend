@@ -70,7 +70,7 @@ const Navbar = ({
     { title: "Home", url: "/" },
     { title: "About", url: "/about" },
     { title: "Contact", url: "/contact" },
-    { title: "Subscription", url: "/subscription" },
+    { title: "Subscription", url: "/subscriptions" },
     { title: "Dashboard", url: "/dashboard" },
 
   ],
