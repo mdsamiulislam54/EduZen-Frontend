@@ -25,32 +25,39 @@ const SubjectTablePage = ({ queryString }: { queryString: string }) => {
         queryFn: async () => await getAllSubject(queryString),
     });
 
-    const { mutate: deleteMutate } = useMutation({
+    const { mutateAsync: deleteMutate } = useMutation({
         mutationFn: deleteSubject,
-        onError: (err) => {
-            toast.error(err?.message || "Something went wrong");
-        },
-        onSuccess: () => {
-            toast.success("Subject Delete Successful")
-            router.push(window.location.href)
-            queryClient.invalidateQueries({ queryKey: ["subject"] })
-        }
     })
 
 
     const handleDeleteSubject = (data: ISubject) => {
 
         Swal.fire({
-            title: "Are you sure Delete This Subject?",
+            title: "Are you sure",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Yes, delete it!",
+            showLoaderOnConfirm: true,
+            preConfirm: async () => {
+                try {
+                    await deleteMutate(data.id);
+                    return true;
+                } catch (error) {
+                    Swal.showValidationMessage(
+                        `Delete failed: ${(error as Error).message}`
+                    );
+                    return false;
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteMutate(data.id)
+                toast.success("Subject deleted successfully");
+                queryClient.invalidateQueries({ queryKey: ["subject"] });
             }
+
         });
 
     }
@@ -63,9 +70,9 @@ const SubjectTablePage = ({ queryString }: { queryString: string }) => {
 
 
     const subjectColumns = [
-        { accessorKey: "id", header: "Subject ID" },
+
         { accessorKey: "name", header: "Subject Name" },
-        { accessorKey: "subject_code", header: "subject_code " },
+
         {
 
             accessorKey: "status",
@@ -85,9 +92,7 @@ const SubjectTablePage = ({ queryString }: { queryString: string }) => {
                 );
             },
         },
-        {
-            id: "actions", header: "Actions"
-        }
+
 
 
     ]
