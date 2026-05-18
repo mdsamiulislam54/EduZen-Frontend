@@ -15,8 +15,15 @@ type AppSelectProps = {
 };
 
 const AppSelect = ({ field, label, options, className }: AppSelectProps) => {
-  const error =
-    field.state.meta.isTouched && field.state.meta.errors?.[0];
+  const firstError = field.state.meta.errors?.[0];
+
+const error =
+  field.state.meta.isTouched
+    ? typeof firstError === "string"
+      ? firstError
+      : firstError?.message
+    : undefined;
+
 
   return (
     <div className={cn("space-y-1.5", className)}>

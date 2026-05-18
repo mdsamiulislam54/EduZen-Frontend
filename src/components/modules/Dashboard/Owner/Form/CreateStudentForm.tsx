@@ -106,7 +106,7 @@ const CreateStudentFormPage = ({ mode = "create", initialData, onClose }: Create
     })
 
     return (
-        <Card className=''>
+        <div className=''>
             <form
                 onSubmit={(e) => {
                     e.preventDefault()
@@ -415,7 +415,7 @@ const CreateStudentFormPage = ({ mode = "create", initialData, onClose }: Create
                 </form.Subscribe>
 
             </form>
-        </Card>
+        </div>
     )
 }
 

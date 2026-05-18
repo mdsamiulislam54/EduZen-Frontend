@@ -4,13 +4,9 @@ export const examSchema = z.object({
   batchId: z.string().min(1, "Batch is required"),
   subjectId: z.string().min(1, "Subject is required"),
   name: z.string().min(3, "Exam name must be at least 3 characters"),
-  totalMarks: z
-    .number( "Total marks is required")
-    .min(1, "Total marks must be greater than 0"),
 
-  passMarks: z
-    .number( "Pass marks is required" )
-    .min(1, "Pass marks must be greater than 0"),
+  totalMarks: z.coerce.number().min(1, "Total marks is required"),
+  passMarks: z.coerce.number().min(1, "Pass marks is required"),
 
   examDate: z.string().min(1, "Exam date is required"),
   startTime: z.string().min(1, "Start time is required"),

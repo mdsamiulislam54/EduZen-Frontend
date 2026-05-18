@@ -33,8 +33,8 @@ const SubscriptionPlanCard = () => {
 
 
 
-    const {mutateAsync, isPending: isDeleting} = useMutation({
-        mutationFn: async (id: string) =>{
+    const { mutateAsync, isPending: isDeleting } = useMutation({
+        mutationFn: async (id: string) => {
             setDeleteMutation(id)
             await deleteSubscriptionPlan(id)
         },
@@ -71,82 +71,97 @@ const SubscriptionPlanCard = () => {
                 {data?.map((plan: TSubscriptionPlan) => (
                     <Card
                         key={plan.id}
-                        className="h-full flex flex-col p-5 rounded-2xl border hover:shadow-lg transition-all duration-300"
+                        className="relative flex flex-col justify-between p-6 rounded-2xl border bg-background shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                     >
-                        {/* CONTENT */}
-                        <div className="flex-1 space-y-3">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-lg font-semibold">{plan.name}</h2>
+                        {/* STATUS + TITLE */}
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <h2 className="text-xl font-semibold">{plan.name}</h2>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                    {plan.duration_days} Days Plan
+                                </p>
+                            </div>
 
-                                <span
-                                    className={`text-xs px-2 py-1 rounded ${plan.status === "ACTIVE"
-                                        ? "bg-green-100 text-green-600"
-                                        : "bg-gray-100 text-gray-500"
-                                        }`}
-                                >
-                                    {plan.status}
+                            <span
+                                className={`text-xs px-2 py-1 rounded-full font-medium ${plan.status === "ACTIVE"
+                                        ? "bg-green-500/10 text-green-600 dark:text-green-400"
+                                        : "bg-gray-200 text-gray-500"
+                                    }`}
+                            >
+                                {plan.status}
+                            </span>
+                        </div>
+
+                        {/* PRICE */}
+                        <div className="mt-4">
+                            <h1 className="text-3xl font-bold text-primary">
+                                ${plan.price}
+                                <span className="text-sm text-muted-foreground font-normal">
+                                    /month
+                                </span>
+                            </h1>
+                        </div>
+
+                        {/* INFO GRID */}
+                        <div className="mt-6 space-y-3 text-sm">
+                            <div className="flex justify-between text-muted-foreground">
+                                <span>Students</span>
+                                <span className="text-foreground font-medium">
+                                    {plan.max_students}
                                 </span>
                             </div>
 
-                            {/* Price */}
-                            <div className="flex items-center gap-2 text-primary font-bold text-xl">
-                                {plan.price}
+                            <div className="flex justify-between text-muted-foreground">
+                                <span>Teachers</span>
+                                <span className="text-foreground font-medium">
+                                    {plan.max_teachers}
+                                </span>
                             </div>
 
-                            {/* Info */}
-                            <div className="space-y-3 text-sm text-muted-foreground">
-                                <div className="flex items-center gap-2">
-                                    <CalendarDays className="w-4 h-4 text-primary" />
-                                    <span>
-                                        <span className="font-medium text-foreground">
-                                            {plan.duration_days}
-                                        </span>{" "}
-                                        Days Duration
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                    <Users className="w-4 h-4 text-primary" />
-                                    <span>
-                                        Up to{" "}
-                                        <span className="font-medium text-foreground">
-                                            {plan.max_students}
-                                        </span>{" "}
-                                        Students
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                    <UserCheck className="w-4 h-4 text-primary" />
-                                    <span>
-                                        Up to{" "}
-                                        <span className="font-medium text-foreground">
-                                            {plan.max_teachers}
-                                        </span>{" "}
-                                        Teachers
-                                    </span>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                    <Layers className="w-4 h-4 text-primary" />
-                                    <span>
-                                        <span className="font-medium text-foreground">
-                                            {plan.max_batches}
-                                        </span>{" "}
-                                        Batches
-                                    </span>
-                                </div>
+                            <div className="flex justify-between text-muted-foreground">
+                                <span>Batches</span>
+                                <span className="text-foreground font-medium">
+                                    {plan.max_batches}
+                                </span>
                             </div>
                         </div>
 
-                        {/* ACTION BUTTONS */}
-                        <div className="flex flex-col gap-2 mt-5">
-                            <Button variant="outline" className="w-full cursor-pointer" onClick={() => handleOpenUpdateForm(plan)}>
-                                Edit
+                        {/* FEATURES */}
+                        <div className="mt-5">
+                            <p className="text-xs font-medium text-muted-foreground mb-2">
+                                Features
+                            </p>
+
+                            <div className="flex flex-wrap gap-2">
+                                {(plan.features ?? []).slice(0, 5).map((f, i) => (
+                                    <span
+                                        key={i}
+                                        className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground"
+                                    >
+                                        {f}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ACTIONS */}
+                        <div className="mt-6 flex flex-col gap-2">
+                            <Button
+                                variant="outline"
+                                className="w-full"
+                                onClick={() => handleOpenUpdateForm(plan)}
+                            >
+                                Edit Plan
                             </Button>
 
-                            <Button variant="destructive" onClick={async ()=> await mutateAsync(plan.id as string)} className="w-full cursor-pointer">
-                                {isDeleting && deleteMutation === plan.id ? "Deleting..." : "Delete"}
+                            <Button
+                                variant="destructive"
+                                className="w-full"
+                                onClick={async () => await mutateAsync(plan.id as string)}
+                            >
+                                {isDeleting && deleteMutation === plan.id
+                                    ? "Deleting..."
+                                    : "Delete"}
                             </Button>
                         </div>
                     </Card>

@@ -94,7 +94,7 @@ const ExamTablePage = ({ queryString }: IExamTableProps) => {
 
             }
         },
-        { accessorKey: "actions", header: "Actions" }
+        { id: "actions", header: "Actions" }
 
     ]
 

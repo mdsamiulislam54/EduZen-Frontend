@@ -1,6 +1,7 @@
 "use server"
 
 import { httpClient } from "@/lib/httpClient/axios";
+import { handleAxiosError } from "@/lib/utils";
 import { ISingleTeacher, ITeacherCreate, ITeacherResponse, ITeacherUpdate } from "@/types/teacher.type";
 
 export const getAllTeacher = async (query?: string) => {
@@ -40,15 +41,12 @@ export const createTeacher = async (payload: ITeacherCreate) => {
     try {
         console.log(payload)
         const response = await httpClient.post(`/teacher`, payload);
-        console.log(response.data)
+        
         return await response.data
 
     } catch (error) {
         console.log(error)
-        return {
-            success: false,
-            message: "Teacher Create failed"
-        }
+        handleAxiosError(error)
     }
 }
 export const updateTeacher = async (payload: Partial<ITeacherUpdate>, id: string) => {

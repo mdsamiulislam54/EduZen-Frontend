@@ -61,7 +61,8 @@ const CreateTeacherForm = ({ onClose, mode = "create", initialData }: ICreateTea
                 const teacherData = {
                     subjectIds: value?.subjectIds ?? [],
                     teacherData: {
-                        ...value.teacherData
+                        ...value.teacherData,
+                        image:value.teacherData.image?? null
                     }
                 } as ITeacherCreate
                 console.log("create", teacherData)

@@ -10,6 +10,7 @@ export const subscriptionPlanSchema = z.object({
   has_attendance: z.boolean("Attendance feature is required").optional(),
   has_sms: z.boolean("SMS feature is required").optional(),
   has_exam: z.boolean("Exam feature is required").optional(),
+  features: z.array(z.string()).default([]),
   status: z.enum(["ACTIVE", "INACTIVE"]).optional(),
 });
 export const updateSubscriptionPlanSchema = z.object({
@@ -19,9 +20,10 @@ export const updateSubscriptionPlanSchema = z.object({
   max_students: z.number("Maximum students is required").min(1, "There must be at least 1 student allowed").optional(),
   max_teachers: z.number("Maximum teachers is required").min(1, "There must be at least 1 teacher allowed").optional(),
   max_batches: z.number("Maximum batches is required").min(1, "There must be at least 1 batch allowed").optional(),
-  has_attendance: z.boolean("Attendance feature is required").optional(),
-  has_sms: z.boolean("SMS feature is required").optional(),
-  has_exam: z.boolean("Exam feature is required").optional(),
+  has_attendance: z.boolean().optional(),
+  has_sms: z.boolean().optional(),
+  has_exam: z.boolean().optional(),
+  features: z.array(z.string()).optional(),
   status: z.enum(["ACTIVE", "INACTIVE"]).optional(),
 });
 
@@ -36,6 +38,7 @@ export type TSubscriptionPlan = {
   has_attendance?: boolean;
   has_sms?: boolean;
   has_exam?: boolean;
+  features: string[]
   status?: "ACTIVE" | "INACTIVE";
 };
 export type TUpdateSubscriptionPlan = {
@@ -49,5 +52,6 @@ export type TUpdateSubscriptionPlan = {
   has_attendance?: boolean;
   has_sms?: boolean;
   has_exam?: boolean;
+  features?: string[] | undefined;
   status?: "ACTIVE" | "INACTIVE";
 };

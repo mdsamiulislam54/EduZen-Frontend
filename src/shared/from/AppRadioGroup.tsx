@@ -12,8 +12,14 @@ type Props = {
 };
 
 const AppRadioGroup = ({ field, label, options }: Props) => {
-  const error =
-    field.state.meta.isTouched && field.state.meta.errors?.[0];
+  const firstError = field.state.meta.errors?.[0];
+
+const error =
+  field.state.meta.isTouched
+    ? typeof firstError === "string"
+      ? firstError
+      : firstError?.message
+    : undefined;
 
   return (
     <div className="space-y-2">

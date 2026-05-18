@@ -6,7 +6,7 @@ import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
 
 import { useForm } from '@tanstack/react-form';
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import { toast } from 'sonner';
@@ -14,6 +14,7 @@ import { getExamDefaultValue } from '../Exam/GetExamDefaultValue';
 import AppSelect from '@/shared/from/AppSelect';
 import { examSchema } from '@/zod/Exam.zod.scema';
 import { getAllBatch } from '@/app/(dashboardLayout)/dashboard/owner/batch/_actions';
+import { handleError } from '@/lib/error/handleError';
 interface CreateSubjectFormProps {
     onClose: () => void;
     mode?: "create" | "edit",
@@ -22,10 +23,10 @@ interface CreateSubjectFormProps {
 
 const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSubjectFormProps) => {
     const router = useRouter();
-    const queryClient = new QueryClient()
+    const queryClient = useQueryClient()
     const { mutateAsync, isPending } = useMutation({
         mutationKey: ["create-exam"],
-        mutationFn: async (data: ICreateExam) => createExam(data)
+        mutationFn: createExam
 
     });
 
@@ -42,10 +43,11 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
     const { mutateAsync: updateMutate, isPending: updateIsPending } = useMutation({
         mutationKey: ["update-exam"],
         mutationFn: async (data: Partial<IUpdateExam> & { id?: string }) => updateExam(data.id!, data,),
-        
+
     })
     const form = useForm({
         defaultValues: getExamDefaultValue(mode, initialData as ICreateExam),
+        
         onSubmit: async ({ value }) => {
             try {
                 if (mode === "edit") {
@@ -53,7 +55,7 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
                     toast.success("Exam Update Successfully!")
                     onClose()
                     queryClient.invalidateQueries({ queryKey: ["exam"] })
-                    router.push(window.location.href)
+                    router.refresh()
                 } else {
                     console.log(value)
                     await mutateAsync(value);
@@ -63,9 +65,10 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
 
                 }
             } catch (error) {
-                if (error instanceof Error) {
-                    toast.error(error.message)
-                }
+
+                const message = handleError(error)
+                toast.error(message)
+
             }
         }
 
@@ -106,7 +109,7 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
                         </form.Field>
                         <form.Field
                             name='totalMarks'
-                            validators={{ onChange: examSchema.shape.totalMarks }}
+
 
                         >
                             {
@@ -155,7 +158,7 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
                         </form.Field>
                         <form.Field
                             name='passMarks'
-                            validators={{ onChange: examSchema.shape.passMarks }}
+
 
                         >
                             {
@@ -304,7 +307,7 @@ const CreateExamFormPage = ({ onClose, mode = "create", initialData }: CreateSub
                                 disabled={!canSubmit || isPending || updateIsPending}
 
                             >
-                                {mode === "create" ? " Create Subject" : "Update"}
+                                {mode === "create" ? "Create Exam" : "Update Exam"}
                             </AppSubmitButton>
                         )
                     }

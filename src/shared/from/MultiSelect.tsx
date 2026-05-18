@@ -57,7 +57,7 @@ const AppMultiSelect = ({ field, label, options }: AppMultiSelectProps) => {
         })}
 
         <span className="absolute top-2 right-2">
-          <ArrowDown/>
+          <ArrowDown size={20}/>
         </span>
       </div>
 

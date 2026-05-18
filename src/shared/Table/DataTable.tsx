@@ -22,7 +22,7 @@ interface DataTableProps<TData> {
 
 const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, caption }: DataTableProps<TData>) => {
 
-    const tableColumns: ColumnDef<TData>[] = actions ? [...columns, {
+    const tableColumns: ColumnDef<TData>[] = actions ? [...columns.filter((col)=>col.id !=="actions"), {
         id: "actions",
         header: "Actions",
         cell: ((props: CellContext<TData, unknown>) => {

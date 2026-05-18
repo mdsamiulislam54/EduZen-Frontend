@@ -5,7 +5,7 @@ import AppSubmitButton from "@/shared/from/SubmitButton"
 import { useForm } from "@tanstack/react-form"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-import {  TUpdateSubscriptionPlan, updateSubscriptionPlanSchema } from '@/zod/subscription.zod.schema';
+import { TUpdateSubscriptionPlan, updateSubscriptionPlanSchema } from '@/zod/subscription.zod.schema';
 import { updateSubscriptionPlan } from "@/app/(dashboardLayout)/dashboard/admin/subscription-create/_actions"
 import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
@@ -37,11 +37,17 @@ const SubscriptionPlanUpdateFromPage = ({ onOpen, defaultValues }: SubscriptionP
             max_students: defaultValues.max_students,
             max_teachers: defaultValues.max_teachers,
             max_batches: defaultValues.max_batches,
+            features: defaultValues.features?.join(", "),
 
 
         },
         onSubmit: async ({ value }) => {
-            await mutateAsync({ planId: defaultValues.id!, data: value });
+
+            const payload = {
+                ...value,
+                features: value.features ? value.features.split(",").map((f) => f.trim()) : []
+            }
+            await mutateAsync({ planId: defaultValues.id!, data: payload });
 
         }
 
@@ -193,7 +199,28 @@ const SubscriptionPlanUpdateFromPage = ({ onOpen, defaultValues }: SubscriptionP
 
                         </form.Field>
                     </div>
+                    <form.Field name="features">
+                        {(field) => (
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Features</label>
 
+                                <textarea
+                                    value={field.state.value as unknown as string}
+                                    onChange={(e) => field.handleChange(e.target.value)}
+                                    placeholder={`Enter features one per line:
+
+                                        SMS System
+                                        Exam Management
+                                        Attendance Tracking`}
+                                    className="w-full min-h-[120px] rounded-md border bg-background px-3 py-2 text-sm"
+                                />
+
+                                <p className="text-xs text-muted-foreground">
+
+                                </p>
+                            </div>
+                        )}
+                    </form.Field>
                     <form.Subscribe selector={(s) => [s.canSubmit]}>
                         {
                             ([canSubmit]) => (

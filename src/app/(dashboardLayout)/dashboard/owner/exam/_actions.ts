@@ -48,6 +48,7 @@ interface IExamResponse {
 export const createExam = async (payload: ICreateExam) => {
     try {
         const res = await httpClient.post(`/exam`, payload);
+        console.log({res})
         return res.data;
     } catch (error) {
         console.log(error)

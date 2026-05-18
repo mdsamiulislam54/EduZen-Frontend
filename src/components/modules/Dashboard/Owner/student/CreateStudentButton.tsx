@@ -20,11 +20,8 @@ const CreateStudentButton = () => {
       </Button>
 
       <Dialog open={open}  onOpenChange={setOpen} >
-        <DialogContent className="!max-w-3xl overflow-y-scroll ">
-          <DialogHeader>
-            <DialogTitle>Create Student</DialogTitle>
-          </DialogHeader>
-
+        <DialogContent className="!max-w-4xl overflow-y-scroll ">
+      
           <CreateStudentFormPage onClose={()=>setOpen(!open)} />
         </DialogContent>
       </Dialog>

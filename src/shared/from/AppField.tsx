@@ -2,18 +2,35 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { AnyFieldApi } from "@tanstack/react-form"
-
 const getErrorMessage = (error: unknown): string => {
-    if (typeof error === "string") return error;
+    if (!error) return "";
 
-    if (error && typeof error === "object") {
-        if ("message" in error && typeof error.message === "string") {
-            return error.message;
+    if (typeof error === "string") {
+        return error;
+    }
+    if (Array.isArray(error)) {
+        return getErrorMessage(error[0]);
+    }
+    if (typeof error === "object") {
+
+        if (
+            "message" in error &&
+            typeof (error as { message?: unknown }).message === "string"
+        ) {
+            return (error as { message: string }).message;
+        }
+
+        // nested message object
+        if (
+            "message" in error &&
+            typeof (error as { message?: unknown }).message === "object"
+        ) {
+            return JSON.stringify((error as { message: unknown }).message);
         }
     }
 
-    return String(error);
-}
+    return "Invalid input";
+};
 type AppFiledProps = {
     label: string,
     placeholder?: string;
@@ -22,7 +39,7 @@ type AppFiledProps = {
     prepend?: React.ReactNode;
     className?: string;
     disable?: boolean;
-    type?: "text" | "email" | "password" | "number" | "checkbox" | "date" | "file"| "datetime-local"|"time"|"textarea";
+    type?: "text" | "email" | "password" | "number" | "checkbox" | "date" | "file" | "datetime-local" | "time" | "textarea";
 }
 
 const AppField = ({
@@ -36,7 +53,9 @@ const AppField = ({
     type
 
 }: AppFiledProps) => {
-    const firstError = field.state.meta.isTouched && field.state.meta.errors.length > 0 ? getErrorMessage(field.state.meta.errors[0]) : null;
+    const firstError = field.state.meta.isTouched && field.state.meta.errors?.length
+        ? getErrorMessage(field.state.meta.errors[0].message)
+        : null;
 
     const hasError = firstError !== null;
     return (
@@ -58,7 +77,7 @@ const AppField = ({
                     id={field.name}
                     name={field.name}
                     type={type}
-                    value={field.state.value ??""}
+                    value={type !== "file" ? field.state.value ?? "" : undefined}
                     placeholder={placeholder}
                     onBlur={field.handleBlur}
                     onChange={(e) => {
@@ -70,7 +89,9 @@ const AppField = ({
                             const raw = e.currentTarget.value;
 
                             value = raw === "" ? "" : Number(raw);
-                        } 
+                        } else if (type === "file") {
+                            value = e.currentTarget.files?.[0] ?? null;
+                        }
                         else {
                             value = e.currentTarget.value;
                         }

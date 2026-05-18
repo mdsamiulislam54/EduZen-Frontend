@@ -18,7 +18,7 @@ const CreateNoticeButton = () => {
   return (
     <>
       <Button className={"cursor-pointer"} onClick={() => setOpen(true)}>
-        Create Subject
+        Create Notice
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
