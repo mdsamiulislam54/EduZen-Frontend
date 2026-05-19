@@ -25,27 +25,27 @@ import {
     Users,
     UserCog,
     Layers3,
-    ClipboardCheck,
-    MessageSquare,
-    FileText,
     CheckCircle2,
-    XCircle,
     Sparkles,
+    ArrowRight,
 } from "lucide-react";
+
 import { useRouter } from "next/navigation";
 
 const SubscriptionsCard = () => {
-    const router = useRouter()
+    const router = useRouter();
+
     const {
         data: subscription,
         isFetching,
-        isError, } = useQuery({
-            queryKey: ["subscription-plan"],
-            queryFn: () => getAllSubscriptionPlans(),
-        });
+        isError,
+    } = useQuery({
+        queryKey: ["subscription-plan"],
+        queryFn: () => getAllSubscriptionPlans(),
+    });
 
     if (isFetching) {
-        return <Loader length={4} />;
+        return <Loader length={3} />;
     }
 
     if (isError) {
@@ -56,167 +56,109 @@ const SubscriptionsCard = () => {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-            {subscription?.map((plan) => {
-                const features = [
-                    {
-                        label: `${plan.max_students} Students`,
-                        icon: Users,
-                    },
-                    {
-                        label: `${plan.max_teachers} Teachers`,
-                        icon: UserCog,
-                    },
-                    {
-                        label: `${plan.max_batches} Batches`,
-                        icon: Layers3,
-                    },
-                    {
-                        label: `${plan.duration_days} Days Access`,
-                        icon: CalendarDays,
-                    },
-                ];
-
-                const extraFeatures = [
-                    {
-                        label: "Attendance System",
-                        enabled: plan.has_attendance,
-                        icon: ClipboardCheck,
-                    },
-                    {
-                        label: "SMS Notification",
-                        enabled: plan.has_sms,
-                        icon: MessageSquare,
-                    },
-                    {
-                        label: "Exam Management",
-                        enabled: plan.has_exam,
-                        icon: FileText,
-                    },
-                ];
-
+            {subscription?.map((plan, index) => {
+            
                 return (
                     <Card
                         key={plan.id}
-                        className="relative overflow-hidden hover:bg-purple-500/20 hover:cursor-pointer transition-all duration-300"
+                        className={`relative overflow-hidden rounded-2xl border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${index === 1 ? "border-primary" : ""
+                            }`}
                     >
-                        {/* Top Gradient */}
-                        <div className="absolute bottom-0 left-0 h-1 w-full gradient" />
+                        {/* TOP LINE */}
+                        <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-primary to-purple-500" />
 
-                        <CardHeader className="space-y-2 pb-2 p-4">
-                            <div className="flex items-center justify-between">
-                                <Badge
-                                    variant="secondary"
-                                    className="rounded-full px-2 py-0.5 text-[11px]"
-                                >
-                                    <Sparkles className="w-3 h-3 mr-1" />
-                                    Plan
-                                </Badge>
+                        <CardHeader className="p-4 pb-2">
+                            <div className="flex items-start justify-between">
+                                <div>
+                                    <CardTitle className="text-lg font-bold">
+                                        {plan.name}
+                                    </CardTitle>
+
+                                    <p className="text-xs text-muted-foreground mt-1">
+                                        {plan.duration_days} Days Access
+                                    </p>
+                                </div>
 
                                 <Badge
-                                    className={
-                                        plan.status === "ACTIVE"
-                                            ? "bg-green-500/10 text-green-600 dark:text-green-400 text-[11px]"
-                                            : "bg-red-500/10 text-red-600 dark:text-red-400 text-[11px]"
-                                    }
+                                    className={`text-[10px] rounded-full px-2 py-0.5 ${plan.status === "ACTIVE"
+                                            ? "bg-green-500/10 text-green-600 dark:text-green-400"
+                                            : "bg-red-500/10 text-red-500"
+                                        }`}
                                 >
-                                    {plan.status || "ACTIVE"}
+                                    {plan.status}
                                 </Badge>
                             </div>
 
-                            <div>
-                                <CardTitle className="text-lg font-semibold tracking-tight flex justify-between items-center">
-                                    <span>{plan.name}</span>
-                                    <div className="mt-1 flex items-end gap-1">
-                                        <span className="text-2xl font-bold">
-                                            ৳ {plan.price}
-                                        </span>
+                            {/* PRICE */}
+                            <div className="mt-4 flex items-end gap-1 justify-end">
+                                <span className="text-3xl font-black tracking-tight">
+                                    ৳{plan.price}
+                                </span>
 
-                                        <span className="text-muted-foreground text-xs mb-0.5">
-                                            / month
-                                        </span>
-                                    </div>
-                                </CardTitle>
-
-
+                                <span className="text-xs text-muted-foreground mb-1">
+                                    /month
+                                </span>
                             </div>
                         </CardHeader>
 
-                        <CardContent className="space-y-3 p-4 pt-0">
-                            {/* Main Features */}
+                        <CardContent className="px-4 pb-4 space-y-4">
+                            {/* STATS */}
+                            <div className="grid grid-cols-3 gap-2">
+                                <div className="rounded-xl border bg-muted/40 p-2 text-center">
+                                    <p className="text-sm font-bold">
+                                        {plan.max_students}
+                                    </p>
+
+                                    <p className="text-[10px] text-muted-foreground">
+                                        Students
+                                    </p>
+                                </div>
+
+                                <div className="rounded-xl border bg-muted/40 p-2 text-center">
+                                    <p className="text-sm font-bold">
+                                        {plan.max_teachers}
+                                    </p>
+
+                                    <p className="text-[10px] text-muted-foreground">
+                                        Teachers
+                                    </p>
+                                </div>
+
+                                <div className="rounded-xl border bg-muted/40 p-2 text-center">
+                                    <p className="text-sm font-bold">
+                                        {plan.max_batches}
+                                    </p>
+
+                                    <p className="text-[10px] text-muted-foreground">
+                                        Batches
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* FEATURES */}
                             <div className="space-y-2">
-                                {features.map((item, index) => {
-                                    const Icon = item.icon;
-
-                                    return (
+                                {plan.features?.slice(0, 4).map(
+                                    (feature: string, idx: number) => (
                                         <div
-                                            key={index}
-                                            className="flex items-center gap-2 rounded-lg border p-0 bg-muted/30"
+                                            key={idx}
+                                            className="flex items-center gap-2 text-xs text-muted-foreground"
                                         >
-                                            <div className="rounded-md bg-primary/10 p-1.5">
-                                                <Icon className="h-4 w-4 text-primary" />
-                                            </div>
+                                            <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />
 
-                                            <p className="text-xs font-medium">
-                                                {item.label}
-                                            </p>
+                                            <span>{feature}</span>
                                         </div>
-                                    );
-                                })}
+                                    )
+                                )}
                             </div>
 
-                            {/* Extra Features */}
-                            <div className="space-y-2">
-                                <h4 className="text-xs font-semibold text-muted-foreground">
-                                    Features
-                                </h4>
-
-                                {extraFeatures.map((feature, index) => {
-                                    const Icon = feature.icon;
-
-                                    return (
-                                        <div
-                                            key={index}
-                                            className="flex items-center justify-between rounded-lg border "
-                                        >
-                                            <div className="flex items-center gap-2">
-                                                <div className="rounded-md bg-muted p-1.5">
-                                                    <Icon className="h-3.5 w-3.5" />
-                                                </div>
-
-                                                <span className="text-xs font-medium">
-                                                    {feature.label}
-                                                </span>
-                                            </div>
-
-                                            {feature.enabled ? (
-                                                <CheckCircle2 className="h-4 w-4 text-green-500" />
-                                            ) : (
-                                                <XCircle className="h-4 w-4 text-red-500" />
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Description */}
-                            <div className="rounded-xl border bg-muted/30 p-3 text-[11px] text-muted-foreground leading-relaxed">
-                                Perfect for coaching centers managing students,
-                                teachers, attendance, exams, and communication.
-                            </div>
-                        </CardContent>
-
-
-                        <div className="p-2">
+                            {/* BUTTON */}
                             <Button
-                                onClick={() => {
-                                    router.push(`/payment/${plan.id}`)
-                                }}
-                                variant={"outline"} className="w-full h-9 text-sm rounded-xl cursor-pointer">
+                                onClick={() => router.push(`/payment/${plan.id}`)}
+                                className="w-full rounded-xl h-9 text-sm cursor-pointer"
+                            >
                                 Buy Now
                             </Button>
-                        </div>
-
+                        </CardContent>
                     </Card>
                 );
             })}

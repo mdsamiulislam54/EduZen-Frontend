@@ -2,7 +2,7 @@
 
 import { GraduationCap, Menu, } from "lucide-react";
 import {
-  
+
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -56,6 +56,10 @@ interface Navbar1Props {
       title: string;
       url: string;
     };
+    register: {
+      title: string;
+      url: string;
+    }
   };
 }
 
@@ -75,7 +79,8 @@ const Navbar = ({
 
   ],
   auth = {
-    login: { title: "Login", url: "/auth/login" }
+    login: { title: "Login", url: "/auth/login" },
+    register: { title: "Register", url: "/auth/register" }
 
   },
   className,
@@ -138,7 +143,12 @@ const Navbar = ({
             <ModeToggle />
             {
               currentUser ? <Button variant="outline" className={"cursor-pointer"} onClick={() => logoutMutation()}>Logout</Button>
-                : <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+                : <div>
+
+                  <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+                  <Button variant="outline" render={<Link href={auth.register.url}></Link>} nativeButton={false}>{auth.register.title}</Button>
+
+                </div>
             }
 
 
@@ -171,7 +181,7 @@ const Navbar = ({
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
                   <Accordion
-                    
+
                     className="flex w-full flex-col gap-4"
                   >
                     {menu.map((item) => renderMobileMenuItem(item))}
@@ -180,7 +190,11 @@ const Navbar = ({
                   <div className="flex flex-col gap-3">
                     {
                       currentUser ? <Button variant="outline" className={"cursor-pointer"} onClick={() => logoutMutation()}>Logout</Button>
-                        : <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+                        : <div>
+
+                          <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+
+                        </div>
                     }
                   </div>
                 </div>

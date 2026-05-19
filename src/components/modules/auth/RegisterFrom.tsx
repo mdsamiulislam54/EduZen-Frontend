@@ -2,11 +2,11 @@
 import { loginAction } from '@/app/auth/login/_actions';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { handleError } from '@/lib/error/handleError';
 import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
-import { ILogin, loginZodSchema } from '@/zod/auth.zod';
+import { ILogin, loginZodSchema, RegisterZodSchema } from '@/zod/auth.zod';
 import { useForm } from '@tanstack/react-form';
 import { useMutation, } from '@tanstack/react-query'
 import { Eye, EyeOff, GraduationCap, Lock } from 'lucide-react';
@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 
-const LoginFrom = () => {
+const RegisterForm = () => {
     const [Error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
@@ -27,6 +27,7 @@ const LoginFrom = () => {
 
     const form = useForm({
         defaultValues: {
+            name: "",
             email: "",
             password: ""
         },
@@ -35,7 +36,7 @@ const LoginFrom = () => {
             try {
                 setError(null)
                 const res = await mutateAsync(value);
-              
+
                 if (res.success) {
                     toast.success(res.message);
                     router.push('/dashboard');
@@ -56,21 +57,20 @@ const LoginFrom = () => {
                 <CardHeader className="text-center space-y-3 mb-10">
 
                     {/* Icon */}
-                   <Link href={"/"} className="flex items-center gap-2 justify-center">
+                    <Link href={"/"} className="flex items-center gap-2 justify-center">
                         <GraduationCap size={50} className="gradient rounded-full p-1 text-white" />
                         <span className="text-2xl font-semibold tracking-tighter">
                             EduZen
                         </span>
                     </Link>
 
-                    {/* Title
-                    <CardTitle className="text-2xl font-bold  ">
-                        Welcome Back
-                    </CardTitle> */}
 
-                    {/* Subtitle */}
+                    <CardTitle className="text-xl font-bold  ">
+                        Welcome Back
+                    </CardTitle>
+
                     <p className="text-sm ">
-                        Login to your account to continue
+                        Register to your account to continue
                     </p>
 
                 </CardHeader>
@@ -92,8 +92,24 @@ const LoginFrom = () => {
 
                     >
                         <form.Field
+                            name='name'
+                            validators={{ onChange: RegisterZodSchema.shape.name }}
+                        >
+                            {
+                                (filed) => (
+                                    <AppField
+                                        field={filed}
+                                        label='Name'
+                                        type='email'
+                                        placeholder='Enter Your Full Name...'
+
+                                    />
+                                )
+                            }
+                        </form.Field>
+                        <form.Field
                             name='email'
-                            validators={{ onChange: loginZodSchema.shape.email }}
+                            validators={{ onChange: RegisterZodSchema.shape.email }}
                         >
                             {
                                 (filed) => (
@@ -109,7 +125,7 @@ const LoginFrom = () => {
                         </form.Field>
                         <form.Field
                             name='password'
-                            validators={{ onChange: loginZodSchema.shape.password }}
+                            validators={{ onChange: RegisterZodSchema.shape.password }}
                         >
                             {
                                 (filed) => (
@@ -132,11 +148,7 @@ const LoginFrom = () => {
                                 )
                             }
                         </form.Field>
-                        <div>
-                            <Link href="/forgot-password" className='text-right my-4'>
-                                Forgot Password
-                            </Link>
-                        </div>
+
 
                         {
                             Error && (
@@ -182,4 +194,4 @@ const LoginFrom = () => {
     )
 }
 
-export default LoginFrom
+export default RegisterForm

@@ -131,5 +131,8 @@
 
 /* globals.css */
 .gradient {
-  @apply bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500;
+ @apply bg-gradient-to-br from-cyan-500 via-blue-500 to-violet-500;
 }
+/* .gradient {
+ @apply bg-gradient-to-br from-violet-500 via-fuchsia-500 to-indigo-500;
+} */
