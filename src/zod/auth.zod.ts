@@ -28,4 +28,4 @@ export const RegisterZodSchema = z.object({
         .max(32, "Password must be at most 32 characters"),
 });
 
-export type Register = z.infer<typeof RegisterZodSchema>
+export type IRegister = z.infer<typeof RegisterZodSchema>

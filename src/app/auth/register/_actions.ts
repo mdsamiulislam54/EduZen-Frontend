@@ -3,13 +3,13 @@ import { setCookie } from "@/lib/cookies/cookie";
 import { setTokenCookie } from "@/lib/cookies/token";
 import { handleError } from "@/lib/error/handleError";
 import { httpClient } from "@/lib/httpClient/axios";
-import { ILoginApiResponse } from "@/types/auth.types";
-import { ILogin, } from "@/zod/auth.zod";
+import { IRegisterApiResponse } from "@/types/auth.types";
+import { IRegister, } from "@/zod/auth.zod";
 
-export const loginAction = async (payload: ILogin) => {
+export const register = async (payload: IRegister) => {
    
     try {
-        const user = await httpClient.post<ILoginApiResponse>("/auth/login", payload);
+        const user = await httpClient.post<IRegisterApiResponse>("/auth/register", payload);
         const { accessToken, refreshToken, token } = user.data;
         await setTokenCookie("accessToken", accessToken!);
         await setTokenCookie("refreshToken", refreshToken!);

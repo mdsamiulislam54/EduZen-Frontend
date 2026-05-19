@@ -3,6 +3,9 @@
 import { cookies } from "next/headers";
 import { jwtUtils } from "@/lib/jwt/jwtUtlis";
 import { getTokenRemaining, setTokenCookie } from "@/lib/cookies/token";
+import { httpClient } from "@/lib/httpClient/axios";
+import { boolean } from "zod";
+import { handleAxiosError } from "@/lib/utils";
 
 export type Role = "ADMIN" | "OWNER" | "TEACHER" | "STUDENT";
 
@@ -12,6 +15,11 @@ export type JwtPayload = {
     name: string;
     email: string;
 };
+
+export interface ICheckOwnerSubscription {
+    hasSubscription: boolean,
+    hasCoachingCenter: boolean
+}
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 if (!API_BASE_URL) {
     throw new Error("NEXT_PUBLIC_API_BASE_URL is not defined");
@@ -55,13 +63,13 @@ export const getNewAccessToken = async (refreshToken: string): Promise<boolean> 
         const data = await response.json();
         const { accessToken, refreshToken: newRefreshToken, token } = data;
 
-        if(!accessToken || !newRefreshToken || !token) {
+        if (!accessToken || !newRefreshToken || !token) {
             return false;
         }
 
         setTokenCookie("accessToken", accessToken);
         setTokenCookie("refreshToken", newRefreshToken);
-        setTokenCookie("better-auth.session_token", token) 
+        setTokenCookie("better-auth.session_token", token)
 
         return true;
     } catch (error) {
@@ -85,4 +93,14 @@ export const isAuthenticated = async (): Promise<boolean> => {
     const token = cookieStore.get("accessToken")?.value;
     if (!token) return false;
     return !await isTokenExpired(token);
+}
+
+export const getOnboardStatus = async () => {
+    try {
+        const res = await httpClient.get("/subscription-plan/onboarding-status");
+        return res.data as ICheckOwnerSubscription
+    } catch (error) {
+        console.error(error);
+        handleAxiosError(error)
+    }
 }

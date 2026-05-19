@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { JwtPayload, jwtUtils } from "./lib/jwt/jwtUtlis";
 import { Role, routeOwner } from "./lib/auth/authUtils";
-import { getNewAccessToken, isTokenExpiredSoon } from "./service/auth.service";
+import { getNewAccessToken, getOnboardStatus, ICheckOwnerSubscription, isTokenExpiredSoon } from "./service/auth.service";
 
 async function refreshTokenMiddleware(refreshToken: string): Promise<boolean> {
     try {
@@ -23,10 +23,7 @@ export async function proxy(req: NextRequest) {
             ? jwtUtils.verifyToken<JwtPayload>(accessToken, process.env.NEXT_PUBLIC_JWT_SCRECT!)
             : null;
 
-        // 3️⃣ Decode access token for quick info
-        const decodedAccessToken = accessToken ? jwtUtils.decodeToken<JwtPayload>(accessToken) : null;
 
-        // 4️⃣ Extract user info if token is valid
         let user: JwtPayload | undefined;
         if (isValidAccessToken?.success) {
             user = isValidAccessToken.data;
@@ -36,8 +33,7 @@ export async function proxy(req: NextRequest) {
             return NextResponse.redirect(new URL("/auth/login", req.url));
         }
 
-        const roleFromPath = routeOwner(pathname); // returns Role or 'null'
-
+        const roleFromPath = routeOwner(pathname);
         if (pathname === "/dashboard") {
             return NextResponse.redirect(
                 new URL(`/dashboard/${user?.role.toLowerCase()}`, req.url)
@@ -49,8 +45,16 @@ export async function proxy(req: NextRequest) {
             );
         }
 
-        if (pathname === "/create-coaching" && !user?.hasSubscription) {
-            return NextResponse.redirect(new URL("/pricing", req.url));
+        if (pathname.startsWith("/dashboard")) {
+            if (user?.role === "OWNER") {
+                const status = await getOnboardStatus()
+
+                if (!status?.hasSubscription) {
+                    return NextResponse.redirect(new URL("/subscriptions", req.url))
+                }
+            }
+
+
         }
 
         if (isValidAccessToken?.success && refreshToken && (await isTokenExpiredSoon(refreshToken))) {
@@ -85,7 +89,7 @@ export async function proxy(req: NextRequest) {
         return NextResponse.next();
 
     } catch (error) {
-        // console.error("Proxy middleware error:", error);
+        console.error("Proxy middleware error:", error);
         return NextResponse.redirect(new URL("/auth/login", req.url));
     }
 }

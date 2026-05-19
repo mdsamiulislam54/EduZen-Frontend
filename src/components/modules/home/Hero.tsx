@@ -21,7 +21,7 @@ interface HeroProps {
 }
 
 const Hero= ({
-  icon = <GraduationCap size={50} className="animate-bounce " />,
+  icon = <GraduationCap size={50} className="animate-pulse  text-white " />,
   heading = "Blocks built with Shadcn & Tailwind",
   description = "Finely crafted components built with React, Tailwind and Shadcn UI. Developers can copy and paste these blocks directly into their project.",
   button = {

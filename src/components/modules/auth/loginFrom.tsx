@@ -21,7 +21,7 @@ const LoginFrom = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: (payload: ILogin) => loginAction(payload),
+        mutationFn: loginAction
 
     });
 
@@ -35,7 +35,7 @@ const LoginFrom = () => {
             try {
                 setError(null)
                 const res = await mutateAsync(value);
-              
+
                 if (res.success) {
                     toast.success(res.message);
                     router.push('/dashboard');
@@ -56,7 +56,7 @@ const LoginFrom = () => {
                 <CardHeader className="text-center space-y-3 mb-10">
 
                     {/* Icon */}
-                   <Link href={"/"} className="flex items-center gap-2 justify-center">
+                    <Link href={"/"} className="flex items-center gap-2 justify-center">
                         <GraduationCap size={50} className="gradient rounded-full p-1 text-white" />
                         <span className="text-2xl font-semibold tracking-tighter">
                             EduZen

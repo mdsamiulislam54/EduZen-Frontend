@@ -1,5 +1,6 @@
 "use client"
 import { loginAction } from '@/app/auth/login/_actions';
+import { register } from '@/app/auth/register/_actions';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,7 +22,7 @@ const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: (payload: ILogin) => loginAction(payload),
+        mutationFn: register
 
     });
 
@@ -39,7 +40,7 @@ const RegisterForm = () => {
 
                 if (res.success) {
                     toast.success(res.message);
-                    router.push('/dashboard');
+                    router.push('/auth/login');
                 } else {
                     toast.error(res.message);
                 }
@@ -170,7 +171,7 @@ const RegisterForm = () => {
                                         disabled={!canSubmit || isPending}
 
                                     >
-                                        Log In
+                                      Register
                                     </AppSubmitButton>
                                 )
                             }

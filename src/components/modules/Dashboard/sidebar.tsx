@@ -2,6 +2,7 @@
 import {
   BarChart3,
   ClipboardList,
+  GraduationCap,
   HelpCircle,
   LayoutDashboard,
   Settings,
@@ -26,6 +27,7 @@ import { IUser } from "@/types/user.type";
 import React from "react";
 import { adminRoutes, ownerRoutes, studentRoutes, teacherRoutes } from "@/lib/route/route.page";
 import Link from "next/link";
+import Image from "next/image";
 
 
 type NavItem = {
@@ -88,7 +90,7 @@ const SidebarLogo = ({ logo }: { logo: SidebarData["logo"] }) => {
       <SidebarMenuItem>
         <SidebarMenuButton size="lg">
           <div className="flex aspect-square size-8 items-center justify-center rounded-sm bg-primary">
-            <img
+            <Image
               src={logo.src}
               alt={logo.alt}
               className="size-6 text-primary-foreground invert dark:invert-0"
@@ -126,11 +128,14 @@ export const AppSidebar = ({ user }: { user: IUser|null }) => {
 
   return (
     <Sidebar >
-      <SidebarHeader className="border-b border-purple-500">
+      <SidebarHeader className="border-b ">
         {/* <SidebarLogo logo={sidebarData.logo} /> */}
-        <h1 className="font-bold text-3xl text-center py-4">
-          EduZen
-        </h1>
+         <Link href={"/"} className="flex items-center justify-center gap-2">
+              <GraduationCap size={30} className="gradient rounded-full p-1 text-white" />
+              <span className="text-lg font-semibold tracking-tighter">
+                EduZen
+              </span>
+            </Link>
         <div className="flex flex-col justify-center items-center *:text-sm font-bold">
           <p>{user?.role}</p>
           <p>{user?.email}</p>
