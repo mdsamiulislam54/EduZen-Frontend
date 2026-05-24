@@ -91,6 +91,11 @@ export const ownerRoutes: IRoutePage[] = [
     title:"Notice",
     url:"/dashboard/owner/notice",
     icon: Pin,
+  },
+  {
+    title:"Student Payment",
+    url:"/dashboard/owner/student-payment",
+    icon: CreditCard,
   }
 ];
 
@@ -120,6 +125,11 @@ export const teacherRoutes: IRoutePage[] = [
     title: "Marks",
     url: "/dashboard/teacher/marks",
     icon: PenTool,
+  },
+  {
+    title: "Setting",
+    url: "/dashboard/teacher/setting",
+    icon: ClipboardListIcon,
   },
 ];
 

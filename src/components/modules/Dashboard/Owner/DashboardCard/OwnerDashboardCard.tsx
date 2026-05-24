@@ -4,6 +4,7 @@ import { getOwnerDashboardData } from "@/app/(dashboardLayout)/dashboard/owner/_
 import ErrorState from "@/components/modules/Error/Error";
 import Loader from "@/components/modules/Loader/loader";
 import { Card } from "@/components/ui/card";
+import { formatNumber } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query"
 import { BookOpen, Building, DollarSign, UserCircle2, } from "lucide-react";
 import { User } from "lucide-react";
@@ -20,27 +21,27 @@ const OwnerDashboardCardPage = () => {
     const cards = [
         {
             title: "Total Students",
-            value: dashboardCard?.data?.totalStudents || 0,
+            value: formatNumber(dashboardCard?.data?.totalStudents || 0),
             icon: <User size={30} color="pink" />
         },
         {
             title: "Total Batches",
-            value: dashboardCard?.data?.totalBatches || 0,
+            value: formatNumber(dashboardCard?.data?.totalBatches || 0),
             icon: <Building size={30} color="purple" />
         },
         {
             title: "Total Revenue",
-            value: dashboardCard?.data?.totalRevenue || 0,
-            icon: <DollarSign size={30} color="green" />
+            value: formatNumber(dashboardCard?.data?.totalRevenue || 0),
+            icon: <DollarSign size={30} color="red" />
         },
         {
             title: "Total Teachers",
-            value: dashboardCard?.data?.totalTeachers || 0,
+            value: formatNumber(dashboardCard?.data?.totalTeachers || 0),
             icon: <UserCircle2 size={30} color="blue" />
         },
         {
             title: "Total Subjects",
-            value: dashboardCard?.data?.totalSubjects || 0,
+            value: formatNumber(dashboardCard?.data?.totalSubjects || 0),
             icon: <BookOpen size={30} color="orange" />
         }
     ]
