@@ -116,7 +116,7 @@ const Navbar = ({
 
 
   return (
-    <section className={cn("p-2 sticky top-0 z-50 w-full transition-transform duration-300  backdrop-blur bg-background ",
+    <section className={cn("p-2 sticky top-0 z-50 w-full transition-transform duration-300   backdrop-blur bg-background ",
       visible ? "translate-y-0" : "",
       className
     )}>
@@ -188,7 +188,7 @@ const Navbar = ({
                 {/* Header */}
                 <div className="flex items-center justify-between border-b border-border/50 p-4">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient">
                       <GraduationCap size={16} className="text-white" />
                     </div>
                     <span className="font-semibold">{logo.title}</span>
@@ -220,7 +220,7 @@ const Navbar = ({
                     {currentUser ? (
                       <Button
                         variant="destructive"
-                        className="w-full rounded-xl"
+                        className="w-full rounded-xl hover:bg-gradient"
                         onClick={() => logoutMutation()}
                       >
                         Logout

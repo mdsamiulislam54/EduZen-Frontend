@@ -70,8 +70,8 @@ const Hero = ({
             <span className="mx-auto flex size-16 items-center justify-center rounded-full border md:size-20 gradient">
               {icon}
             </span>
-            <h2 className="mx-auto max-w-5xl text-center  text-xl md:text-3xl  font-medium text-balance lg:text-6xl text-white">
-              {heading}
+            <h2 className="mx-auto max-w-6xl text-center  text-xl md:text-3xl  font-medium text-balance lg:text-5xl text-white">
+              {heading} 
             </h2>
             <p className="mx-auto max-w-3xl text-center md:text-lg text-gray-300">
               {description}

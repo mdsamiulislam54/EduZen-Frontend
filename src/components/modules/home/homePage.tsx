@@ -1,9 +1,13 @@
 
+import SubscriptionPage from '@/app/(commonLayout)/subscriptions/page'
+import SubscriptionCard from '../Dashboard/Owner/Subscription/SubscriptionCard'
 import DashboardPreview from './DashboardPreview'
 import FeaturesSection from './Features'
 import Hero from './Hero'
 import HowToWorks from './HowToWorks'
 import StatsSection from './Stats'
+import Testimonials from './Testimonials'
+import CTASection from './CTASection'
 
 
 const HomePage = () => {
@@ -21,7 +25,20 @@ const HomePage = () => {
                 <DashboardPreview />
             </div>
             <div className='py-16'>
-                <HowToWorks/>
+                <HowToWorks />
+            </div>
+            <div className='py-16'>
+                <div>
+                    <h2 className='text-xl md:text-5xl font-bold text-center mb-8'>Choose Your Plan</h2>
+                    <p className='text-muted-foreground text-center mb-12'>Simple and transparent pricing. No hidden fees, cancel anytime.</p>
+                </div>
+                <SubscriptionPage />
+            </div>
+            <div className='py-16'>
+                <Testimonials />
+            </div>
+            <div className='py-10'>
+                <CTASection />
             </div>
         </div>
     )
