@@ -26,10 +26,13 @@ export interface IStudentPaymentAction {
 
 interface IProcessPaymentPayload {
     studentId: string;
-    batchFeeId: string[];
-    amount: number;
-    paidAmount: number;
     paymentMethod: string;
+    fees: {
+        batchFeeId: string;
+        amount: number;
+        paidAmount: number;
+        dueAmount: number;
+    }[]
 }
 
 

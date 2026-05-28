@@ -8,7 +8,9 @@ import AppField from "@/shared/from/AppField"
 import AppSelect from "@/shared/from/AppSelect"
 import { IStudentPaymentAction, processStudentPayment } from "@/app/(dashboardLayout)/dashboard/owner/student-payment/_actions"
 import { toast } from "sonner"
-import { useMutation, useQueryClient,  } from "@tanstack/react-query"
+import { useMutation, useQueryClient, } from "@tanstack/react-query"
+import { handleAxiosError } from "@/lib/utils"
+import { handleError } from "@/lib/error/handleError"
 
 interface Props {
     data: IStudentPaymentAction,
@@ -25,31 +27,29 @@ const StudentPaymentForm = ({ data, onOpen }: Props) => {
     const form = useForm({
         defaultValues: {
             studentId: data.studentFees[0]?.studentId || "",
-            batchFeeId: data.studentFees.map((feeId) => feeId.batchFeeId),
             paymentMethod: "CASH",
-            paidAmount: data.paidAmount,
+            fees: data.studentFees.map((fee) => ({
+                batchFeeId: fee.batchFeeId,
+                amount: fee.amount,
+                paidAmount: 0,
+                dueAmount: fee.amount,
+                title: fee.batchFee.feeType === "COURSE" ? "Course Fee" : fee.batchFee.feeType === "MONTHLY" ? "Monthly Fee" : "Exam Fee"
+            })),
         },
 
         onSubmit: async ({ value }) => {
-            const totalAmount = parseInt(data.studentFees.map((fee) => fee.amount).join(''), 10)
-            if (value.paidAmount > totalAmount) {
-                toast.error("Paid amount cannot be greater than total amount")
-                return;
-            }
-            const payload = {
-                ...value,
-                amount: totalAmount,
-            }
+
 
             try {
-                console.log("PAYLOAD:", payload)
-                await mutateAsync(payload)
+                console.log("PAYLOAD:", value)
+                await mutateAsync(value)
                 toast.success("Payment processed successfully")
                 form.reset();
                 onOpen(false);
                 queryClient.invalidateQueries({ queryKey: ["studentPayment", data.user.id] })
             } catch (error) {
-                toast.error("Failed to process payment")
+                const  errorMessage = handleError(error)
+                toast.error("Failed to process payment: " + errorMessage)
                 console.log("ERROR:", error)
 
             }
@@ -86,16 +86,46 @@ const StudentPaymentForm = ({ data, onOpen }: Props) => {
 
 
             {/* Paid Amount */}
-            <form.Field name="paidAmount">
-                {(field) => (
-                    <AppField
-                        field={field}
-                        label="Paid Amount"
-                        type="number"
-                        placeholder="Enter paid amount"
-                    />
+            <form.Subscribe selector={(state) => state.values.fees}>
+                {(fees) => (
+                    <div className={`
+                gap-4
+                ${fees.length > 1
+                            ? "grid md:grid-cols-2 lg:grid-cols-3"
+                            : "flex"}
+            `}>
+                        {fees.map((fee, index) => (
+                            <div
+                                key={fee.batchFeeId}
+                                className="rounded-xl border p-4 space-y-3"
+                            >
+                                <div className="flex items-center justify-between">
+                                    <h3 className="font-semibold">
+                                        {fee.title}
+                                    </h3>
+
+                                    <p className="text-sm text-muted-foreground">
+                                        Total: ৳{fee.amount}
+                                    </p>
+                                </div>
+
+                                <form.Field
+                                    name={`fees[${index}].paidAmount`}
+                                >
+                                    {(field) => (
+                                        <AppField
+                                            field={field}
+                                            label="Paid Amount"
+                                            type="number"
+                                            placeholder="Enter paid amount"
+                                        />
+                                    )}
+                                </form.Field>
+                            </div>
+                        ))}
+                    </div>
                 )}
-            </form.Field>
+            </form.Subscribe>
 
             {/* Submit */}
             <Button type="submit" className="w-full cursor-pointer">

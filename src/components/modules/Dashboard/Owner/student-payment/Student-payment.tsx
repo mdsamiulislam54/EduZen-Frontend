@@ -31,8 +31,7 @@ const StudentPayment = () => {
 
     });
 
-    // if(isPending) return <Loader length={3}/>
-    // if(isError) return <ErrorState message="Failed to fetch student payment data. Please try again." />
+    const totalAmount = data?.studentFees.reduce((sum, fee) => sum + fee.dueAmount, 0)
 
 
     console.log(studentRoll);
@@ -69,9 +68,10 @@ const StudentPayment = () => {
             {
                 open && data && (
                     <Dialog open={open} onOpenChange={setOpen}>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>Payment Student {studentRoll}</DialogTitle>
+                        <DialogContent className={data.studentFees.length > 0 ? "!max-w-4xl" : "!max-w-md"}>
+                            <DialogHeader className="space-y-2 flex justify-between items-center">
+                                <DialogTitle>Payment Student Roll : {studentRoll}</DialogTitle>
+                                <DialogTitle>Total Payable: ৳ <span className="font-bold">{totalAmount?.toLocaleString('en-BD')}</span></DialogTitle>
                             </DialogHeader>
 
                             <StudentPaymentForm data={data} onOpen={setOpen} />
