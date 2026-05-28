@@ -48,7 +48,7 @@ export async function proxy(req: NextRequest) {
         if (pathname.startsWith("/dashboard")) {
             if (user?.role === "OWNER") {
                 const status = await getOnboardStatus()
-
+                console.log("Onboard status in proxy:", status);
                 if (!status?.hasSubscription) {
                     return NextResponse.redirect(new URL("/subscriptions", req.url))
                 }

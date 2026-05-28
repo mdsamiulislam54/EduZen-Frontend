@@ -98,6 +98,7 @@ export const isAuthenticated = async (): Promise<boolean> => {
 export const getOnboardStatus = async () => {
     try {
         const res = await httpClient.get("/subscription-plan/onboarding-status");
+        console.log("Onboard status response:", res.data);
         return res.data as ICheckOwnerSubscription
     } catch (error) {
         console.error(error);

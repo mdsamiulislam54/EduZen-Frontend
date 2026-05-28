@@ -3,6 +3,7 @@ import { adminDashboardActionCards } from '@/app/(dashboardLayout)/dashboard/adm
 import ErrorState from '@/components/modules/Error/Error';
 import Loader from '@/components/modules/Loader/loader';
 import { Card } from '@/components/ui/card';
+import { formatNumber } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query'
 import {
   Users,
@@ -24,23 +25,23 @@ const AdminDashboardCard = () => {
   const cards = [
     {
       title: "Total Revenue",
-      value: dashboardCard?.totalRevenue || 0,
+      value: formatNumber(dashboardCard?.totalRevenue || 0),
       icon: <DollarSign size={30} className="text-yellow-500" />,
     },
     {
       title: "Total Owners",
-      value: dashboardCard?.totalOwners || 0,
+      value: formatNumber(dashboardCard?.totalOwners || 0),
       icon: <Users size={30} className="text-blue-500" />,
     },
     {
       title: "Total Coaching Centers",
-      value: dashboardCard?.totalCoachingCenter || 0,
+      value: formatNumber(dashboardCard?.totalCoachingCenter || 0),
       icon: <Building2 size={30} className="text-green-500" />,
     },
 
     {
       title: " Active Subscriptions",
-      value: dashboardCard?.activeSubscription || 0,
+      value: formatNumber(dashboardCard?.activeSubscription || 0),
       icon: <BadgeCheck size={30} className="text-purple-500" />,
 
     }

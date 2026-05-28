@@ -1,6 +1,8 @@
 
+import DashboardPreview from './DashboardPreview'
 import FeaturesSection from './Features'
 import Hero from './Hero'
+import HowToWorks from './HowToWorks'
 import StatsSection from './Stats'
 
 
@@ -14,6 +16,12 @@ const HomePage = () => {
             </div>
             <div className='py-16'>
                 <FeaturesSection />
+            </div>
+            <div className='py-16'>
+                <DashboardPreview />
+            </div>
+            <div className='py-16'>
+                <HowToWorks/>
             </div>
         </div>
     )
