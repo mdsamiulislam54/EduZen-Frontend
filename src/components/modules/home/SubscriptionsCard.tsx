@@ -12,7 +12,6 @@ import ErrorState from "../Error/Error";
 import {
     Card,
     CardContent,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
@@ -21,13 +20,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 import {
-    CalendarDays,
-    Users,
-    UserCog,
-    Layers3,
+
     CheckCircle2,
-    Sparkles,
-    ArrowRight,
+    
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
@@ -61,11 +56,11 @@ const SubscriptionsCard = () => {
                 return (
                     <Card
                         key={plan.id}
-                        className={`relative overflow-hidden rounded-2xl border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${index === 1 ? "border-primary" : ""
+                        className={`relative overflow-hidden rounded-2xl  bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${index === 1 ? "border-primary" : ""
                             }`}
                     >
                         {/* TOP LINE */}
-                        <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-primary to-purple-500" />
+                        <div className="absolute bottom-0 left-0 h-0.5 w-full bg-linear-to-r from-primary to-purple-500 animate-pulse" />
 
                         <CardHeader className="p-4 pb-2">
                             <div className="flex items-start justify-between">

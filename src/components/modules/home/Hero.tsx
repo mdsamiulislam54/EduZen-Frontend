@@ -28,7 +28,7 @@ const Hero = ({
   button = {
     text: "Create Coaching Center",
     icon: <Zap className="ml-2 size-4" />,
-    url: "/auth/login",
+    url: "/subscriptions",
   },
   trustText = "Trusted by 1,000+ students and coaching centers",
   className,
@@ -59,7 +59,7 @@ const Hero = ({
               style={{
                 transform: "translate(-50%, -50%)",
               }}
-              className="absolute top-1/2 left-1/2 -z-10 mx-auto size-[800px] rounded-full border border-indigo-500 [mask-image:linear-gradient(to_top,transparent,transparent,white,white,white,transparent,transparent)] p-16 md:size-[1500px] md:p-32"
+              className="absolute top-1/2 left-1/2 -z-10 mx-auto size-200 rounded-full border border-indigo-500 [mask-image:linear-gradient(to_top,transparent,transparent,white,white,white,transparent,transparent)] p-16 md:size-375 md:p-32"
             >
               <div className="size-full rounded-full border border-purple-500 p-16 md:p-32">
                 <div className="size-full rounded-full border border-indigo-500">
