@@ -59,14 +59,14 @@ const stats = [
 const StatsSection = () => {
   return (
     <section className="relative ">
-      {/* Background Blur */}
+      
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-10 top-10 h-40 w-40 rounded-full bg-cyan-500/10 blur-3xl" />
         <div className="absolute bottom-10 right-10 h-40 w-40 rounded-full bg-violet-500/10 blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 md:px-6">
-        {/* Header */}
+      <div className="">
+        
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <p className="mb-3 inline-flex items-center rounded-full border border-border/50 bg-background/40 px-4 py-1 text-sm text-muted-foreground backdrop-blur">
             Trusted by Modern Coaching Centers
@@ -82,7 +82,7 @@ const StatsSection = () => {
           </p>
         </div>
 
-        {/* Stats Grid */}
+       
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {stats.map((item) => {
             const Icon = item.icon;
@@ -90,23 +90,23 @@ const StatsSection = () => {
             return (
               <div
                 key={item.id}
-                className={`group relative overflow-hidden rounded-3xl border border-border/50 bg-gradient-to-br ${item.gradient} p-[1px] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl`}
+                className={`group relative overflow-hidden rounded-3xl border border-border/50 bg-linear-to-br ${item.gradient} p-px transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl`}
               >
-                {/* Card */}
+               
                 <div className="relative flex h-full flex-col rounded-3xl bg-background/70 p-6 backdrop-blur-xl dark:bg-background/40">
-                  {/* Glow */}
+                  
                   <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/10 blur-3xl" />
                   </div>
 
-                  {/* Icon */}
+                 
                   <div
                     className={`mb-5 flex h-14 w-14 items-center justify-center rounded-2xl ${item.iconBg} backdrop-blur`}
                   >
                     <Icon className={`h-7 w-7 ${item.iconColor}`} />
                   </div>
 
-                  {/* Content */}
+                  
                   <div className="space-y-1">
                     <h3 className="text-3xl font-bold tracking-tight text-foreground">
                       {item.value}
@@ -117,10 +117,10 @@ const StatsSection = () => {
                     </p>
                   </div>
 
-                  {/* Bottom line */}
-                  <div className="mt-6 h-[2px] w-full overflow-hidden rounded-full bg-border/40">
+               
+                  <div className="mt-6 h-0.5 w-full overflow-hidden rounded-full bg-border/40">
                     <div
-                      className={`h-full w-2/3 rounded-full bg-gradient-to-r ${item.gradient}`}
+                      className={`h-full w-2/3 rounded-full bg-linear-to-r ${item.gradient}`}
                     />
                   </div>
                 </div>

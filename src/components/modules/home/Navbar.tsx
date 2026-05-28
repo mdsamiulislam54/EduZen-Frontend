@@ -116,7 +116,7 @@ const Navbar = ({
 
 
   return (
-    <section className={cn("p-4 sticky top-0 z-50 w-full transition-transform duration-300  backdrop-blur bg-transparent ",
+    <section className={cn("p-2 sticky top-0 z-50 w-full transition-transform duration-300  backdrop-blur bg-background ",
       visible ? "translate-y-0" : "",
       className
     )}>
