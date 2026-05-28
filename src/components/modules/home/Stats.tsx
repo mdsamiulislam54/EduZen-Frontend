@@ -72,7 +72,7 @@ const StatsSection = () => {
             Trusted by Modern Coaching Centers
           </p>
 
-          <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+          <h2 className="text-xl font-bold tracking-tight text-foreground md:text-4xl">
             Powering Smarter Education Management
           </h2>
 

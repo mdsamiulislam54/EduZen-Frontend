@@ -98,7 +98,7 @@ const FeaturesSection = () => {
             Powerful Features for Modern Coaching Centers
           </div>
 
-          <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-5xl">
+          <h2 className="text-xl font-bold tracking-tight text-foreground md:text-5xl">
             Everything You Need to Run Your Coaching Business
           </h2>
 

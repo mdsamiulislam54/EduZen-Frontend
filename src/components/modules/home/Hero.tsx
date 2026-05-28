@@ -34,7 +34,7 @@ const Hero = ({
   className,
 }: HeroProps) => {
   return (
-    <section className={cn("overflow-hidden pt-32 ", className)}>
+    <section className={cn("overflow-hidden lg:pt-32 pt-10 ", className)}>
       {/* Background Image */}
       <div className="absolute inset-0 -z-20">
         <Image
@@ -70,7 +70,7 @@ const Hero = ({
             <span className="mx-auto flex size-16 items-center justify-center rounded-full border md:size-20 gradient">
               {icon}
             </span>
-            <h2 className="mx-auto max-w-5xl text-center text-3xl font-medium text-balance md:text-6xl text-white">
+            <h2 className="mx-auto max-w-5xl text-center  text-xl md:text-3xl  font-medium text-balance lg:text-6xl text-white">
               {heading}
             </h2>
             <p className="mx-auto max-w-3xl text-center md:text-lg text-gray-300">

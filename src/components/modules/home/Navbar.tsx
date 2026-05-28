@@ -155,47 +155,91 @@ const Navbar = ({
           </div>
         </nav>
 
+
         {/* Mobile Menu */}
-        <div className="block lg:hidden">
-          <div className="flex items-center justify-between">
+        <div className="block lg:hidden border-b border-border/50 bg-background/80 backdrop-blur-xl">
+          <div className="flex items-center justify-between px-4 py-3">
+
             {/* Logo */}
             <Link href={logo.url} className="flex items-center gap-2">
-              <GraduationCap size={30} className="gradient rounded-full p-1 text-white" />
-              <span className="text-lg font-semibold tracking-tighter">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-md">
+                <GraduationCap size={18} className="text-white" />
+              </div>
+
+              <span className="text-base font-semibold tracking-tight text-foreground">
                 {logo.title}
               </span>
             </Link>
+
+            {/* Menu Button */}
             <Sheet>
-              <SheetTrigger render={<Button variant="outline" size="icon" />}><Menu className="size-4" /></SheetTrigger>
-              <SheetContent className="overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle>
-                    {/* <a href={logo.url} className="flex items-center gap-2">
-                      <img
-                        src={logo.src}
-                        className="max-h-8 dark:invert"
-                        alt={logo.alt}
-                      />
-                    </a> */}
-                  </SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-6 p-4">
-                  <Accordion
+              <SheetTrigger >
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-xl border border-border/50 bg-background/60 backdrop-blur"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
 
-                    className="flex w-full flex-col gap-4"
-                  >
-                    {menu.map((item) => renderMobileMenuItem(item))}
-                  </Accordion>
+              <SheetContent className="w-[320px] p-0 bg-background/95 backdrop-blur-xl border-l border-border/50">
 
-                  <div className="flex flex-col gap-3">
-                    {
-                      currentUser ? <Button variant="outline" className={"cursor-pointer"} onClick={() => logoutMutation()}>Logout</Button>
-                        : <div>
+                {/* Header */}
+                <div className="flex items-center justify-between border-b border-border/50 p-4">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-500">
+                      <GraduationCap size={16} className="text-white" />
+                    </div>
+                    <span className="font-semibold">{logo.title}</span>
+                  </div>
+                </div>
 
-                          <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
+                {/* Content */}
+                <div className="flex flex-col gap-5 p-4">
 
-                        </div>
-                    }
+                  {/* Navigation */}
+                  <div className="rounded-2xl border border-border/50 bg-muted/30 p-2">
+                    <Accordion className="flex w-full flex-col gap-2">
+                      {menu.map((item) => renderMobileMenuItem(item))}
+                    </Accordion>
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <Button
+                      variant="outline"
+                      className="w-full rounded-xl border-border/50"
+
+                    >
+                      <Link href={auth.login.url}>
+                        Login
+                      </Link>
+                    </Button>
+
+                    {currentUser ? (
+                      <Button
+                        variant="destructive"
+                        className="w-full rounded-xl"
+                        onClick={() => logoutMutation()}
+                      >
+                        Logout
+                      </Button>
+                    ) : (
+                      <Button
+
+                        className="w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-500 text-white"
+                      >
+                        <Link href={auth.register.url}>
+                          Register
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+
+                  {/* Footer hint */}
+                  <div className="text-center text-xs text-muted-foreground">
+                    Smart Coaching Management System
                   </div>
                 </div>
               </SheetContent>
