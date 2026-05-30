@@ -8,6 +8,7 @@ import HowToWorks from './HowToWorks'
 import StatsSection from './Stats'
 import Testimonials from './Testimonials'
 import CTASection from './CTASection'
+import AboutUsPage from './AboutUs'
 
 
 const HomePage = () => {
@@ -40,6 +41,7 @@ const HomePage = () => {
             <div className='py-10'>
                 <CTASection />
             </div>
+            
         </div>
     )
 }

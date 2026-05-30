@@ -1,10 +1,13 @@
 
+import AboutUsPage from '@/components/modules/home/AboutUs'
 import React from 'react'
 
 const AboutPage = async () => {
 
   return (
-    <div></div>
+    <div className="px-4">
+         <AboutUsPage/>
+       </div>
   )
 }
 

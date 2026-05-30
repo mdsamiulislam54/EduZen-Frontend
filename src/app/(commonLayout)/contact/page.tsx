@@ -1,8 +1,11 @@
-import React from 'react'
+import AboutUsPage from "@/components/modules/home/AboutUs"
+
 
 const ContactPage = () => {
   return (
-    <div>ContactPage</div>
+    <div className="px-4">
+      <AboutUsPage/>
+    </div>
   )
 }
 
