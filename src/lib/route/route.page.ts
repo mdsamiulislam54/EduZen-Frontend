@@ -78,23 +78,23 @@ export const ownerRoutes: IRoutePage[] = [
     icon: BarChart3,
   },
   {
-    title:" Batches",
-    url:"/dashboard/owner/batch",
+    title: " Batches",
+    url: "/dashboard/owner/batch",
     icon: BookOpen,
   },
   {
-    title:"Subjects",
-    url:"/dashboard/owner/subject",
+    title: "Subjects",
+    url: "/dashboard/owner/subject",
     icon: BookOpen,
   },
   {
-    title:"Notice",
-    url:"/dashboard/owner/notice",
+    title: "Notice",
+    url: "/dashboard/owner/notice",
     icon: Pin,
   },
   {
-    title:"Student Payment",
-    url:"/dashboard/owner/student-payment",
+    title: "Student Payment",
+    url: "/dashboard/owner/student-payment",
     icon: CreditCard,
   }
 ];
@@ -154,5 +154,10 @@ export const studentRoutes: IRoutePage[] = [
     title: "Notice",
     url: "/dashboard/student/notice",
     icon: PinIcon,
+  },
+  {
+    title: "Setting",
+    url: "/dashboard/student/setting",
+    icon: ClipboardListIcon,
   },
 ];
