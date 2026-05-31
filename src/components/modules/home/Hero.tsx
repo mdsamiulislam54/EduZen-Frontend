@@ -65,13 +65,13 @@ const Hero = ({
             <h2 className="mx-auto max-w-6xl text-center  text-xl md:text-3xl  font-medium text-balance lg:text-5xl ">
               {heading} 
             </h2>
-            <p className="mx-auto max-w-3xl text-center md:text-lg text-gray-300">
+            <p className="mx-auto max-w-3xl text-center md:text-lg ">
               {description}
             </p>
             <div className="flex flex-col items-center justify-center gap-3 pt-3 pb-12">
               <Button size="lg" render={<Link href={button.url}></Link>} nativeButton={false}>{button.text}{button.icon}</Button>
               {trustText && (
-                <div className="text-xs text-gray-300">{trustText}</div>
+                <div className="text-xs ">{trustText}</div>
               )}
             </div>
           </div>
