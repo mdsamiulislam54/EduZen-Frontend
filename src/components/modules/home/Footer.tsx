@@ -43,19 +43,19 @@ const footerLinks = {
 const socialLinks = [
     {
         icon: FaFacebookF,
-        href: "#",
+        href: "https://www.facebook.com/mdsamiulislam2004/",
     },
     {
         icon: FaInstagram,
-        href: "#",
+        href: "https://www.instagram.com/mdsamiulislam2004/",
     },
     {
         icon: FaLinkedinIn,
-        href: "#",
+        href: "https://www.linkedin.com/in/mdshamiulislam-dev/",
     },
     {
         icon: FaGithub,
-        href: "#",
+        href: "https://github.com/mdsamiulislam54",
     },
 ];
 

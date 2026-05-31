@@ -36,18 +36,10 @@ const Hero = ({
   return (
     <section className={cn("overflow-hidden lg:pt-32 pt-10 ", className)}>
       {/* Background Image */}
-      <div className="absolute inset-0 -z-20">
-        <Image
-          src="https://img.magnific.com/free-vector/abstract-motion-wave-line-gradient-line-background-vector-design_8048-500.jpg?t=st=1779949906~exp=1779953506~hmac=a4f47ff40f22aa327671e071067eacb240c632c6f7318cb0db9977703c8a0ca6&w=1480"
-          alt="Hero Background"
-          width={400}
-          height={400}
-          className="min-h-screen w-full object-cover"
-        />
-      </div>
+   
 
       {/* Dark Overlay */}
-      <div className="absolute inset-0 -z-10 bg-black/50" />
+      {/* <div className="absolute inset-0 -z-10 bg-black/50" /> */}
 
       {/* Gradient Blur */}
      
@@ -70,7 +62,7 @@ const Hero = ({
             <span className="mx-auto flex size-16 items-center justify-center rounded-full border md:size-20 gradient">
               {icon}
             </span>
-            <h2 className="mx-auto max-w-6xl text-center  text-xl md:text-3xl  font-medium text-balance lg:text-5xl text-white">
+            <h2 className="mx-auto max-w-6xl text-center  text-xl md:text-3xl  font-medium text-balance lg:text-5xl ">
               {heading} 
             </h2>
             <p className="mx-auto max-w-3xl text-center md:text-lg text-gray-300">
