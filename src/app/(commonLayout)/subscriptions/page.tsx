@@ -2,7 +2,7 @@ import { getAllSubscriptionPlans } from '@/app/(dashboardLayout)/dashboard/admin
 
 import SubscriptionsCard from '@/components/modules/home/SubscriptionsCard'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
-import React from 'react'
+export const dynamic = "force-dynamic";
 
 const SubscriptionPage = async () => {
     const queryClient = new QueryClient()

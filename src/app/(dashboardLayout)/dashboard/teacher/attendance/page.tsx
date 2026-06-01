@@ -3,7 +3,7 @@ import { getAllBatch } from "../../owner/batch/_actions";
 import NavbarAttendancePage from "@/components/modules/Dashboard/Teacher/Attendance/Navabar_Attendance";
 import { buildQueryString } from "@/lib/utils";
 import { getAllStudentAttendance } from "./_actions";
-
+export const dynamic = "force-dynamic";
 
 const AttendancePage = async ({ params }: { params: Promise<{ [key: string]: string | string[] | undefined }> }) => {
 

@@ -6,6 +6,7 @@ type PageProps = {
     id: string;
   }>;
 };
+export const dynamic = "force-dynamic";
 const StudentProfilePage = async ({ params }: PageProps) => {
   const { id } = await params;
   const queryClient = new QueryClient();

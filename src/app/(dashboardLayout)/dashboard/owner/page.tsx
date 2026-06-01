@@ -3,7 +3,7 @@ import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query
 import { getOwnerDashboardChartData, getOwnerDashboardData } from './_actions';
 import OwnerDashboardCardPage from '@/components/modules/Dashboard/Owner/DashboardCard/OwnerDashboardCard';
 import ChartData from '@/components/modules/Dashboard/Owner/DashboardCard/ChartData';
-
+export const dynamic = "force-dynamic";
 const OwnerPage = async () => {
     const queryClient = new QueryClient();
     Promise.all([

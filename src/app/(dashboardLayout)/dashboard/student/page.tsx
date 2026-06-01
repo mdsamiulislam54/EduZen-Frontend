@@ -1,7 +1,7 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import { getStudentDashboardData } from "./_actions"
 import DashboardCardPage from "@/components/modules/Dashboard/Student/Dashboard/DashboardCard"
-
+export const dynamic = "force-dynamic";
 const StudentPage = async () => {
   const queryClient = new QueryClient()
   await queryClient.prefetchQuery({

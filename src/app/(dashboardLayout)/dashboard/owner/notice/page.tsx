@@ -5,7 +5,7 @@ import NoticeTable from "@/components/modules/Dashboard/Owner/Notice/NoticeTable
 import { Card } from "@/components/ui/card";
 import TableQueryController from "@/shared/Table/QueryController/TableQueryController";
 import CreateNoticeButton from "@/components/modules/Dashboard/Owner/Notice/CreateNoticeButton";
-
+export const dynamic = "force-dynamic";
 
 const NoticePage = async ({ searchParams }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>

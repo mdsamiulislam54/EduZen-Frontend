@@ -1,10 +1,9 @@
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query"
 import { getTeacherDashboardCard } from "./_actions"
 import DashboardCardPage from "@/components/modules/Dashboard/Teacher/Dashboard-Teacher/DashboardCard"
-import ChartData from "@/components/modules/Dashboard/Owner/DashboardCard/ChartData"
-import { getOwnerDashboardChartData, getTeacherDashboardChartData } from "../owner/_actions"
+import {  getTeacherDashboardChartData } from "../owner/_actions"
 import StudentGrowthChartDataTeacherDashboard from "@/components/modules/Dashboard/Teacher/ChartData/StudentGrowthChartData"
-
+export const dynamic = "force-dynamic";
 
 const TeacherPage = async () => {
   const queryClient = new QueryClient()

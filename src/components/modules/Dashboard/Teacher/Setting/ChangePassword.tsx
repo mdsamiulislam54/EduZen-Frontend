@@ -38,6 +38,10 @@ const ChangePassword = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const { currentPassword, newPassword, confirmPassword } = formData;
+        if(!currentPassword || !newPassword || !confirmPassword) {
+            toast.warning("Please fill in all fields.");
+            return;
+        }
 
         if (newPassword !== confirmPassword) {
             toast.warning("New password and confirm password do not match.");

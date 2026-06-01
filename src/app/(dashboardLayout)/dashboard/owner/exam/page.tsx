@@ -7,7 +7,7 @@ import TableQueryController from "@/shared/Table/QueryController/TableQueryContr
 import CreateExamButton from "@/components/modules/Dashboard/Owner/Exam/CreateExamButton";
 import { getAllBatch } from "../batch/_actions";
 import { getAllSubject } from "../subject/_actions";
-
+export const dynamic = "force-dynamic";
 
 
 const ExamPage = async ({ searchParams }: {
