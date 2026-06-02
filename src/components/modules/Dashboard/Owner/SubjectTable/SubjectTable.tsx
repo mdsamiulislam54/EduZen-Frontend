@@ -55,7 +55,7 @@ const SubjectTablePage = ({ queryString }: { queryString: string }) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 toast.success("Subject deleted successfully");
-                queryClient.invalidateQueries({ queryKey: ["subject"] });
+                queryClient.invalidateQueries({ queryKey: ["subject", queryString] });
             }
 
         });
@@ -132,7 +132,7 @@ const SubjectTablePage = ({ queryString }: { queryString: string }) => {
                                 <DialogTitle>Update Subject</DialogTitle>
                             </DialogHeader>
 
-                            <CreateSubjectForm onClose={() => setOpen(false)} mode='edit' initialData={selectedSubject} />
+                            <CreateSubjectForm onClose={() => setOpen(false)} mode='edit' initialData={selectedSubject} query={queryString} />
                         </DialogContent>
                     </Dialog>
                 )

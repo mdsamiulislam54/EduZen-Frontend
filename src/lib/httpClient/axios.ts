@@ -4,6 +4,9 @@ import { ApiResponse } from "@/types/apiTypes";
 import axios from "axios";
 import { cookies, headers } from "next/headers";
 const base_url = process.env.NEXT_PUBLIC_API_BASE_URL;
+if(!base_url) {
+    throw new Error("BACKEND_URL is required");
+}
 export interface ApiRequestOptions {
     params?: Record<string, unknown>,
     headers?: Record<string, string>,

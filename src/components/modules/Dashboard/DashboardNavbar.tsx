@@ -52,7 +52,9 @@ export default function DashboardNavbar() {
 
         {/* Notification */}
         <Button variant="ghost" size="icon" className="relative">
-          <Bell className="w-4 h-4" />
+          <Link href="/dashboard/owner/notice">
+            <Bell className="w-4 h-4" />
+          </Link>
           <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
         </Button>
 

@@ -174,13 +174,11 @@ const Navbar = ({
             {/* Menu Button */}
             <Sheet>
               <SheetTrigger >
-                <Button
-                  variant="ghost"
-                  size="icon"
+                <span
                   className="rounded-xl border border-border/50 bg-background/60 backdrop-blur"
                 >
                   <Menu className="h-5 w-5" />
-                </Button>
+                </span>
               </SheetTrigger>
 
               <SheetContent className="w-[320px] p-0 bg-background/95 backdrop-blur-xl border-l border-border/50">

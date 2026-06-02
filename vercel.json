@@ -4,16 +4,28 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "https://skillbridge-chi-seven.vercel.app" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS,PATCH" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization, Cookie" },
-        { "key": "Access-Control-Expose-Headers", "value": "Set-Cookie" }
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://coaching-saas-frontend.vercel.app/api/v1/proxy"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,POST,PUT,DELETE,OPTIONS,PATCH"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization, Cookie"
+        },
+        {
+          "key": "Access-Control-Expose-Headers",
+          "value": "Set-Cookie"
+        }
       ]
     }
-  ],
-
-  "env": {
-    "NEXT_PUBLIC_BACKEND_URL": "https://skillbridge-app-api-inky.vercel.app"
-  }
+  ]
+ 
 }

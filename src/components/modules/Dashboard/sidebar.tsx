@@ -108,7 +108,7 @@ const SidebarLogo = ({ logo }: { logo: SidebarData["logo"] }) => {
   );
 };
 
-export const AppSidebar = ({ user }: { user: IUser|null }) => {
+export const AppSidebar = ({ user }: { user: IUser | null }) => {
   const navItem = React.useMemo(() => {
     switch (user?.role) {
       case USER_ROLE.ADMIN:
@@ -128,18 +128,22 @@ export const AppSidebar = ({ user }: { user: IUser|null }) => {
 
   return (
     <Sidebar >
-      <SidebarHeader className="border-b ">
-        {/* <SidebarLogo logo={sidebarData.logo} /> */}
-         <Link href={"/"} className="flex items-center justify-center gap-2">
-              <GraduationCap size={30} className="gradient rounded-full p-1 text-white" />
-              <span className="text-lg font-semibold tracking-tighter">
-                EduZen
-              </span>
-            </Link>
-        <div className="flex flex-col justify-center items-center *:text-sm font-bold">
-          <p>{user?.role}</p>
-          <p>{user?.email}</p>
-        </div>
+      <SidebarHeader className="border-b p-3">
+        <Link
+          href="/"
+          className="flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-muted/50"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-full gradient shadow-sm">
+            <GraduationCap className="h-5 w-5 text-white" />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <h2 className="truncate text-sm font-semibold">EduZen</h2>
+            <p className="truncate text-xs text-muted-foreground">
+              {user?.email}
+            </p>
+          </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         {navItem.map((item) => (

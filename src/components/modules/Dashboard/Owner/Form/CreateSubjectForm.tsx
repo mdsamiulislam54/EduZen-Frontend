@@ -8,7 +8,7 @@ import { subjectZodSchema } from '@/zod/Subject.zod.schema';
 
 
 import { useForm } from '@tanstack/react-form';
-import { useMutation } from '@tanstack/react-query';
+import { QueryClient, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import { toast } from 'sonner';
@@ -16,9 +16,11 @@ interface CreateSubjectFormProps {
   onClose: () => void;
   mode?: "create" | "edit",
   initialData?: ISubject | null
+  query?: string
 }
 
-const CreateSubjectForm = ({ onClose, mode="create", initialData }: CreateSubjectFormProps) => {
+const CreateSubjectForm = ({ onClose, mode="create", initialData, query }: CreateSubjectFormProps) => {
+  const queryClient = new QueryClient();
   const router = useRouter()
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["create-subject"],
@@ -50,10 +52,13 @@ const CreateSubjectForm = ({ onClose, mode="create", initialData }: CreateSubjec
     },
     onSubmit: async ({ value }) => {
       if (mode === "edit") {
-        await updateMutate({ ...value, id: initialData?.id })
+        await updateMutate({ ...value, id: initialData?.id });
+        queryClient.invalidateQueries({ queryKey: ["subject", query] });
+
         router.push(window.location.href)
       } else {
         await mutateAsync(value);
+        queryClient.invalidateQueries({ queryKey: ["subject", query] });
       }
     }
 

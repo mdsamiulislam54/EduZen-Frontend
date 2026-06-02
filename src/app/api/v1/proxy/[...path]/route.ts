@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 type Context = {
-    params: {
-        path: string[];
-    };
+    params: Promise<{ path: string[]; }>
 };
 const BACKEND = process.env.BACKEND_URL;
 
@@ -10,11 +8,11 @@ if (!BACKEND) {
     throw new Error("BACKEND_URL is required");
 }
 
-function log(title: string, data?: unknown) {
-    console.log(`\n==================== ${title} ====================`);
-    if (data !== undefined) console.log(data);
-    console.log("===================================================\n");
-}
+// function log(title: string, data?: unknown) {
+//     console.log(`\n==================== ${title} ====================`);
+//     if (data !== undefined) console.log(data);
+//     console.log("===================================================\n");
+// }
 
 export async function GET(req: NextRequest, context: Context) {
     const { path } = await context.params;
@@ -42,26 +40,15 @@ export async function PATCH(req: NextRequest, context: Context) {
 }
 
 async function proxy(req: NextRequest, path: string[]) {
-
-    log("PROXY HIT PATH", req.nextUrl.pathname);
-    log("ORIGINAL PATH ARRAY", path);
-    log("METHOD", req.method);
-
-    // 🟢 remove leading "api"
     if (path[0] === "api") {
         path = path.slice(1);
     }
-
-    log("AFTER CLEAN PATH", path);
-
-    // 🟢 SIMPLE RULE: NEVER over-engineer
     const backendPath = path.join("/");
 
-    log("FINAL BACKEND PATH", backendPath);
 
     const url = `${BACKEND}/${backendPath}${req.nextUrl.search}`;
 
-    log("FINAL PROXY URL", url);
+
 
     const body =
         req.method !== "GET" && req.method !== "HEAD"
@@ -83,11 +70,10 @@ async function proxy(req: NextRequest, path: string[]) {
         credentials: "include",
     });
 
-    log("BACKEND STATUS", response.status);
+
 
     const resBody = await response.text();
 
-    log("BACKEND RESPONSE", resBody);
 
     const res = new NextResponse(resBody, {
         status: response.status,
@@ -95,7 +81,7 @@ async function proxy(req: NextRequest, path: string[]) {
 
     const cookies = response.headers.getSetCookie();
 
-    log("SET-COOKIE", cookies);
+
 
     if (cookies) {
         cookies.forEach(cookie =>
@@ -103,7 +89,7 @@ async function proxy(req: NextRequest, path: string[]) {
         );
     }
 
-    log("PROXY DONE");
+
 
     return res;
 }
