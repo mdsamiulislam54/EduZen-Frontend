@@ -68,7 +68,7 @@ const Footer = () => {
                 <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-violet-500/10 blur-3xl" />
             </div>
 
-            <div className="container mx-auto px-4 py-16 md:px-6">
+            <div className="px-4 py-16">
 
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-5">
 

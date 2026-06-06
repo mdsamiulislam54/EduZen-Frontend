@@ -13,7 +13,7 @@ const SubscriptionPage = async () => {
     })
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-         <div className='p-4'>
+         <div className='p-4 min-h-screen mt-20'>
                <SubscriptionsCard/>
          </div>
         </HydrationBoundary>

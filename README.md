@@ -1,44 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 Coaching Center Management System
 
-## Getting Started
+A modern SaaS-based Coaching Center Management System built with Next.js and TypeScript.  
+This platform helps coaching institutes manage students, teachers, batches, attendance, fees, exams, and analytics in a centralized dashboard with a clean and scalable architecture.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+##  Live URL
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🔗 https://coaching-saas-frontend.vercel.app
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+##  Features
 
-## Learn More
+###  Student Management
+- Add, update, and delete student profiles
+- Batch enrollment system
+- Student status tracking
 
-To learn more about Next.js, take a look at the following resources:
+###  Teacher Management
+- Teacher profile management
+- Subject & batch assignment
+- Performance tracking
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+###  Batch Management
+- Create and manage batches
+- Assign students and teachers
+- Organized class structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+###  Attendance System
+- Daily attendance tracking
+- Attendance history
+- Reports and analytics
 
-## Deploy on Vercel
+###  Fee Management
+- Fee collection system
+- Due & partial payment tracking
+- Payment history & invoices
+- Revenue overview dashboard
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+###  Exam Management
+- Exam creation and scheduling
+- Result entry system
+- Student performance analysis
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+###  Analytics Dashboard
+- Revenue analytics
+- Student statistics
+- Attendance insights
+- Performance reports
 
-teacher2@gmail.com,
-XFXduhnG,
+###  Authentication & Security
+- JWT authentication
+- Role-based access control (Admin, Teacher, Student)
+- Secure API routes
+
+###  UI/UX Features
+- Modern responsive UI
+- Dark/Light theme support
+- Mobile-first design
+- Fast and optimized dashboard
+
+---
 
 
-student1@gmail.com,
-bxAkiMvB,
+---
 
+## 🛠️ Tech Stack
+
+###  Frontend
+- Next.js (v16.2.1)
+- React (v19.2.4)
+- TypeScript
+- Tailwind CSS
+- ShadCN UI
+
+### State & Data Management
+- @tanstack/react-query
+- @tanstack/react-table
+- @tanstack/react-form
+
+###  UI & UX
+- lucide-react
+- react-icons
+- embla-carousel-react
+- sonner (toast)
+- sweetalert2
+- next-themes
+
+###  Payment Integration
+- Stripe (`@stripe/react-stripe-js`, `@stripe/stripe-js`)
+
+### Authentication
+- jsonwebtoken
+- zod (validation)
+
+###  Data Visualization
+- recharts
+
+---
+
+##  Owner
+
+**Samiul Islam**  
+Full Stack Web Developer  
+Specialized in SaaS & MERN/Next.js Applications
+
+---
+
+##  License
+
+This project is licensed under the **MIT License**.
+
+---
+
+##  Notes
+
+This project is built with scalability in mind, supporting multi-role access, modular architecture, and SaaS-based future expansion.

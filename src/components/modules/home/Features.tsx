@@ -109,7 +109,7 @@ const FeaturesSection = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 cursor-pointer">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4 cursor-pointer mb-10">
           {features.map((feature, index) => {
             const Icon = feature.icon;
 

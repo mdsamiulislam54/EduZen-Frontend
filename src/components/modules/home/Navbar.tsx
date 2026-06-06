@@ -112,11 +112,11 @@ const Navbar = ({
     onError: () => {
       toast.error("Logout failed")
     }
-  })
+  });
 
 
   return (
-    <section className={cn("p-2 sticky top-0 z-50 w-full transition-transform duration-300   backdrop-blur bg-background ",
+    <section className={cn("p-2 sticky top-0 z-50 w-full transition-transform duration-300   backdrop-blur  bg-background/90 border-b border-border/50",
       visible ? "translate-y-0" : "",
       className
     )}>

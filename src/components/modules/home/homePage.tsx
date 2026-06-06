@@ -35,7 +35,7 @@ const HomePage = () => {
                 </div>
                 <SubscriptionPage />
             </div>
-            <div className='py-16'>
+            <div className=''>
                 <Testimonials />
             </div>
             <div className='py-10'>

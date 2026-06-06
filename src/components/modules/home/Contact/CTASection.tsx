@@ -2,12 +2,12 @@ import { Button } from "@/components/ui/button";
 
 export default function CTASection() {
   return (
-    <section className="text-center space-y-4 rounded-2xl bg-primary/10 p-10">
-      <h2 className="text-2xl font-bold">
+    <section className="text-center space-y-4 gradient rounded-2xl bg-primary/10 p-10">
+      <h2 className="text-2xl font-bold text-white">
         Ready to Manage Your Coaching Smarter?
       </h2>
 
-      <p className="text-muted-foreground">
+      <p className="text-white">
         Start using EduZen today and grow your coaching business.
       </p>
 
