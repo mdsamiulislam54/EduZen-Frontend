@@ -21,23 +21,16 @@ import { Button } from "@/components/ui/button";
 
 const footerLinks = {
     product: [
-        { title: "Features", href: "#" },
         { title: "Pricing", href: "#" },
         { title: "Dashboard", href: "#" },
-        { title: "Analytics", href: "#" },
+   
     ],
     company: [
         { title: "About Us", href: "#" },
         { title: "Contact", href: "#" },
-        { title: "Careers", href: "#" },
-        { title: "Blog", href: "#" },
+  
     ],
-    resources: [
-        { title: "Help Center", href: "#" },
-        { title: "Documentation", href: "#" },
-        { title: "Privacy Policy", href: "#" },
-        { title: "Terms & Conditions", href: "#" },
-    ],
+ 
 };
 
 const socialLinks = [
@@ -61,7 +54,7 @@ const socialLinks = [
 
 const Footer = () => {
     return (
-        <footer className="relative overflow-hidden border-t border-border/50 bg-background">
+        <footer className="relative overflow-hidden border-gray-400 bg-background border-t-2 mt-4 ">
          
             <div className="absolute inset-0 -z-10">
                 <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-indigo-500/10 blur-3xl" />
@@ -89,13 +82,7 @@ const Footer = () => {
                             </div>
                         </Link>
 
-                        <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground">
-                            Simplify student management, attendance, exams, payments,
-                            analytics, and communication with an all-in-one coaching
-                            management platform.
-                        </p>
-
-                  
+                
                         <div className="mt-6 space-y-3">
 
                             <div className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -177,10 +164,7 @@ const Footer = () => {
                             Newsletter
                         </h3>
 
-                        <p className="mb-4 text-sm leading-6 text-muted-foreground">
-                            Subscribe to get product updates, feature releases, and coaching
-                            management tips.
-                        </p>
+                
 
                         <div className="space-y-3">
                             <Input
@@ -198,28 +182,16 @@ const Footer = () => {
                 </div>
 
        
-                <div className="my-10 h-px w-full bg-border/50" />
+                <div className="my-4 h-px w-full bg-border/50" />
 
              
-                <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row">
+                <div className="flex items-center justify-center gap-4 ">
                     <p className="text-sm text-muted-foreground">
                         © {new Date().getFullYear()} Coaching Center SaaS. All rights
                         reserved.
                     </p>
 
-                    <div className="flex items-center gap-5 text-sm text-muted-foreground">
-                        <Link href="#" className="transition hover:text-foreground">
-                            Privacy
-                        </Link>
-
-                        <Link href="#" className="transition hover:text-foreground">
-                            Terms
-                        </Link>
-
-                        <Link href="#" className="transition hover:text-foreground">
-                            Cookies
-                        </Link>
-                    </div>
+                   
                 </div>
             </div>
         </footer>

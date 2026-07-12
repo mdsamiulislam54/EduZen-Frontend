@@ -94,7 +94,7 @@ const FeaturesSection = () => {
       <div className="">
         {/* Header */}
         <div className="mx-auto mb-16 max-w-3xl text-center">
-          <div className="mb-4 inline-flex items-center rounded-full border border-border/50 bg-background/60 px-4 py-1 text-sm text-muted-foreground backdrop-blur">
+          <div className="mb-4 inline-flex items-center rounded-full border border-border/50 bg-background/60 px-4 py-1 text-sm text-muted-foreground backdrop-blur font-heading">
             Powerful Features for Modern Coaching Centers
           </div>
 

@@ -120,7 +120,7 @@ const Navbar = ({
       visible ? "translate-y-0" : "",
       className
     )}>
-      <div className="container">
+      <div className="">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">

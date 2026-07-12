@@ -63,10 +63,6 @@ const LoginFrom = () => {
                         </span>
                     </Link>
 
-                    {/* Title
-                    <CardTitle className="text-2xl font-bold  ">
-                        Welcome Back
-                    </CardTitle> */}
 
                     {/* Subtitle */}
                     <p className="text-sm ">
