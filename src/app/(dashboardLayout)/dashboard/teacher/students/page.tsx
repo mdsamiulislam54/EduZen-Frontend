@@ -4,7 +4,7 @@ import TableQueryController from '@/shared/Table/QueryController/TableQueryContr
 
 const StudentPage = () => {
   return (
-    <div>
+    <div className='pb-10'>
       <TableQueryController
         searchKey='search'
       />

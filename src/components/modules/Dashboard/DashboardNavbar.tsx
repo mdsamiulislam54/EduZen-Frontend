@@ -1,68 +1,103 @@
 "use client";
 
-import { Bell, Home, Moon, Sun, User } from "lucide-react";
+import { Bell, ChevronRight, Home, User } from "lucide-react";
 import Link from "next/link";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "../DarkThemeButton/DarkMode";
 
 export default function DashboardNavbar() {
   return (
-    <div className="flex items-center justify-between px-4 py-3  bg-background">
+    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
+      <div className="flex h-16 items-center justify-between px-4 lg:px-6">
 
-      {/* LEFT SIDE */}
-      <div className="flex items-center gap-4 mr-4">
+        {/* Left */}
+        <div className="flex min-w-0 items-center gap-3">
 
-        {/* Home Button */}
-        <Link href="/">
-          <Button variant="outline" size="icon">
-            <Home className="w-4 h-4" />
+          {/* Home */}
+          <Button
+            variant="outline"
+            size="icon"
+            className="size-9 shrink-0 rounded-xl border-border/60 bg-background shadow-none transition-colors hover:border-primary/30 hover:bg-primary/5"
+            render={<Link href="/" />}
+            nativeButton={false}
+          >
+            <Home className="size-4" />
+            <span className="sr-only">Home</span>
           </Button>
-        </Link>
 
-        {/* Breadcrumb */}
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem className="hidden md:block">
-              <BreadcrumbLink href="#">Overview</BreadcrumbLink>
-            </BreadcrumbItem>
+          {/* Divider */}
+          <div className="hidden h-5 w-px bg-border sm:block" />
 
-            <BreadcrumbSeparator className="hidden md:block" />
+          {/* Breadcrumb */}
+          <Breadcrumb className="min-w-0">
+            <BreadcrumbList className="flex-nowrap">
+              <BreadcrumbItem className="hidden sm:block">
+                <BreadcrumbLink
+                  href="/dashboard"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Overview
+                </BreadcrumbLink>
+              </BreadcrumbItem>
 
-            <BreadcrumbItem>
-              <BreadcrumbPage>Dashboard</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+              <ChevronRight className="hidden size-4 text-muted-foreground sm:block" />
 
-      {/* RIGHT SIDE */}
-      <div className="flex items-center gap-10 ">
+              <BreadcrumbItem className="truncate">
+                <BreadcrumbPage className="truncate text-sm font-medium">
+                  Dashboard
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
 
-     
+        {/* Right */}
+        <div className="flex shrink-0 items-center gap-1.5">
+
+          {/* Theme */}
           <ModeToggle />
-      
 
-        {/* Notification */}
-        <Button variant="ghost" size="icon" className="relative">
-          <Link href="/dashboard/owner/notice">
-            <Bell className="w-4 h-4" />
-          </Link>
-          <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-        </Button>
+          {/* Notification */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative size-9 rounded-xl text-muted-foreground transition-all hover:bg-primary/5 hover:text-foreground"
+            render={<Link href="/dashboard/owner/notice" />}
+            nativeButton={false}
+          >
+            <Bell className="size-4" />
 
-        {/* Profile */}
-        <Button variant="ghost" size="icon">
-          <User className="w-4 h-4" />
-        </Button>
+            <span className="absolute right-2 top-2 size-1.5 rounded-full bg-primary ring-2 ring-background" />
+
+            <span className="sr-only">
+              Notifications
+            </span>
+          </Button>
+
+          {/* Divider */}
+          <div className="mx-1 hidden h-6 w-px bg-border sm:block" />
+
+          {/* Profile */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-9 rounded-xl border border-transparent bg-muted/40 transition-all hover:border-border/60 hover:bg-muted"
+          >
+            <User className="size-4" />
+            <span className="sr-only">
+              Profile
+            </span>
+          </Button>
+        </div>
       </div>
-    </div>
+    </header>
   );
 }

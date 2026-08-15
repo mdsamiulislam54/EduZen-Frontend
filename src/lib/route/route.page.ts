@@ -37,11 +37,7 @@ export const adminRoutes: IRoutePage[] = [
     url: "/dashboard/admin/subscription-plan",
     icon: CreditCard,
   },
-  {
-    title: "Analytics",
-    url: "/dashboard/admin/analytics",
-    icon: BarChart3,
-  },
+
 ];
 
 /* ================= OWNER ================= */

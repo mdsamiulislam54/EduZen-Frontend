@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import { jwtUtils } from "@/lib/jwt/jwtUtlis";
 import { getTokenRemaining, setTokenCookie } from "@/lib/cookies/token";
 import { httpClient } from "@/lib/httpClient/axios";
-import { boolean } from "zod";
 import { handleAxiosError } from "@/lib/utils";
 
 export type Role = "ADMIN" | "OWNER" | "TEACHER" | "STUDENT";
@@ -27,16 +26,12 @@ if (!API_BASE_URL) {
 export const getCurrentUser = async (): Promise<JwtPayload | null> => {
     const cookieStore = await cookies();
     const token = cookieStore.get("accessToken")?.value;
-
     if (!token) return null;
-
     const result = jwtUtils.verifyToken<JwtPayload>(
         token,
-        process.env.NEXT_PUBLIC_JWT_SCRECT!
+        process.env.JWT_SCRECT!
     );
-
     if (!result.success) return null;
-
     return result.data as JwtPayload;
 };
 export const logout = async (): Promise<void> => {
