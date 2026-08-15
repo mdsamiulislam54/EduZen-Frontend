@@ -83,7 +83,7 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="relative overflow-hidden ">
+    <div className="relative overflow-hidden ">
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-0 top-20 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
@@ -91,14 +91,14 @@ const FeaturesSection = () => {
         <div className="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
       </div>
 
-      <div className="">
+      <div className="container-c ">
         {/* Header */}
         <div className="mx-auto mb-16 max-w-3xl text-center">
           <div className="mb-4 inline-flex items-center rounded-full border border-border/50 bg-background/60 px-4 py-1 text-sm text-muted-foreground backdrop-blur font-heading">
             Powerful Features for Modern Coaching Centers
           </div>
 
-          <h2 className="text-xl font-bold tracking-tight text-foreground md:text-5xl">
+          <h2 className="text-xl font-bold tracking-tight text-foreground md:text-5xl ">
             Everything You Need to Run Your Coaching Business
           </h2>
 
@@ -160,7 +160,7 @@ const FeaturesSection = () => {
           })}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

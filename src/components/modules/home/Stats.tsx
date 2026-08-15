@@ -65,7 +65,7 @@ const StatsSection = () => {
         <div className="absolute bottom-10 right-10 h-40 w-40 rounded-full bg-violet-500/10 blur-3xl" />
       </div>
 
-      <div className="">
+      <div className="container-c ">
         
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <p className="mb-3 inline-flex items-center rounded-full border border-border/50 bg-background/40 px-4 py-1 text-sm text-muted-foreground backdrop-blur">

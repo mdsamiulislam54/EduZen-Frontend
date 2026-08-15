@@ -30,11 +30,11 @@ const DataTable = <TData,>({ data, columns, actions, emptyMessage, isLoading, ca
 
             return (
                 <DropdownMenu>
-                    <DropdownMenuTrigger>
-                        <Button variant={"ghost"}>
+                    <DropdownMenuTrigger
+                       >
                             <span className="sr-only">Open Menu</span>
                             <MoreHorizontal size={30} />
-                        </Button>
+                      
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         {

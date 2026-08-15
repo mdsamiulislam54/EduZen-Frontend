@@ -1,9 +1,8 @@
 "use client";
 
-import { GraduationCap, Menu, } from "lucide-react";
+import { GraduationCap,} from "lucide-react";
 import {
 
-  Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
@@ -17,13 +16,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -32,8 +25,9 @@ import { useAuth } from "@/provider/AuthProdiver";
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "@/service/auth.service";
 import { toast } from "sonner";
-
-interface MenuItem {
+import { LogIn, UserPlus, LogOut } from "lucide-react";
+import MobileNavbar from "./MobileNavbar";
+export interface MenuItem {
   title: string;
   url: string;
   description?: string;
@@ -116,20 +110,29 @@ const Navbar = ({
 
 
   return (
-    <section className={cn("p-2 sticky top-0 z-50 w-full transition-transform duration-300   backdrop-blur  bg-background/90 border-b border-border/50",
+    <nav className={cn("lg:py-4 sticky top-0 z-50 w-full transition-transform duration-300   backdrop-blur  bg-background/90 border-b border-border/50",
       visible ? "translate-y-0" : "",
       className
     )}>
-      <div className="">
+      <div className="container-c">
         {/* Desktop Menu */}
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <Link href={logo.url} className="flex items-center gap-2">
-              <GraduationCap size={30} className="gradient rounded-full p-1 text-white" />
-              <span className="text-lg font-semibold tracking-tighter">
-                {logo.title}
-              </span>
+            <Link href="/" className="inline-flex items-center gap-3">
+              <div className="flex size-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-sm">
+                <GraduationCap className="size-6" />
+              </div>
+
+              <div>
+                <h2 className="text-lg font-bold tracking-tight">
+                  EduZen
+                </h2>
+
+                <p className="text-xs text-muted-foreground">
+                  Coaching Management Platform
+                </p>
+              </div>
             </Link>
             <div className="flex items-center gap-2">
               <NavigationMenu>
@@ -139,15 +142,40 @@ const Navbar = ({
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-4">
             <ModeToggle />
             {
-              currentUser ? <Button variant="outline" className={"cursor-pointer"} onClick={() => logoutMutation()}>Logout</Button>
-                : <div>
+              currentUser ?
+                <Button
+                  variant="destructive"
+                  className="w-full rounded-xl gap-2"
+                  onClick={() => logoutMutation()}
+                >
+                  <LogOut className="size-4" />
+                  Logout
+                </Button>
+                : <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    render={<Link href={auth.login.url} />}
+                    nativeButton={false}
+                    className="gap-2 rounded-xl"
+                  >
+                    <LogIn className="size-4" />
+                    {auth.login.title}
+                  </Button>
 
-                  <Button variant="outline" render={<Link href={auth.login.url}></Link>} nativeButton={false}>{auth.login.title}</Button>
-                  <Button variant="outline" render={<Link href={auth.register.url}></Link>} nativeButton={false}>{auth.register.title}</Button>
-
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    render={<Link href={auth.register.url} />}
+                    nativeButton={false}
+                    className="gap-2 rounded-xl"
+                  >
+                    <UserPlus className="size-4" />
+                    {auth.register.title}
+                  </Button>
                 </div>
             }
 
@@ -157,95 +185,20 @@ const Navbar = ({
 
 
         {/* Mobile Menu */}
-        <div className="block lg:hidden border-b border-border/50 bg-background/80 backdrop-blur-xl">
-          <div className="flex items-center justify-between px-4 py-3">
-
-            {/* Logo */}
-            <Link href={logo.url} className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 shadow-md">
-                <GraduationCap size={18} className="text-white" />
-              </div>
-
-              <span className="text-base font-semibold tracking-tight text-foreground">
-                {logo.title}
-              </span>
-            </Link>
-
-            {/* Menu Button */}
-            <Sheet>
-              <SheetTrigger >
-                <span
-                  className="rounded-xl border border-border/50 bg-background/60 backdrop-blur"
-                >
-                  <Menu className="h-5 w-5" />
-                </span>
-              </SheetTrigger>
-
-              <SheetContent className="w-[320px] p-0 bg-background/95 backdrop-blur-xl border-l border-border/50">
-
-                {/* Header */}
-                <div className="flex items-center justify-between border-b border-border/50 p-4">
-                  <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient">
-                      <GraduationCap size={16} className="text-white" />
-                    </div>
-                    <span className="font-semibold">{logo.title}</span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-col gap-5 p-4">
-
-                  {/* Navigation */}
-                  <div className="rounded-2xl border border-border/50 bg-muted/30 p-2">
-                    <Accordion className="flex w-full flex-col gap-2">
-                      {menu.map((item) => renderMobileMenuItem(item))}
-                    </Accordion>
-                  </div>
-
-                  {/* Quick Actions */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <Button
-                      variant="outline"
-                      className="w-full rounded-xl border-border/50"
-
-                    >
-                      <Link href={auth.login.url}>
-                        Login
-                      </Link>
-                    </Button>
-
-                    {currentUser ? (
-                      <Button
-                        variant="destructive"
-                        className="w-full rounded-xl hover:bg-gradient"
-                        onClick={() => logoutMutation()}
-                      >
-                        Logout
-                      </Button>
-                    ) : (
-                      <Button
-
-                        className="w-full rounded-xl bg-linear-to-r from-indigo-500 to-violet-500 text-white"
-                      >
-                        <Link href={auth.register.url}>
-                          Register
-                        </Link>
-                      </Button>
-                    )}
-                  </div>
-
-                  {/* Footer hint */}
-                  <div className="text-center text-xs text-muted-foreground">
-                    Smart Coaching Management System
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
+        <MobileNavbar
+          logo={{
+            title: "EduZen",
+            subtitle: "Coaching Management",
+            href: "/",
+          }}
+          menu={menu}
+          auth={auth}
+          currentUser={currentUser}
+          onLogout={logoutMutation}
+          renderMenuItem={renderMobileMenuItem}
+        />
       </div>
-    </section>
+    </nav>
   );
 };
 
@@ -256,7 +209,7 @@ const renderMenuItem = (item: MenuItem) => {
         <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
         <NavigationMenuContent className="bg-popover text-popover-foreground">
           {item.items.map((subItem) => (
-            <NavigationMenuLink key={subItem.title} className="w-80" render={<SubMenuLink item={subItem} />}></NavigationMenuLink>
+            <NavigationMenuLink key={subItem.title} className="w-80 " render={<SubMenuLink item={subItem} />}></NavigationMenuLink>
           ))}
         </NavigationMenuContent>
       </NavigationMenuItem>
@@ -267,7 +220,7 @@ const renderMenuItem = (item: MenuItem) => {
     <NavigationMenuItem key={item.title}>
       <NavigationMenuLink
         href={item.url}
-        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
+        className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-md  font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
       >
         {item.title}
       </NavigationMenuLink>
@@ -300,7 +253,7 @@ const renderMobileMenuItem = (item: MenuItem) => {
 
 const SubMenuLink = ({ item }: { item: MenuItem }) => {
   return (
-    <a
+    <Link
       className="flex min-w-80 flex-row gap-4 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground"
       href={item.url}
     >
@@ -313,7 +266,7 @@ const SubMenuLink = ({ item }: { item: MenuItem }) => {
           </p>
         )}
       </div>
-    </a>
+    </Link>
   );
 };
 

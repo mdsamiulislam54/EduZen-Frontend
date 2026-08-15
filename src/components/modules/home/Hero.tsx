@@ -17,9 +17,9 @@ interface HeroProps {
 
 const Hero = ({ className }: HeroProps) => {
   return (
-    <section
+    <div
       className={cn(
-        "relative overflow-hidden py-12 sm:py-16 lg:py-10",
+        "relative overflow-hidden py-12 sm:py-16 lg:py-10 container-c",
         className
       )}
     >
@@ -143,7 +143,7 @@ const Hero = ({ className }: HeroProps) => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

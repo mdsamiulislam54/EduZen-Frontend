@@ -11,21 +11,21 @@ import CTASection from './CTASection'
 
 const HomePage = () => {
     return (
-        <div className="container-c">
+        <div className="">
             {/* Hero */}
-            <section className="pb-20">
+            <section className="md:pb-20 ">
                 <Hero
                     
                 />
             </section>
 
             {/* Stats */}
-            <section className="py-20">
+            <section className="py-16">
                 <StatsSection />
             </section>
 
             {/* Features */}
-            <section className="py-20">
+            <section className="py-16">
                 <FeaturesSection />
             </section>
 
@@ -33,18 +33,18 @@ const HomePage = () => {
 
 
             {/* How It Works */}
-            <section className="py-20">
+            <section className="py-16">
                 <HowToWorks />
             </section>
 
 
             {/* Testimonials */}
-            <section className="py-20">
+            <section className="py-16">
                 <Testimonials />
             </section>
 
             {/* CTA */}
-            <section className="py-24">
+            <section className="py-16">
                 <CTASection />
             </section>
         </div>
