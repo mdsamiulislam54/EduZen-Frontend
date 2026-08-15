@@ -62,15 +62,6 @@ const LoginFrom = () => {
             <div className="relative">
                 <CardHeader className="text-center space-y-3 mb-10">
 
-                    {/* Icon */}
-                    <Link href={"/"} className="flex items-center gap-2 justify-center">
-                        <GraduationCap size={50} className="gradient rounded-full p-1 text-white" />
-                        <span className="text-2xl font-semibold tracking-tighter">
-                            EduZen
-                        </span>
-                    </Link>
-
-
                     {/* Subtitle */}
                     <p className="text-sm ">
                         Login to your account to continue
@@ -79,7 +70,7 @@ const LoginFrom = () => {
                     <div className="space-y-2 rounded-lg border p-4 bg-muted/30">
                         <p className="text-sm font-medium">Demo Credentials</p>
 
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-4 justify-center">
                             <Button
                                 type="button"
                                 variant="outline"

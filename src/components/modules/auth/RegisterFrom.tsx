@@ -3,7 +3,7 @@ import { loginAction } from '@/app/auth/login/_actions';
 import { register } from '@/app/auth/register/_actions';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { handleError } from '@/lib/error/handleError';
 import AppField from '@/shared/from/AppField';
 import AppSubmitButton from '@/shared/from/SubmitButton';
@@ -54,21 +54,16 @@ const RegisterForm = () => {
     })
     return (
         <div className='h-full'>
-            <div className="relative">
-                <CardHeader className="text-center space-y-3 mb-10">
-
-                    {/* Icon */}
-                    <Link href={"/"} className="flex items-center gap-2 justify-center">
-                        <GraduationCap size={50} className="gradient rounded-full p-1 text-white" />
-                        <span className="text-2xl font-semibold tracking-tighter">
-                            EduZen
-                        </span>
-                    </Link>
-
-
+            <div className="relative ">
+                <CardHeader className="text-center space-y-3 mb-10" >
                     <CardTitle className="text-xl font-bold  ">
                         Welcome Back
                     </CardTitle>
+                    {/* Icon */}
+                
+
+
+
 
                     <p className="text-sm ">
                         Register to your account to continue
@@ -171,7 +166,7 @@ const RegisterForm = () => {
                                         disabled={!canSubmit || isPending}
 
                                     >
-                                      Register
+                                        Register
                                     </AppSubmitButton>
                                 )
                             }
@@ -182,7 +177,7 @@ const RegisterForm = () => {
                                 Do not have an account?{" "}
                                 <Link
                                     href="/auth/register"
-                                    className="text-blue-600 font-medium hover:underline hover:text-blue-700 transition"
+                                    className="text-blue-600 dark:text-blue-400 font-medium hover:underline hover:text-blue-700 transition"
                                 >
                                     Create one
                                 </Link>
