@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { JwtPayload, jwtUtils } from "./lib/jwt/jwtUtlis";
-import { Role, routeOwner } from "./lib/auth/authUtils";
-import { getNewAccessToken, getOnboardStatus, ICheckOwnerSubscription, isTokenExpiredSoon } from "./service/auth.service";
+import {  routeOwner } from "./lib/auth/authUtils";
+import { getNewAccessToken, getOnboardStatus, isTokenExpiredSoon } from "./service/auth.service";
 
 async function refreshTokenMiddleware(refreshToken: string): Promise<boolean> {
     try {
@@ -20,7 +20,7 @@ export async function proxy(req: NextRequest) {
         const accessToken = req.cookies.get("accessToken")?.value;
         const refreshToken = req.cookies.get("refreshToken")?.value;
         const isValidAccessToken = accessToken
-            ? jwtUtils.verifyToken<JwtPayload>(accessToken, process.env.NEXT_PUBLIC_JWT_SCRECT!)
+            ? jwtUtils.verifyToken<JwtPayload>(accessToken, process.env.JWT_SCRECT!)
             : null;
 
 

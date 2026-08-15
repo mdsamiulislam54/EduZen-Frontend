@@ -7,13 +7,16 @@ import { ILoginApiResponse } from "@/types/auth.types";
 import { ILogin, } from "@/zod/auth.zod";
 
 export const loginAction = async (payload: ILogin) => {
-   
+
     try {
         const user = await httpClient.post<ILoginApiResponse>("/auth/login", payload);
         const { accessToken, refreshToken, token } = user.data;
+
+
         await setTokenCookie("accessToken", accessToken!);
         await setTokenCookie("refreshToken", refreshToken!);
         await setCookie("better-auth.session_token", token!, 60 * 60 * 24);
+        
         return {
             success: true,
             message: user.message || "Login Failed"

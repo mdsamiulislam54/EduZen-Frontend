@@ -11,12 +11,11 @@ import CTASection from './CTASection'
 
 const HomePage = () => {
     return (
-        <div className="px-4">
+        <div className="container-c">
             {/* Hero */}
             <section className="pb-20">
                 <Hero
-                    heading="Run Your Coaching Center Smarter, Not Harder"
-                    description="Empower your coaching center with a smart, all-in-one management solution designed to simplify daily operations"
+                    
                 />
             </section>
 

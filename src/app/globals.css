@@ -135,6 +135,10 @@
 .gradient {
  @apply bg-gradient-to-br from-cyan-500 via-blue-500 to-violet-500;
 }
+
+.container-c {
+  @apply max-w-7xl mx-auto px-4;
+}
 /* .gradient {
  @apply bg-gradient-to-br from-violet-500 via-fuchsia-500 to-indigo-500;
 } */

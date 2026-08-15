@@ -19,7 +19,7 @@ import { toast } from 'sonner';
 const LoginFrom = () => {
     const [Error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
-    const router = useRouter();
+    const router = useRouter()
     const { mutateAsync, isPending } = useMutation({
         mutationFn: loginAction
 
@@ -35,8 +35,10 @@ const LoginFrom = () => {
             try {
                 setError(null)
                 const res = await mutateAsync(value);
-
+                console.log(res)
                 if (res.success) {
+                    console.log("LOGIN SUCCESS");
+                    console.log("Redirecting to dashboard...");
                     toast.success(res.message);
                     router.push('/dashboard');
                 } else {
@@ -50,6 +52,11 @@ const LoginFrom = () => {
             }
         }
     })
+
+    const fillCredentials = (email: string, password: string) => {
+        form.setFieldValue("email", email);
+        form.setFieldValue("password", password);
+    };
     return (
         <div className='h-full'>
             <div className="relative">
@@ -68,6 +75,39 @@ const LoginFrom = () => {
                     <p className="text-sm ">
                         Login to your account to continue
                     </p>
+
+                    <div className="space-y-2 rounded-lg border p-4 bg-muted/30">
+                        <p className="text-sm font-medium">Demo Credentials</p>
+
+                        <div className="flex flex-wrap gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => fillCredentials("rimon@gmail.com", "owner123")}
+                            >
+                                Owner
+                            </Button>
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => fillCredentials("teacher@gmail.com", "teacher123")}
+                            >
+                                Teacher
+                            </Button>
+
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => fillCredentials("mdshamiul.dev@gmail.com", "TatFyepv")}
+                            >
+                                Student
+                            </Button>
+                        </div>
+                    </div>
 
                 </CardHeader>
 
