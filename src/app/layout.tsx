@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins,Inter, Playfair } from "next/font/google";
+import { Poppins, Inter, Playfair } from "next/font/google";
 import "./globals.css";
 import QueryClientProvider from "@/provider/queryClientProvider";
 import { Toaster } from "sonner";
@@ -8,24 +8,25 @@ import { getCurrentUser, JwtPayload } from "@/service/auth.service";
 import { AuthProvider } from "@/provider/AuthProdiver";
 import { IUser } from "@/types/user.type";
 import { SweetAlertProvider } from "@/provider/SweetalertProvider";
+import SmoothScroll from "@/provider/SmoothScroll";
 
 
 
 const poppins = Poppins({
   subsets: ["latin"],
-  variable:"--font-poppins",
+  variable: "--font-poppins",
   weight: ["300", "400", "500", "600", "700"],
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  variable:"--font-inter",
+  variable: "--font-inter",
   weight: ["300", "400", "500", "600", "700"],
 });
 
 const playfair = Playfair({
   subsets: ["latin"],
-  variable:"--font-playfair",
+  variable: "--font-playfair",
   weight: ["300", "400", "500", "600", "700"],
 });
 
@@ -61,7 +62,9 @@ export default async function RootLayout({
             />
             <QueryClientProvider>
               <SweetAlertProvider>
-                {children}
+                <SmoothScroll>
+                  {children}
+                </SmoothScroll>
               </SweetAlertProvider>
             </QueryClientProvider>
           </ThemeProvider>

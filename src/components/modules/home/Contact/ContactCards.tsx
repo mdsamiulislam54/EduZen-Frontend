@@ -1,6 +1,5 @@
-
 import { Card, CardContent } from "@/components/ui/card";
-import { Mail, Phone, MessageCircle } from "lucide-react";
+import { ArrowUpRight, Mail, MessageCircle, Phone } from "lucide-react";
 
 const items = [
   {
@@ -22,16 +21,27 @@ const items = [
 
 export default function ContactCards() {
   return (
-    <div className="grid md:grid-cols-3 gap-4 my-10">
-      {items.map((item, i) => (
-        <Card key={i} className="hover:shadow-md  hover:-translate-y-1 transition-all duration-300 cursor-pointer">
-          <CardContent className="p-4 flex flex-col items-center text-center space-y-2">
-            <item.icon className="w-6 h-6 text-blue-500" />
-            <p className="font-semibold">{item.title}</p>
-            <p className="text-sm text-muted-foreground">{item.value}</p>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="my-10 grid gap-4 md:grid-cols-3">
+      {items.map((item) => {
+        const Icon = item.icon;
+
+        return (
+          <Card key={item.title} className="group relative overflow-hidden rounded-2xl border-border/60 bg-card transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg">
+            <CardContent className="relative flex flex-col items-center p-6 text-center">
+              <div className="mb-4 flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-105">
+                <Icon className="size-5" />
+              </div>
+
+              <div className="flex w-full items-center justify-center gap-1">
+                <h3 className="font-semibold">{item.title}</h3>
+                <ArrowUpRight className="size-3.5 text-muted-foreground transition-colors group-hover:text-primary" />
+              </div>
+
+              <p className="mt-2 text-sm text-muted-foreground">{item.value}</p>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 }

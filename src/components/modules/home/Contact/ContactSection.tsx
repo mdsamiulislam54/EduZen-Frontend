@@ -9,7 +9,7 @@ export default function ContactSection() {
         <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
+      <div className="mx-auto grid  gap-6 md:grid-cols-2">
         
         {/* Left: Contact Form */}
         <div className="rounded-2xl border border-border/50 bg-card/60 p-6 backdrop-blur-xl shadow-sm transition hover:shadow-md">

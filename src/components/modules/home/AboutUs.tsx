@@ -1,285 +1,233 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 import {
-    Target,
-    Eye,
-    Users,
-    GraduationCap,
-    BarChart3,
-    ShieldCheck,
-    Sparkles,
-    ArrowRight,
+  ArrowRight,
+  BarChart3,
+  CheckCircle2,
+  GraduationCap,
+  ShieldCheck,
+  Users,
+  WalletCards,
+  Zap,
 } from "lucide-react";
-import Image from "next/image";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+
+const highlights = [
+  {
+    icon: Users,
+    title: "Student Management",
+    description: "Keep students, teachers and batches organized.",
+  },
+  {
+    icon: WalletCards,
+    title: "Fee Management",
+    description: "Track payments and outstanding fees easily.",
+  },
+  {
+    icon: BarChart3,
+    title: "Smart Analytics",
+    description: "Make better decisions with real-time insights.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Secure Platform",
+    description: "Built with security and reliability in mind.",
+  },
+];
 
 const stats = [
-    { value: "10K+", label: "Students" },
-    { value: "500+", label: "Teachers" },
-    { value: "150+", label: "Institutes" },
-    { value: "99.9%", label: "Uptime" },
+  {
+    value: "500+",
+    label: "Institutes",
+  },
+  {
+    value: "20K+",
+    label: "Students",
+  },
+  {
+    value: "99.9%",
+    label: "Uptime",
+  },
 ];
 
-const features = [
-    {
-        title: "Student Management",
-        icon: Users,
-        desc: "Manage admissions, profiles, and academic records efficiently.",
-    },
-    {
-        title: "Attendance Tracking",
-        icon: GraduationCap,
-        desc: "Track daily attendance with automated reporting.",
-    },
-    {
-        title: "Exam & Results",
-        icon: BarChart3,
-        desc: "Generate results and performance analytics instantly.",
-    },
-    {
-        title: "Online Payments",
-        icon: ShieldCheck,
-        desc: "Secure fee collection and payment monitoring.",
-    },
-    {
-        title: "Teacher Management",
-        icon: Users,
-        desc: "Manage teachers, schedules, and responsibilities.",
-    },
-    {
-        title: "Analytics Dashboard",
-        icon: Sparkles,
-        desc: "Powerful reports and real-time business insights.",
-    },
-];
+export default function AboutSection() {
+  return (
+    <section className="relative overflow-hidden py-10">
+      <div className="container-c">
 
-const values = [
-    {
-        title: "Innovation",
-        desc: "We continuously improve our platform with modern technology.",
-    },
-    {
-        title: "Trust",
-        desc: "Your institute data is secure and reliable.",
-    },
-    {
-        title: "Growth",
-        desc: "Helping coaching centers scale smarter and faster.",
-    },
-];
+        {/* ================= HEADER ================= */}
+        <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto]">
 
-export default function AboutUsPage() {
-    return (
-        <main className="relative overflow-hidden">
-
-            {/* Background Glow */}
-            <div className="absolute inset-0 -z-10">
-                <div className="absolute left-0 top-0 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
-                <div className="absolute right-0 top-1/2 h-96 w-96 rounded-full bg-violet-500/10 blur-3xl" />
+          <div className="max-w-2xl">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1.5 text-xs font-medium text-primary">
+              <GraduationCap className="size-3.5" />
+              About EduZen
             </div>
 
-            {/* HERO */}
-            <section className="container py-20 md:py-32">
-                <div className="grid items-center gap-12 lg:grid-cols-2">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+              Built to make coaching
+              <span className="block text-primary">
+                management simpler.
+              </span>
+            </h2>
 
-                    <div>
-                        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border/50 bg-background/60 px-4 py-2 text-sm backdrop-blur">
-                            <Sparkles className="h-4 w-4" />
-                            About Our Platform
-                        </div>
+            <p className="mt-5 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
+              EduZen is a modern coaching management platform designed
+              to help institutes manage their everyday operations from
+              one simple and powerful dashboard.
+            </p>
+          </div>
 
-                        <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl">
-                            Empowering Coaching Centers With Smart Technology
-                        </h1>
+          {/* CTA */}
+          <Button
+            
+            variant="outline"
+            className="group w-fit rounded-xl"
+          >
+            <Link href="/contact" className="flex items-center">
+              Learn More
+              <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </Button>
+        </div>
 
-                        <p className="mb-8 max-w-xl text-lg text-muted-foreground">
-                            Our platform helps coaching institutes manage students,
-                            attendance, exams, fees, teachers, and reports from one
-                            powerful dashboard.
-                        </p>
+        {/* ================= MAIN CONTENT ================= */}
+        <div className="mt-14 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
 
-                        <Button size="lg">
-                            Start Free Trial
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                    </div>
+          {/* LEFT — Mission */}
+          <Card className="relative overflow-hidden rounded-3xl border-border/60 bg-card p-7 shadow-sm sm:p-9">
 
-                    <div className="relative">
-                        <div className="aspect-video rounded-3xl border border-border/50 bg-muted/40 backdrop-blur-xl">
-                            <Image
-                                src="/about.png"
-                                alt="About Us"
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
-                    </div>
+            {/* Glow */}
+            <div className="pointer-events-none absolute -right-24 -top-24 size-56 rounded-full bg-primary/10 blur-3xl" />
+
+            <div className="relative">
+
+              {/* Icon */}
+              <div className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                <Zap className="size-6" />
+              </div>
+
+              <h3 className="text-xl font-semibold">
+                Our mission
+              </h3>
+
+              <p className="mt-4 max-w-xl text-sm leading-7 text-muted-foreground">
+                We believe coaching institutes should spend less time
+                managing spreadsheets, paperwork and repetitive tasks,
+                and more time focusing on students and education.
+              </p>
+
+              <p className="mt-4 max-w-xl text-sm leading-7 text-muted-foreground">
+                {"That's"} why EduZen brings student management, attendance,
+                fees, exams, reports and daily operations together into
+                one streamlined platform.
+              </p>
+
+              {/* Trust Points */}
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {[
+                  "Simple to use",
+                  "Built for institutes",
+                  "Real-time insights",
+                  "Scalable platform",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-2.5"
+                  >
+                    <CheckCircle2 className="size-4 shrink-0 text-primary" />
+
+                    <span className="text-sm font-medium">
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          {/* RIGHT — Stats */}
+          <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+
+            {stats.map((stat) => (
+              <Card
+                key={stat.label}
+                className="
+                  rounded-3xl
+                  border-border/60
+                  bg-card
+                  p-6
+                  shadow-sm
+                  transition-all duration-300
+                  hover:-translate-y-1
+                  hover:border-primary/30
+                "
+              >
+                <div className="flex items-center justify-between">
+
+                  <div>
+                    <p className="text-3xl font-bold tracking-tight">
+                      {stat.value}
+                    </p>
+
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {stat.label}
+                    </p>
+                  </div>
+
+                  <div className="flex size-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <BarChart3 className="size-5" />
+                  </div>
                 </div>
-            </section>
+              </Card>
+            ))}
 
+          </div>
+        </div>
 
-            {/* MISSION & VISION */}
-            <section className="container py-10">
-                <div className="grid gap-6 md:grid-cols-2">
+        {/* ================= FEATURES ================= */}
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-                    <Card className="rounded-3xl border-border/50">
-                        <CardContent className="p-8">
-                            <Target className="mb-5 h-10 w-10 text-primary" />
+          {highlights.map((item) => {
+            const Icon = item.icon;
 
-                            <h3 className="mb-3 text-2xl font-semibold">
-                                Mission
-                            </h3>
-
-                            <p className="text-muted-foreground">
-                                Simplify educational management through affordable,
-                                scalable and innovative technology solutions.
-                            </p>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="rounded-3xl border-border/50">
-                        <CardContent className="p-8">
-                            <Eye className="mb-5 h-10 w-10 text-primary" />
-
-                            <h3 className="mb-3 text-2xl font-semibold">
-                                Vision
-                            </h3>
-
-                            <p className="text-muted-foreground">
-                                Become the most trusted coaching management platform
-                                used by institutes worldwide.
-                            </p>
-                        </CardContent>
-                    </Card>
-
-                </div>
-            </section>
-
-            {/* WHY CHOOSE US */}
-            <section className="container py-10">
-                <div className="mb-14 text-center">
-                    <h2 className="text-4xl font-bold">
-                        Why Choose Us
-                    </h2>
+            return (
+              <Card
+                key={item.title}
+                className="
+                  group
+                  rounded-2xl
+                  border-border/60
+                  bg-card
+                  p-5
+                  shadow-sm
+                  transition-all duration-300
+                  hover:-translate-y-1
+                  hover:border-primary/30
+                  hover:shadow-md
+                "
+              >
+                <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-105">
+                  <Icon className="size-5" />
                 </div>
 
-                <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                    {features.map((feature) => {
-                        const Icon = feature.icon;
+                <h3 className="font-semibold">
+                  {item.title}
+                </h3>
 
-                        return (
-                            <Card
-                                key={feature.title}
-                                className="group rounded-3xl border-border/50 transition-all hover:-translate-y-2"
-                            >
-                                <CardContent className="p-8">
-                                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
-                                        <Icon className="h-6 w-6 text-primary" />
-                                    </div>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {item.description}
+                </p>
+              </Card>
+            );
+          })}
 
-                                    <h3 className="mb-3 text-xl font-semibold">
-                                        {feature.title}
-                                    </h3>
+        </div>
 
-                                    <p className="text-muted-foreground">
-                                        {feature.desc}
-                                    </p>
-                                </CardContent>
-                            </Card>
-                        );
-                    })}
-                </div>
-            </section>
-
-
-
-            {/* VALUES */}
-            <section className="container py-10">
-                <div className="mb-14 text-center">
-                    <h2 className="text-4xl font-bold">
-                        Our Core Values
-                    </h2>
-                </div>
-
-                <div className="grid gap-6 md:grid-cols-3">
-                    {values.map((value) => (
-                        <Card key={value.title} className="rounded-3xl">
-                            <CardContent className="p-8">
-                                <h3 className="mb-3 text-xl font-semibold">
-                                    {value.title}
-                                </h3>
-
-                                <p className="text-muted-foreground">
-                                    {value.desc}
-                                </p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            </section>
-
-            {/* TEAM */}
-            <section className="container py-10">
-                <div className="mb-14 text-center">
-                    <h2 className="text-4xl font-bold">
-                        Meet Our Team
-                    </h2>
-                </div>
-
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-
-                    {[1, 2, 3, 4].map((member) => (
-                        <Card key={member} className="rounded-3xl">
-                            <CardContent className="p-5">
-
-                                <div className="mb-5 aspect-square rounded-2xl bg-muted">
-                                    <Image 
-                                    src={"/team.png"}
-                                    alt="Team Member"
-                                    width={400}
-                                    height={400}
-                                    className="object-cover"
-                                    />
-                                </div>
-
-                                <h3 className="font-semibold">
-                                    Team Member
-                                </h3>
-
-                                <p className="text-sm text-muted-foreground">
-                                    Frontend Developer
-                                </p>
-
-                            </CardContent>
-                        </Card>
-                    ))}
-
-                </div>
-            </section>
-
-            {/* CTA */}
-            <section className="container py-10">
-                <Card className="overflow-hidden rounded-[32px] border-border/50 bg-gradient-to-r from-primary/10 via-background to-violet-500/10">
-                    <CardContent className="p-10 text-center md:p-16">
-
-                        <h2 className="mb-4 text-4xl font-bold">
-                            Ready To Transform Your Coaching Center?
-                        </h2>
-
-                        <p className="mx-auto mb-8 max-w-2xl text-muted-foreground">
-                            Join hundreds of institutes already using our platform
-                            to streamline operations and improve productivity.
-                        </p>
-
-                        <Button size="lg">
-                            Get Started Today
-                        </Button>
-
-                    </CardContent>
-                </Card>
-            </section>
-
-        </main>
-    )
+      </div>
+    </section>
+  );
 }
